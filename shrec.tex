@@ -1,0 +1,300 @@
+%\documentclass[journal]{vgtc}                % final (journal style)
+\documentclass[review,journal]{vgtc}          % review (journal style)
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint,journal]{vgtc}       % preprint (journal style)
+%\documentclass[electronic,journal]{vgtc}     % electronic version, journal
+
+%% Uncomment one of the lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and the final version
+%% doesn't use a specific qualifier. Further, ``electronic'' includes
+%% hyperreferences for more convenient online viewing.
+
+%% Please use one of the ``review'' options in combination with the
+%% assigned online id (see below) ONLY if your paper uses a double blind
+%% review process. Some conferences, like IEEE Vis and InfoVis, have NOT
+%% in the past.
+
+%% Please note that the use of figures other than the optional teaser is not permitted on the first page
+%% of the journal version.  Figures should begin on the second page and be
+%% in CMYK or Grey scale format, otherwise, colour shifting may occur
+%% during the printing process.  Papers submitted with figures other than the optional teaser on the
+%% first page will be refused.
+
+%% These three lines bring in essential packages: ``mathptmx'' for Type 1
+%% typefaces, ``graphicx'' for inclusion of EPS figures. and ``times''
+%% for proper handling of the times font family.
+
+\usepackage{mathptmx}
+\usepackage{psfrag}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{times}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[lined,linesnumbered]{algorithm2e}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{framed}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{xypic}
+
+%% We encourage the use of mathptmx for consistent usage of times font
+%% throughout the proceedings. However, if you encounter conflicts
+%% with other math-related packages, you may want to disable it.
+
+%% This turns references into clickable hyperlinks.
+\usepackage[bookmarks,backref=true,linkcolor=black]{hyperref} %,colorlinks
+\hypersetup{
+  pdfauthor = {},
+  pdftitle = {},
+  pdfsubject = {},
+  pdfkeywords = {},
+  colorlinks=true,
+  linkcolor= black,
+  citecolor= black,
+  pageanchor=true,
+  urlcolor = black,
+  plainpages = false,
+  linktocpage
+}
+
+%% If you are submitting a paper to a conference for review with a double
+%% blind reviewing process, please replace the value ``0'' below with your
+%% OnlineID. Otherwise, you may safely leave it at ``0''.
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Technique}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+%% In preprint mode you may define your own headline.
+%\preprinttext{To appear in an IEEE VGTC sponsored conference.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Math commands
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand {\emath}[1]  {\ensuremath{#1}}
+\newcommand {\R}         {\emath{\mathbb{R}}}        % Real space
+\newcommand {\Real}[1]   {\emath{\mathbb{R}^{#1}}}   % Real space
+\newcommand {\Rd}        {\Real{d}}                  % R^d
+\newcommand {\Rdone}     {\Real{d+1}}                % R^d+1
+\newcommand {\Rk}        {\Real{k}}                  % R^k
+\newcommand {\Rtwo}      {\Real{2}}                  % R^2
+\newcommand {\Rthree}    {\Real{3}}                  % R^3
+\newcommand {\Rfour}     {\Real{4}}                  % R^4
+\newcommand {\Sphere}[1] {\emath{\mathbb{S}^{#1}}}   % Sphere
+\newcommand {\Sk}        {\Sphere{k}}                % S^k
+\newcommand {\Sd}        {\Sphere{d}}                % S^d
+\newcommand {\BB}        {\emath{\mathbb{B}}}        % B
+\newcommand {\Ball}[1]   {\emath{\mathbb{B}^{#1}}}   % B^{#1}
+\newcommand {\Ballep}    {\emath{B^{\epsilon}_{p}}}  % B^e_p
+\newcommand {\cl}        {\emath{\mathrm{cl}}}       % cl
+\newcommand {\cb}        {\emath{\mathbf{c}}}        % bold c
+\newcommand {\tcb}       {\emath{{\tilde{\cb}}}}     % bold c~
+\newcommand {\eb}        {\emath{\mathbf{e}}}        % bold e
+\newcommand {\tpi}       {\emath{\tilde{\pi}}}       % \pi~
+\newcommand {\gDim}[1]   {\emath{#1 \times #1 \times #1}} % DxDxD
+
+\newcommand {\tg}        {\emath{\tilde{g}}}
+\newcommand {\tn}        {\emath{\tilde{n}}}
+\newcommand {\IV}        {\emath{\mathcal{I_V}}}
+\newcommand {\Orth}      {\emath{\mathcal{O}}}
+\newcommand {\hN}        {\emath{\widehat{N}}}
+\newcommand {\pinvA}    {\emath{\tilde{A}^{-1}}}
+\newcommand {\XX}        {\emath{\mathcal{X}}}
+\newcommand {\Ccorner}   {C_{\mathrm{corner}}}       % C_corner
+\newcommand {\Cedge}     {C_{\mathrm{edge}}}         % C_edge
+\newcommand {\Cselected} {C_{\mathrm{selected}}}     % C_selected
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}[proposition]
+\newtheorem{lemma}[proposition]{Lemma}
+
+
+% xypic commands for drawing flowcharts
+\newcommand {\action}[1] {*+[F] \txt{#1}}
+\newcommand {\laction}[1] 
+  {*+[F] \txt{\mbox{\setlength{\tabcolsep}{0pt}
+                    \begin{tabular}{l}#1\end{tabular}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% tikz block styles
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetikzlibrary{shapes,arrows}
+
+\tikzstyle{action} = [rectangle, draw, text centered, node distance=4cm, minimum height=4em]
+\tikzstyle{source} = [draw, ellipse, text centered, node distance=1.5cm, minimum height=4em, text width=3cm]
+\tikzstyle{sink} = [draw, ellipse, text centered, node distance=2cm, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{figlabel} = [text centered, node distance=1.5cm, text width=1cm]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% algorithm2e keywords and commands
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% algorithm2e global keywords
+\SetKw{Function}{Function}
+\SetKw{true}{true}
+\SetKw{false}{false}
+\SetKw{KwAnd}{and}
+\SetKw{KwOr}{or}
+\SetKw{true}{true}
+\SetKw{false}{false}
+\SetKw{KwElse}{else}
+\SetKw{KwDownTo}{downto}
+\SetKwData{NULL}{NULL}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\SetKwInOut{Result}{Result}
+\SetKwInOut{Requires}{Requires}
+\ResetInOut{Requires1}
+\SetKwComment{NoLineNum}{}{}
+\SetCommentSty{textit}
+\SetArgSty{textrm}
+\SetFuncSty{textsc}
+\SetAlgoLined
+
+\IncMargin{1ex}
+
+\SetKwFunction{AngleTest}{AngleTest}
+\SetKwFunction{ScalarTest}{ScalarTest}
+\SetKwFunction{ReliableGrad}{ReliableGrad}
+\SetKwFunction{MergeSharp}{MergeSharp}
+\SetKwFunction{FindSharp}{FindSharp}
+\SetKwFunction{CountDegree}{CountDegree}
+\SetKwFunction{SelectiveFindSharp}{SelectiveFindSharp}
+\SetKwFunction{Magnitude}{Magnitude}
+\SetKwFunction{Angle}{Angle}
+\SetKwFunction{Distance}{Distance}
+\SetKwData{Grid}{Grid}
+\SetKwData{numAgree}{numAgree}
+\SetKwData{errorDist}{errorDist}
+\SetKwData{maxErrorDist}{maxErrorDist}
+\SetKwData{numIter}{numIter}
+
+% Algorithm function names and variables
+\SetKwFunction{DoesOrthMatch}{DoesOrthMatch}
+\SetKwFunction{DoesOrthMatchA}{DoesOrthMatchA}
+\SetKwFunction{DoesOrthMatchB}{DoesOrthMatchB}
+\SetKwFunction{ExtendReliable}{ExtendReliable}
+
+
+\SetKwData{Center}{Center}
+\SetKwData{Centroid}{Centroid}
+\SetKwData{isovLoc}{isovLoc}
+\SetKwData{numLargeEigenvalues}{numLargeEigenvalues}
+
+% algorithm2e reset line number
+\newcommand {\ResetAlgoLineNumber} {\setcounter{AlgoLine}{0}}
+
+\SetAlgoCaptionSeparator{.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% psfrag commands
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\psfrag{a}{$\alpha$}
+\psfrag{n}{$n_v$}
+\psfrag{np}{$n_{v'}$}
+\psfrag{tn}{$\tn_v$}
+\psfrag{tnp}{$\tn_{v'}$}
+\psfrag{phi}{$\phi(n_v,n_{v'})$}
+\psfrag{phi2}{$\phi_2(n_v,n_{v'})$}
+\psfrag{phitn}{$\phi(\tn_v,n_{v'})$}
+\psfrag{phitnp}{$\phi(n,\tn_{v'})$}
+
+
+
+\title{SHREC: Sharp reconstruction of isosurfaces}
+
+%% This is how authors are specified in the journal style
+
+%% indicate IEEE Member or Student Member in form indicated below
+\author{Arindam Bhattacharya, Ross Vasko and Rephael Wenger}
+\authorfooter{
+The Ohio State University. E-mail: wenger.4@osu.edu, 
+vasko.38@buckeyemail.osu.edu, bhattaca@cse.ohio-state.edu}
+
+\abstract{
+We present an algorithm, called SHREC,
+for constructing isosurfaces with sharp edges and features.
+Algorithm SHREC computes isosurface vertex locations on sharp features,
+selects a well-spaced subset of these vertices,
+and merges isosurface vertices in the neighborhood of each selected vertex.
+The resulting isosurfaces have good representations of sharp features.
+Algorithm SHREC is similar to a previous algorithm, MergeSharp,
+but improves on MergeSharp
+by better generation of isosurface vertices,
+better selections of vertices on sharp features
+and better choices in merging.
+We also define a function to measure the closeness 
+of the normals between two surfaces
+and use this function to evaluate the quality of reconstructions
+of surfaces with sharp features.}
+
+%% Keywords that describe your work. Will show as 'Index Terms' in journal
+%% please capitalize first letter and insert punctuation after last keyword
+\keywords{Isosurface, sharp features, industrial CT, gradient computation,
+line drawings.}
+
+%% ACM Computing Classification System (CCS). 
+%% See <http://www.acm.org/class/1998/> for details.
+%% The ``\CCScat'' command takes four arguments.
+
+\CCScatlist{ % not used in journal version
+\CCScat{I.3.5}{Computer Graphics}{Computational Geometry and Object Modeling}
+}
+
+%% Uncomment below to include a teaser figure.
+%\teaser{
+%}
+
+%% Uncomment below to disable the manuscript note
+%\renewcommand{\manuscriptnotetxt}{}
+
+%% Copyright space is enabled by default as required by guidelines.
+%% It is disabled by the 'review' option or via the following command:
+% \nocopyrightspace
+
+\renewcommand{\textfraction}{0.2}
+\renewcommand{\dbltopfraction}{0.8}	
+\renewcommand{\topfraction}{0.8}	
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+\input{./sections/shrec_intro.tex}
+\input{./sections/shrec_related_work.tex}
+\input{./sections/shrec_algorithm.tex}
+\input{./sections/shrec_angle_distance.tex}
+\input{./sections/shrec_results.tex}
+\input{./sections/shrec_conclusion.tex}
+
+\bibliographystyle{abbrv}
+\bibliography{shrec}
+
+\input {./sections/shrec_appendix.tex}
+
+\end{document}
