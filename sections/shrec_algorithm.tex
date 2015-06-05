@@ -14,6 +14,11 @@ is $\max(|x_0-x'_0|, |x_1-x'_1|, |x_2-x'_2|)$.
 The {\em distance vector} between the cubes is
 $(|x_0-x'_0|, |x_1-x'_1|, |x_2-x'_2|)$.
 
+For a grid cube $\cb$, region $\RIII_\cb$ is the $3 \times 3 \times 3$ region
+of 27 grid cubes centered at $\cb$.
+Region $\RV_\cb$ is the $5 \times 5 \times 5$ region
+of 125 grid cubes centered at $\cb$.
+
 
 \section{Computing Isosurface Vertex Locations}
 \label{section:loc}
@@ -639,22 +644,22 @@ will fit together tightly.
 
 Some examples of tightly packed 3D configurations of cubes are given
 in Figure~\ref{fig:packed3D}.
-Any line segment with endpoints in the two selected cubes
-will be well contained within the $3 \times 3 \times 3$ region 
-around each selected cube.
+Any line segment with endpoints in the two selected cubes $\cb$ and $\cb'$
+will be well contained within the union 
+of the two $3 \times 3 \times 3$ regions, 
+$\RIII_\cb$ and $\RIII_{\cb'}$, around $\cb$ and $\cb'$.
 
 Figure~\ref{fig:loose3D} contains three problematic configurations,
 $(3,2,0)$, $(3,2,1)$ and $(3,2,2)$,
 of  selected cubes.
-Line segments with endpoints in the two selected cubes
-may lie outside the $3 \times 3 \times 3$ region around each selected cube.
+Line segments with endpoints in the two selected cubes $\cb$ and $\cb'$
+may contain points outside $\RIII_\cb \cup \RIII_{\cb'}$.
 SHREC attempts to avoid selecting cubes with these configurations.
 
 If two selected cubes, $\cb$ and $\cb'$, 
 are in configuration $(2,2,0)$, $(2,2,1)$ or $(2,2,2)$,
 then a line segment with endpoints in $\cb$ and $\cb'$
-could intersect the boundary of the union of the $3 \times 3 \times 3$
-regions around $\cb$ and $\cb'$.
+could intersect the boundary of $\RIII_\cb \cup \RIII_{\cb'}$.
 Such configurations are undesirable.
 Unfortunately, we found that avoiding such configurations is too restrictive.
 
@@ -860,17 +865,72 @@ Fourth, SHREC checks whether mapping $\tcb$ creates thin triangles
 or flips triangles.
 This test is described in Section~\ref{section:distortion_tests}.
 
-Finally, SHREC checks whether cube $\cb'$ has more than one isosurface vertex.
-If cube $\cb'$ has more than one isosurface vertex,
+Finally, SHREC checks whether cube $\tcb$ has more than one isosurface vertex.
+If cube $\tcb$ has more than one isosurface vertex,
 then it has at least one ambiguous facet.
 (A facet is ambiguous if two diagonally opposite vertices have
 scalar value above the isovalue while the other two vertices
 have scalar value below the isovalue.)
-Let $\cb''$ be a cube sharing an ambiguous facet with $\cb$.
-If cube $\cb''$ has only one isosurface vertex and 
-$\cb''$ is not merged with $\cb$, then $\cb'$ is not merged with $\cb$.
+Let $\tcb'$ be a cube sharing an ambiguous facet with $\tcb$.
+If cube $\tcb$ has only one isosurface vertex and 
+$\tcb'$ is not merged with $\cb$, then $\tcb$ is not merged with $\cb$.
 
-\subsection{Merging Tests}
+A cube $\tcb$ may fail to merge with a selected cube $\cb$
+because of some neighboring cube $\tcb'$
+while $\tcb'$ fails to merge with $\cb$ because of $\tcb$.
+Often this ``deadlocking'' arises when $\tcb$ and $\tcb'$ share
+a common ambiguous facet.
+
+After attempting to merge individual cubes,
+SHREC tries to merge pairs $(\tcb,\tcb')$ of covered cubes with selected cubes.
+The elements of the pairs should share a common facet or edge
+and should both be covered by the selected cube $\cb$.
+SHREC temporarily merges $\tcb$ with $\cb$,
+and then applies all the above tests to $\tcb'$.
+SHREC then temporarily merges $\tcb'$ with $\cb$,
+and applies all the above tests to $\tcb$.
+If both $\tcb$ and $\tcb'$ pass the tests,
+then SHREC merges both of them with $\cb$.
+
+As the merging proceeds,
+it is possible that a cube which was previously unable 
+to merge with any selected cube
+is now able to merge with some such cube.
+Thus, SHREC repeats the above above merging procedures 
+on any covered, unmerged cubes.
+
+\subsection{Extended Merging}
+\label{section:extended_merging}
+
+The merging of cubes in $3 \times 3 \times 3$ region
+around each selected cube will clear most but not all of the vertices 
+around sharp edges and corners.
+There are multiple reasons that some vertices near sharp edges may remain.
+First, the location of some vertex outside of $\RIII_\cb$
+may stop some cube covered by $\cb$ from merging with $\cb$.
+Second, if two selected $\cb$ and $\cb'$ are 
+in a $(2,2,0)$ or $(2,2,1)$ or $(2,2,2)$ configuration, 
+then a sharp edge with endpoints in $\cb$ and $\cb'$ can intersect
+the boundary of the $\RIII_\cb \cup \RIII_{\cb'}$.
+Vertices in uncovered can be arbitrarily close to such a sharp edge.
+Third, while the selection step avoids most $(3,2,*)$ configurations,
+it does not avoid all of them.
+If $\cb$ and $\cb'$ are in a $(3,2,*)$ configurations,
+then a sharp edge with endpoints in $\cb$ and $\cb'$ may contain points
+outside of $\RIII_\cb \cup \RIII_{\cb'}$.
+
+To handle such problems, SHREC extends the merging to cubes
+in a $5 \times 5 \times 5$ region around each selected cube.
+
+
+
+
+
+
+
+
+
+\subsection{Distortion Tests}
 \label{section:distortion_tests}
 
 Let $q$ be a quadrilateral dual to some active edge of $\tcb$.
@@ -910,7 +970,6 @@ The third test checks the orientation of $(w, \tw', \tw'')$.
 Let $\eb$ be the grid edge shared by cubes $\tcb$, $\tcb'$ and $\tcb''$.
 Let $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$ be the orthogonal projection
 of $w$, $\tw'$ and $\tw''$, respectively, 
-<<<<<<< HEAD
 onto a plane $h$ perpendicular to $\eb$.
 If the orientation of $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$
 matches the orientation of $\tcb$, $\tcb'$ and $\tcb''$ around $\eb$,
@@ -929,24 +988,6 @@ In that case, $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$ could have
 opposite orientation from $\tcb$, $\tcb'$ and $\tcb''$,
 even though the normal of $(w,\tw',\tw'')$ is quite close
 to the original.
-
-
-...
-
-
-
-
-
-
-Finally, SHREC checks whether cube $\cb'$ has more than one isosurface vertex.
-If cube $\cb'$ has more than one isosurface vertex,
-then it has at least one ambiguous facet.
-(A facet is ambiguous if two diagonally opposite vertices have
-scalar value above the isovalue while the other two vertices
-have scalar value below the isovalue.)
-Let $\cb''$ be a cube sharing an ambiguous facet with $\cb$.
-If cube $\cb''$ has only one isosurface vertex and 
-$\cb''$ is not merged with $\cb$, then $\cb'$ is not merged with $\cb$.
 
 
 

@@ -18,18 +18,3 @@ and use this distance to evaluate the quality
 of surface reconstruction algorithms.
 \end{enumerate}
 
-\section{Related Work}
-
-\section{Definitions}
-
-A grid cube is {\em active} if it contains at least one vertex with scalar value greater than or equal to the isovalue
-and at least one vertex with scalar value less than the isovalue.
-
-A grid cube with grid indices $(x_0,x_1,x_2)$ is in column $x_0$, row $x_1$
-and $z$-plane $x_2$ of the grid.
-Let $\cb$ and $\cb'$ be grid cubes with grid indices $(x_0,x_1,x_2)$
-and $(x'_0,x'_1,x'_2)$, respectively.
-The {\em cube distance} between the cubes 
-is $\max(|x_0-x'_0|, |x_1-x'_1|, |x_2-x'_2|)$.
-The {\em distance vector} between the cubes is
-$(|x_0-x'_0|, |x_1-x'_1|, |x_2-x'_2|)$.
