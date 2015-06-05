@@ -910,6 +910,7 @@ The third test checks the orientation of $(w, \tw', \tw'')$.
 Let $\eb$ be the grid edge shared by cubes $\tcb$, $\tcb'$ and $\tcb''$.
 Let $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$ be the orthogonal projection
 of $w$, $\tw'$ and $\tw''$, respectively, 
+<<<<<<< HEAD
 onto a plane $h$ perpendicular to $\eb$.
 If the orientation of $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$
 matches the orientation of $\tcb$, $\tcb'$ and $\tcb''$ around $\eb$,
@@ -928,6 +929,26 @@ In that case, $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$ could have
 opposite orientation from $\tcb$, $\tcb'$ and $\tcb''$,
 even though the normal of $(w,\tw',\tw'')$ is quite close
 to the original.
+
+
+...
+
+
+
+
+
+
+Finally, SHREC checks whether cube $\cb'$ has more than one isosurface vertex.
+If cube $\cb'$ has more than one isosurface vertex,
+then it has at least one ambiguous facet.
+(A facet is ambiguous if two diagonally opposite vertices have
+scalar value above the isovalue while the other two vertices
+have scalar value below the isovalue.)
+Let $\cb''$ be a cube sharing an ambiguous facet with $\cb$.
+If cube $\cb''$ has only one isosurface vertex and 
+$\cb''$ is not merged with $\cb$, then $\cb'$ is not merged with $\cb$.
+
+
 
 
 \section{Parameters}
