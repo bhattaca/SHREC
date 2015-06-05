@@ -34,9 +34,12 @@ Mergesharp computes one isosurface vertex location $p_\cb$
 for each active grid cube $\cb$.
 The algorithm computes an isosurface vertex location for $\cb$
 by using the gradients at vertices of $\cb$ and neighboring cubes.
-If grid vertex $v_i$ has scalar $s_{v_i}$ and gradient $g_{v_i}$, 
-then the plane tangent to the isosurface  with isovalue $\sigma$
-is $\{p : (p-v_i) \cdot g_{v_i} + s_{v_i}= \sigma \}$.
+If grid vertex $v$ has scalar $s_{v}$ and gradient $g_{v}$, 
+then the plane tangent to the isosurface  with isovalue $\sigma$ is
+\begin{equation}
+\label{eqn:isoplane}
+h_v = \{p : (p-v) \cdot g_{v} + s_{v}= \sigma \}.
+\end{equation}
 A set of $k$ vertices and gradients gives a set of $k$ equations 
 in three variables $M p = b$
 where $M$ is a $k \times 3$ matrix 
@@ -1041,7 +1044,145 @@ SHREC applies the pair merging procedure described
 in Section~\ref{section:pair_merging} to determine whether
 to allow the pair $(\tcb,\tcb')$ to merge with $\cb$.
 
+\section{Selecting Gradients}
+\label{section:gradients}
+
+The algorithm in Section~\ref{section:loc}
+for computing isosurface vertex locations requires
+a set of gradients for each cube $\cb$.
+An obvious set is the gradients at the vertices of $\cb$.
+However, even if correct gradients were provided at every vertex of $\cb$,
+this set would not suffice.
+It is possible to have an active cube $\cb$
+which contains a sharp isosurface corner
+defined by three perpendicular planes
+while only two of the planes are represented by the gradients of $\cb$.
+
+MergeSharp computes isosurface vertex locations 
+from the vertices of $\cb$ and of the six cubes sharing a facet with $\cb$.
+When exact gradients are provided at all grid vertices,
+this set of gradients suffices.
+
+When gradients are not provided in the input,
+they must be computed from the scalar data.
+If an isosurface has sharp features,
+then the gradient field is discontinuous around those sharp features.
+As discussed in~???, 
+computing correct gradients near gradient field discontinuities
+is extremely difficult.
+In~???, Bhattaca and Wenger give an algorithm for computing correct gradients
+in the presence of gradient discontinuities, but the algorithm does
+not compute correct gradients at all the grid vertices.
+Instead, the algorithm returns a set of correct gradients
+at some of the grid vertices while returning no gradient information
+at other vertices.
+Under suitable conditions,
+the algorithm returns the correct gradient at any vertex
+which is at least three edge lengths from any gradient discontinuity.
+
+Because the algorithm in~??? does not return gradients 
+near gradient discontinuities,
+no gradient information may be available for the vertices 
+of cubes which contain those discontinuities
+or for neighbors of such cubes.
+Thus, we must use gradients from a $\gDim{7}$ region around each cube $\cb$.
+
+When scalar data is provided by computer tomography (CT),
+then the scalar values near gradient discontinuities
+may also be incorrect.
+As discussed in~???, we must go out even further to a $\gDim{9}$ region 
+around each cube $\cb$ to get gradient information.
+
+Only gradients which determine isosurface tangent planes near $\cb$
+should be used in $\cb.\isovLoc$.
+We use three tests on the vertices in a $\gDim{7}$ or $\gDim{9}$
+region around $\cb$ to determine such gradients.
+First, we are only interested in vertices which are near the isosurface.
+Thus, we only choose vertices from edges
+where one endpoint has scalar value below
+the isovalue and one endpoint has scalar value at or above the isovalue.
+Second, we are only interested in vertices whose gradients generate planes
+which are close to $\cb$.
+We construct a cube $\cb'$ of size $1.5 \times 1.5 \times 1.5$ centered at $\cb$
+and only choose a vertex $v$ 
+if the plane $h_v$ given by Equation~\ref{eqn:isoplane}
+intersects $\cb'$.
+
+???
+
+In smooth, curved surfaces, choosing gradients at vertices far from $\cb$
+can cause the creation of non-existent sharp features in the isosurface.
+Thus, we wish to only choose a vertex which is far from $\cb$
+if the closer vertices are not chosen.
+
+Let $Q$ be the set of vertices of the subgrid
+whose gradients are $(0,0,0)$.
+Let $Q_\cb$ be the vertices of $\cb$.
+Let $G_\cb$ be the graph whose vertices are $Q \cup Q_\cb$
+and whose edges are $(u,v)$ where $(u,v)$ is a grid edge.
+We find the connected component $G'$ of $G_\cb$ containing $Q_\cb$.
+A grid vertex $u \not\in V(G')$ is on the boundary of $G'$
+if $(u,v)$ is a grid edge and $v$ is in $V(G')$.
+We only a choose a vertex if it is in $Q_\cb$
+or if it is on the boundary of $G'$.
+
+Applying the three tests gives a set of vertices and their gradients
+which define planes.
+We use those vertices and their gradients to compute $p_\cb$
+as described in Section~\ref{section:loc}.
+
 
 \section{Parameters}
 \label{section:parameters}
 
+Algorithm SHREC has two major parameters,
+one determining the number of large singular values in matrix $A$
+and the second determining the size of the $\gDim{k}$ region 
+from which gradients are selected around each cube
+(Section~\ref{section:gradients}).
+The first parameter is a value $\epsilon$ between 0 and 1.
+As noted in Section~\ref{section:loc},
+a singular value $\sigma_i$ of matrix $A$ 
+is large if $\sigma_i/\sigma_1$ is greater than or equal to $\epsilon$.
+The number of large singular values determines whether a vertex
+is on a sharp corner or a sharp curve or a smooth region of the isosurface.
+To the best of our knowledge, all algorithms which reconstruct surfaces 
+with sharp corners or sharp curves require some parameter
+to distinguish the corners and curves from the smooth regions of the surface.
+
+The second parameter is an odd integer $k \ge 3$.
+Each cube $\cb$ uses gradients from a $\gDim{k}$ around the cube
+in selecting gradients for computing $\cb.\isovLoc$.
+The size of $k$ depends upon the input data.
+If correct gradients are provided at each grid vertex,
+then $k$ should equal 3 for a $\gDim{3}$ region around each cube.
+If gradients are computed from correct scalar values 
+using the algorithm in~???,
+then $k$ should equal 7 for a $\gDim{7}$ region around each cube.
+If gradients are computed from CT data 
+using the algorithm in~???,
+then $k$ should equal 9 for a $\gDim{9}$ region around each cube.
+
+SHREC uses three other constants:
+one for the triangle test in selecting vertices,
+one for the angle test in merging cubes
+and a second for the normal test in merging cubes.
+In the triangle test,
+if selecting cube $\cb$ would possibly create a triangle between three
+selected cubes with angle greater than $150^\circ$, 
+cube $\cb$ is not selected.
+In the angle test,
+if merging cube $\tcb$ with $\cb$ would create a triangle with angle
+less than $5^\circ$, then cube $\tcb$ is not selected.
+In the normal test,
+if merging $\tcb$ with $\cb$ would change the normal 
+of some triangle $(\tw,\tw',\tw'')$ by less than $30^\circ$,
+then merging $\tcb$ with $\cb$ does not distort triangle $(\tw,\tw',\tw'')$.
+
+Because SHREC is based on the regular grid,
+the constants used in all three of these tests do not depend 
+upon the input data and should work well for any scalar fields.
+Note that SHREC maps the input grid 
+and the computed isosurface locations $\cb.\isovLoc$
+to the regular grid composed of unit cubes
+before applying any of the above tests.
