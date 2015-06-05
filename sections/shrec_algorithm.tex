@@ -1,7 +1,8 @@
 
 \section{Definitions}
 
-A grid cube is {\em active} if it contains at least one vertex with scalar value greater than or equal to the isovalue
+A grid edge, facet or cube is {\em active} if it contains at least one vertex 
+with scalar value greater than or equal to the isovalue
 and at least one vertex with scalar value less than the isovalue.
 
 A grid cube with grid indices $(x_0,x_1,x_2)$ is in column $x_0$, row $x_1$
@@ -304,16 +305,17 @@ Red point is the closest point on the green line to $\cb.\protect\Center$.
 
 Consider an edge cube $\cb$.
 By definition, edge cube $\cb$ is near some sharp edge.
-The isosurface vertex $p_\cb$ associated with $\cb$ should lie
-on that sharp edge.
+The location $\cb.\isovLoc$ of the isosurface vertex associated with $\cb$ 
+should be on that sharp edge.
 However, that condition still gives one degree of freedom in selecting
-the sharp point $p_\cb$.
+the location of $\cb.\isovLoc$.
 One obvious additional condition is that if the sharp edge intersects $\cb$,
-then $p_\cb$ should lie in $\cb$.
+then $\cb.\isovLoc$ should be in $\cb$.
 An additional condition is that if the sharp edge does not intersect $\cb$,
-then $p_\cb$ should lie ``close to'' $\cb$ under some suitably defined metric.
+then $\cb.\isovLoc$ should be ``close to'' $\cb$ 
+under some suitably defined metric.
 
-Algorithm SHREC computes three different possible locations of $p_\cb$.
+Algorithm SHREC computes three different possible isosurface vertex locations.
 First, Algorithm SHREC computes $p^0_\cb$ 
 by computing a line $L$ through the sharp edge and 
 selecting the point on $L$ nearest the centroid point $q_\cb$.
@@ -322,7 +324,7 @@ in Section~\ref{section:loc}.
 The idea is that the centroid point $q_\cb$ is a good approximation
 for the intersection of $\cb$ and the isosurface,
 and so one should choose a point near $q_\cb$.
-If $p^0_\cb$ lies in $\cb$, then SHREC sets $p_\cb$ to $p^0_\cb$.
+If $p^0_\cb$ lies in $\cb$, then SHREC sets $\cb.\isovLoc$ to $p^0_\cb$.
 
 In most cases, if line $L$ intersects cube $\cb$.
 then the point $p^0_\cb$ will lie in $\cb$.
@@ -337,7 +339,7 @@ to the center $\cb.\Center$ of cube $\cb$.
 We can compute $p^1_\cb$ replacing $q_\cb$ by $\cb.\Center$
 in Equation~\ref{eqn:Lindstrom}.
 If $p^1_\cb$ is in $\cb$ while $p^0_\cb$ is not,
-SHREC sets $p_\cb$ to $p^1_\cb$.
+SHREC sets $\cb.\isovLoc$ to $p^1_\cb$.
 
 Unfortunately, it is possible that both $p^0_\cb$ and $p^1_\cb$ 
 are not in $\cb$ even though $L$ intersects $\cb$.
@@ -347,7 +349,7 @@ to the center $\cb.\Center$ of $\cb$ under the $L_\infty$ metric.
 If $L$ intersects $\cb$, then this point is guaranteed to lie in $\cb$.
 Details for computing $p^2_\cb$ are in Appendix~\ref{appendix:Linf}.
 If $p^2_\cb$ is in $\cb$ while $p^0_\cb$ and $p^1_\cb$ are not,
-SHREC sets $p_\cb$ to $p^2_\cb$.
+SHREC sets $\cb.\isovLoc$ to $p^2_\cb$.
 
 Instead of computing $p^0_\cb$, $p^1_\cb$ and $p^2_\cb$, 
 we could compute and use only $p^2_\cb$.
@@ -391,31 +393,31 @@ Algorithm MergeSharp computes only $p^0_\cb$.
 \subsection{Swapping Locations}
 
 Many of the problems in Algorithm SHREC (and MergeSharp) occur when
-isosurface vertex location $p_\cb$ lies outside of cube $\cb$.
-Thus, it is always preferable that $p_\cb$ be in $\cb$.
+isosurface vertex location $\cb.\isovLoc$ lies outside of cube $\cb$.
+Thus, it is always preferable that $\cb.\isovLoc$ be in $\cb$.
 This is not always possible since the sharp edge or corner near $\cb$
 may not intersect $\cb$.
 However, in cases where a sharp edge or corner intersects $\cb$,
-we would like $p_\cb$ to be in $\cb$.
+we would like $\cb.\isovLoc$ to be in $\cb$.
 
 The computation of a sharp edge or corner near $\cb$ depends
 upon gradients in the neighborhood of $\cb$.
 The set of such gradients changes for each cube $\cb$.
 Because of the inaccuracy in computing sharp edges and corners,
-it is possible that $p_\cb$ lies in a cube $\cb'$ adjacent to $\cb$
-while $p_{\cb'}$ is not contained in $\cb$.
+it is possible that $\cb.\isovLoc$ is in a cube $\cb'$ adjacent to $\cb$
+while $\cb'.\isovLoc$ is not contained in $\cb$.
 In some cases,
-point $p_\cb$ lies in $p_{\cb'}$ while $p_{\cb'}$ lies in $p_{\cb}$.
+location $\cb.\isovLoc$ is in $\cb'$ while $\cb'.\isovLoc$ is in $\cb$.
 In those cases,
-we simply swap $p_\cb$ and $p_{\cb'}$.
-In other cases, point $p_{\cb'}$ lies in some third cube $\cb''$.
-In that case, we simply set $p_{\cb'}$ to $p_\cb$.
+we simply swap $\cb.\isovLoc$ and $\cb'.\isovLoc$.
+In other cases, location $\cb'.\isovLoc$ lies in some third cube $\cb''$.
+In that case, we simply set $\cb'.\isovLoc$ to $\cb.\isovLoc$.
 
 The setting of isosurface vertex locations from adjacent cubes
 increases the number of cubes $\cb$ containing 
-their associated vertext locations $p_\cb$.
-Note that if the initial location $p_\cb$ lies in $\cb$,
-then we never change $p_\cb$.
+their associated vertext locations $\cb.\isovLoc$.
+Note that if the initial location $\cb.\isovLoc$ lies in $\cb$,
+then we never change $\cb.\isovLoc$.
 
 
 \begin{figure}
@@ -527,22 +529,22 @@ either $\tcb$ or $\tcb'$.
 (In the exceptional case, the edge passes through $\eb$,
 in which case it intersects both $\tcb$ and $\tcb'$.)
 Since the edge intersects either $\tcb$ and $\tcb'$,
-either $p_\tcb$ should lie in $\tcb$ 
-or $p_{\tcb'}$ should lie in $\tcb'$.
+either $\tcb.\isovLoc$ should be in $\tcb$ 
+or $\tcb'.\isovLoc$ should be in $\tcb'$.
 However, because of inaccuracies in computing sharp edges and corners,
 neither condition may hold.
 
-To ensure that either $p_\tcb$ lies in $\tcb$
-or $p_{\tcb'}$ lies in $\tcb'$,
-Algorithm SHREC computes the plane $\pi$ containing $\eb$
+To ensure that either $\tcb.\isovLoc$ lies in $\tcb$
+or $\tcb'.\isovLoc$ lies in $\tcb'$,
+Algorithm SHREC computes the plane $h$ containing $\eb$
 and perpendicular to the line from $\cb.\Center$ to $\cb'.\Center$.
 SHREC then computes the intersection of the line $L$ containing $\eb$
-and plane $\pi$.
+and plane $h$.
 This intersections point, $p_I$, lies in either $\tcb$ or $\tcb'$.
-If $p_I$ lies in $\tcb$ and $p_\tcb$ is not in $\tcb$,
-SHREC sets $p_\tcb$ to $p_I$.
-If $p_I$ lies in $\tcb'$ and $p_{\tcb'}$ is not in $\tcb'$,
-SHREC sets $p_{\tcb'}$ to $p_I$.
+If $p_I$ lies in $\tcb$ and $\tcb.\isovLoc$ is not in $\tcb$,
+SHREC sets $\tcb.\isovLoc$ to $p_I$.
+If $p_I$ lies in $\tcb'$ and $\tcb'.\isovLoc$ is not in $\tcb'$,
+SHREC sets $\tcb'.\isovLoc$ to $p_I$.
 
 Next consider the case of two grid cubes, $\cb$ and $\cb'$, 
 which intersect in a vertex $v$ but not in any edge.
@@ -553,18 +555,18 @@ one of these six other grid cubes.
 (In the exceptional case, the edge passes through $v$,
 in which case all six.)
 Since the edge intersects one of the six grid cubes,
-point $p_{\tcb}$ should lie in $\tcb$ for one of the six grid cubes $\tcb$.
+point $\tcb.\isovLoc$ should lie in $\tcb$ for one of the six grid cubes $\tcb$.
 Again because of inaccuracies in computing sharp edges and corners,
-point $p_{\tcb}$ may not be in $\tcb$ for any of the six grid cubes $\tcb$.
+point $\tcb.\isovLoc$ may not be in $\tcb$ for any of the six grid cubes $\tcb$.
 
 To ensure that $p_\tcb$ lies in $\tcb$ for one of the six grid cubes,
-Algorithm SHREC computes the plane $\pi$ containing $v$
+Algorithm SHREC computes the plane $h$ containing $v$
 and perpendicular to the line from $\cb.\Center$ to $\cb'.\Center$.
 SHREC then computes the intersection of the line $L$ containing $\eb$
-and plane $\pi$.
+and plane $h$.
 This intersections point, $p_I$, lies in at least one of the six grid cubes.
-If $p_I$ lies in cube $\tcb$ and $p_\tcb$ is not in $\tcb$,
-SHREC sets $p_\tcb$ to $p_I$.
+If $p_I$ lies in cube $\tcb$ and $\tcb.\isovLoc$ is not in $\tcb$,
+SHREC sets $\tcb.\isovLoc$ to $p_I$.
 
 The computation in this section ensures ``continuity'' in the cubes
 which intersect a sharp edge.
@@ -573,9 +575,11 @@ then the edge should intersect two cubes $\cb'$ and $\cb''$
 which share a facet with $\cb$.
 SHREC's computation of edge-plane intersections described above,
 ensures that if $\cb'$ and $\cb''$ are active cubes,
-then $\cb'$ will contain $p_{\cb'}$ and $\cb''$ will contain $p_{\cb''}$.
+then $\cb'$ will contain $\cb'.\isovLoc$ and 
+$\cb''$ will contain $\cb''.\isovLoc$.
 
-\section{Selecting Points on Sharp Features}
+
+\section{Selecting Edge and Corner Cubes}
 \label{section:selection}
 
 Algorithm SHREC selects a well-spaced subset of the edge and corner cubes
@@ -768,6 +772,154 @@ uncovered edge cubes but drops the configuration restrictions.
 
 \section{Merging Points with Features Points}
 \label{section:merging}
+
+Algorithm MergeSharp merges neighbors of a selected cube $\cb$ 
+with $\cb$ when $\cb$ is selected.
+This merging step sometimes created extremely thin triangles and 
+sometimes flips triangle orientations.
+SHREC is much more careful about its cube merging.
+SHREC also extends the merging to some cubes in a $5 \times 5 \times 5$ region 
+around each selected cube.
+Note that SHREC actually merges the isosurface vertices generated by the cubes,
+not the cubes themselves.
+
+SHREC first merges neighbors of selected corner cubes.
+SHREC merges these neighbors in three steps.
+First, for each selected corner cube $\cb$,
+SHREC merges with $\cb$ the active cubes which share a facet with $\cb$.
+Next, for each selected corner cube $\cb$,
+SHREC merges with $\cb$ the active cubes which share an edge with $\cb$.
+Finally, for each selected corner cube $\cb$,
+SHREC merges with $\cb$ the active cubes which share a vertex with $\cb$.
+Of course, once an active cube is merged with some selected cube,
+it is never merged with any other cube.
+
+SHREC next merges neighbors of selected corner cubes.
+The procedure is similar to the one for corner cubes.
+SHREC first merges active cubes which share a facet with a selected edge cube,
+then merges active cubes which share an edge with a selected edge cube,
+and finally merges active cubes which share a vertex 
+with a selected edge cube.
+
+For both the corner cube and edge cube merging,
+SHREC applies five different checks to avoid creating very thin triangles
+or flipping triangles or violating manifold conditions.
+Consider a cube $\tcb$ which SHREC would like to merge 
+with a selected cube $\cb$.
+First, SHREC checks that the isosurface vertex in $\tcb$
+is connected to the isosurface vertex in $\cb$.
+A cube $\tcb$ is connected to a selected cube $\cb$
+if $\tcb$ shares an active facet with $\cb$
+or some cube $\tcb'$ shares an active facet with $\tcb$ and
+is merged with $\cb$.
+(A facet is active if some facet vertex has scalar value greater than
+or equal to the isovalue and some facet vertex has scalar value less
+than the isovalue.)
+If $\tcb$ is not connected with $\cb$, then $\tcb$ is not merged with $\cb$.
+
+Second, SHREC checks for some manifold violations that
+could be caused by merging $\tcb$ with $\cb$.
+For each such selected cube $\cb' \neq \cb$ which is connected to $\tcb$,
+SHREC checks if $\cb'$ is connected to $\cb$.
+Let $\cb'$ be a selected cube which is connected to $\cb$ and $\tcb$.
+Each active edge $\eb$ of $\tcb$ is dual to an isosurface quadrilateral
+with a vertex in $\tcb$.
+Let $\tcb_1$, $\tcb_2$, and $\tcb_3$ be the three other cubes containing $\eb$.
+If some $\tcb_i$ merges with $\cb$ and another $\tcb_j$ merges with $\cb'$,
+then merging $\tcb$ with $\cb$ collapses this quadrilateral to a triangle
+or an edge.
+However, if no isosurface quadrilateral dual to an active edge of $\tcb$
+has vertices in $\tcb$, $\cb$ and $\cb'$,
+then merging $\tcb$ with $\cb$ creates a non-manifold edge 
+from $\cb$ to $\cb'$ with four incident polygons.
+If some selected $\cb'$ is connected to both $\cb$ and $\tcb$,
+but no isosurface quadrilateral has vertices in $\tcb$, $\cb$ and $\cb'$,
+then SHREC does not merge $\tcb$ with $\cb$.
+
+Third, SHREC checks whether mapping $\tcb$ to $\cb$
+will create thin triangles between selected cubes.
+If SHREC is connected to selected edge cubes $\cb$, $\cb'$ and $\cb''$
+and $\cb''$ lies between $\cb$ and $\cb'$
+(or $\cb'$ lies between $\cb$ and $\cb''$),
+then mapping $\tcb$ to $\cb$ will create a thin triangle
+with vertices in $\cb$, $\cb'$ and $\cb''$.
+Let $\cb$, $\cb'$ and $\cb''$ be grid cubes with grid indices
+$(x_0,x_1,x_2)$, $(x'_0,x'_1,x'_2)$ and $(x''_0,x''_1,x''_2)$, respectively.
+If $(x''_0,x''_1,x''_2)$ is contained in the box with corners
+$(x_0,x_1,x_2)$ and $(x'_0,x'_1,x'_2)$ and does not lie on any 
+of the eight corners of that box,
+then we say that $\cb''$ lies between $\cb$ and $\cb'$.
+If $\tcb$ is connected to selected edge cubes $\cb$, $\cb'$ and $\cb''$,
+and $\cb''$ lies between $\cb$ and $\cb'$,
+then SHREC does not merge $\tcb$ with $\cb$.
+
+Fourth, SHREC checks whether mapping $\tcb$ creates thin triangles
+or flips triangles.
+Let $q$ be a quadrilateral dual to some active edge of $\tcb$.
+Let $\tw$ be the vertex of $q$ which is generated by $\tcb$.
+Quadrilateral $q$ can either be triangulated by adding a diagonal
+incident on $\tw$ or by adding a diagonal connecting the neighbors
+of $\tw$ in $q$.
+Triangulating $\tw$ by adding a diagonal incident on $\tw$
+places more restrictions on possible locations of $\tw$.
+Since SHREC does not know how $q$ will be triangulated,
+it assumes this more restrictive triangulation.
+
+The diagonal of $q$ incident on $\tw$ splits $q$ into two triangles.
+SHREC checks whether mapping $\tcb$ to $\cb$ will severely distort
+either of those triangles.
+Let $\tcb$, $\tcb'$ and $\tcb''$ be the cubes 
+containing the triangle vertices.
+SHREC only checks triangles where $\tcb'$ and $\tcb''$ 
+are not covered or selected.
+
+Let $\tw$, $\tw'$ and $\tw''$ be the vertices generated
+by $\tcb$, $\tcb'$ and $\tcb''$.
+Let $w$ be the vertex generated by selected cube $\cb$.
+SHREC applies three tests to determine if mapping $\tw$ to $w$
+severely distorts triangle $(\tw,\tw',\tw'')$.
+The first test simply checks that the angles in the new triangle
+are not very small.
+If $\angle(w,\tw',\tw'')$ or $\angle(w,\tw'',\tw')$ is less than $5^\circ$,
+then SHREC does not map $\tcb$ to $\cb$.
+
+The second test checks whether mapping $\tw$ to $w$
+significantly changes the normal of triangle $(\tw,\tw',\tw'')$.
+If the angle between the normal of $(w, \tw', \tw'')$ is less than $30^\circ$,
+then the triangle passes this test.
+
+The third test checks the orientation of $(w, \tw', \tw'')$.
+Let $\eb$ be the grid edge shared by cubes $\tcb$, $\tcb'$ and $\tcb''$.
+Let $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$ be the orthogonal projection
+of $w$, $\tw'$ and $\tw''$, respectively, 
+onto the plane perpendicular to $\eb$.
+
+
+...
+
+
+
+
+
+
+
+
+
+
+
+Finally, SHREC checks whether cube $\cb'$ has more than one isosurface vertex.
+If cube $\cb'$ has more than one isosurface vertex,
+then it has at least one ambiguous facet.
+(A facet is ambiguous if two diagonally opposite vertices have
+scalar value above the isovalue while the other two vertices
+have scalar value below the isovalue.)
+Let $\cb''$ be a cube sharing an ambiguous facet with $\cb$.
+If cube $\cb''$ has only one isosurface vertex and 
+$\cb''$ is not merged with $\cb$, then $\cb'$ is not merged with $\cb$.
+
+
+
+
 
 \section{Parameters}
 \label{section:parameters}
