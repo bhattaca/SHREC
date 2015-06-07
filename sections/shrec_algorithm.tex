@@ -821,10 +821,32 @@ with a selected edge cube.
 \label{section:merging_tests}
 
 For both the corner cube and edge cube merging,
-SHREC applies five different tests to avoid creating very thin triangles
+SHREC applies six different tests to avoid creating very thin triangles
 or flipping triangles or violating manifold conditions.
 Consider a cube $\tcb$ which SHREC would like to merge 
 with a selected cube $\cb$.
+In order for a cube $\tcb$ to merge with a selected cube $\cb$,
+cubes $\tcb$ and $\cb$ should satisfy the following conditions:
+\begin{enumerate}
+\item Some isosurface edge connects $\tcb$ to $\cb$.
+\item Merging $\tcb$ with $\cb$ does not create an edge 
+which is contained in four isosurface triangles or quadrilaterals
+(manifold condition).
+\item If $\tcb$ is connected to three different selected edge cubes,
+$\cb$, $\cb'$ and $\cb''$,
+then $\cb$ should lie ``between'' $\cb'$ and $\cb''$.
+(See Figure~???.)
+\item Merging $\tcb$ with $\cb$ does not create a triangle
+with very small angles.
+\item Merging $\tcb$ with $\cb$ does not ``flip'' a triangle,
+creating a ``fold'' in the isosurface.
+\item If $\tcb$ has two or more isosurface vertices,
+and an adjacent cube $\tcb'$ has one isosurface vertex
+and shares an ambiguous facet with $\tcb$,
+then $\tcb'$ should merge with $\cb$.
+\end{enumerate}
+We describe these conditions in more detail below.
+
 First, SHREC checks that the isosurface vertex in $\tcb$
 is connected to the isosurface vertex in $\cb$.
 A cube $\tcb$ is connected to a selected cube $\cb$
