@@ -428,104 +428,6 @@ Note that if the initial location $\cb.\isovLoc$ lies in $\cb$,
 then we never change $\cb.\isovLoc$.
 
 
-\begin{figure}
-\centering
-\begin{tabular}{cc}
-\includegraphics[width=1.2in]{images/config2D_2_0.eps} \qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config2D_3_0.eps} \\
-(a) Configuration (2,0). & (b) Configuration (3,0). \\
-\\
-\includegraphics[width=1.2in]{images/config2D_2_1.eps}
-\qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config2D_3_1.eps} \\
-(c) Configuration (2,1). & (d) Configuration (3,1).
-\end{tabular}
-\caption{Tightly packed 2D configurations of selected squares.
-Selected squares and $3 \times 3$ region around each square.
-Line segments with endpoints on the two selected squares 
-(e.g., the green line segments) are contained
-within the union of the two $3 \times 3$ regions.}
-\label{fig:packed2D}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\begin{tabular}{cc}
-\includegraphics[width=1.2in]{images/config2D_3_2.eps} \qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config2D_2_2.eps} \\
-(a) Configuration (3,2). & (b) Configuration (2,2). 
-\end{tabular}
-\caption{Problematic 2D configurations of selected squares.
-Selected squares and $3 \times 3$ region around each square.
-(a) The green line segment is not contained within the union
-of the two $3 \times 3$ regions.
-(b)~The green line segment intersects the boundary
-of the union of the two $3 \times 3$ regions.}
-\label{fig:loose2D}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\begin{tabular}{cc}
-\includegraphics[width=1.2in]{images/config2D_4_2.eps} \qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config2D_4_2_B.eps} \\
-(a) Configuration (4,2). & (b) Additional cube.
-\end{tabular}
-\caption{(a) Configuration (4,2) has space between the $3 \times 3$
-regions around each selected square.
-(b) Additional cube (magenta) which packs tightly with two other squares.}
-\label{fig:config2D_4_2}
-\end{figure}
-
-\begin{figure*}
-\centering
-\begin{tabular}{cccc}
-\includegraphics[width=1.2in]{images/config3D_2_0_0.eps} \qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config3D_3_0_0.eps}
-\qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config3D_2_1_0.eps}
-\qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config3D_3_1_0.eps} \\
-(a) Configuration (2,0,0). & (b) Configuration (3,0,0). 
-  & (c) Configuration (2,1,0). & (d) Configuration (3,1,0).
-\end{tabular}
-\caption{Tightly packed 3D configurations of selected cubes.}
-\label{fig:packed3D}
-\end{figure*}
-
-\begin{figure*}
-\centering
-\begin{tabular}{ccc}
-\includegraphics[width=1.2in]{images/config3D_3_2_0.eps} \qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config3D_3_2_1.eps}
-\qquad &
-\qquad
-\includegraphics[width=1.2in]{images/config3D_3_2_2.eps} \\
-(a) Configuration (3,2,0). & (b) Configuration (3,2,1). 
-  & (c) Configuration (3,2,2).
-\end{tabular}
-\caption{Problematic 3D configurations of selected cubes.}
-\label{fig:loose3D}
-\end{figure*}
-
-\begin{figure}[t]
-\centering
-
-\includegraphics[width=1.2in]{images/config3D_3_2_2_B.eps}
-
-\caption{Problematic interaction of red and blue cubes
-in configuration (3,2,2) is blocked by magenta cube.}
-\label{fig:blocked3D}
-\end{figure}
-
 \subsection{Locations on Planes}
 
 Consider two grid cubes, $\cb$ and $\cb'$, 
@@ -587,6 +489,93 @@ then $\cb'$ will contain $\cb'.\isovLoc$ and
 $\cb''$ will contain $\cb''.\isovLoc$.
 
 
+\begin{figure}
+\centering
+\begin{tabular}{cc}
+\includegraphics[width=1.2in]{images/config2D_2_0.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config2D_3_0.eps} \\
+(a) Configuration (2,0). & (b) Configuration (3,0). \\
+\\
+\includegraphics[width=1.2in]{images/config2D_2_1.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config2D_3_1.eps} \\
+(c) Configuration (2,1). & (d) Configuration (3,1).
+\end{tabular}
+\caption{Tightly packed 2D configurations of selected squares.
+Selected squares and $3 \times 3$ region around each square.
+Line segments with endpoints on the two selected squares 
+(e.g., the green line segments) are contained
+within the union of the two $3 \times 3$ regions.}
+\label{fig:packed2D}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{tabular}{cc}
+\includegraphics[width=1.2in]{images/config2D_3_2.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config2D_2_2.eps} \\
+(a) Configuration (3,2). & (b) Configuration (2,2).
+\end{tabular}
+\caption{Problematic 2D configurations of selected squares.
+Selected squares and $3 \times 3$ region around each square.
+(a) The green line segment is not contained within the union
+of the two $3 \times 3$ regions.
+(b)~The green line segment intersects the boundary
+of the union of the two $3 \times 3$ regions.}
+\label{fig:loose2D}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{tabular}{cc}
+\includegraphics[width=1.2in]{images/config2D_4_2.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config2D_4_2_B.eps} \\
+(a) Configuration (4,2). & (b) Additional cube.
+\end{tabular}
+\caption{(a) Configuration (4,2) has space between the $3 \times 3$
+regions around each selected square.
+(b) Additional cube (magenta) which packs tightly with two other squares.}
+\label{fig:config2D_4_2}
+\end{figure}
+
+\begin{figure*}
+\centering
+\begin{tabular}{cccc}
+\includegraphics[width=1.2in]{images/config3D_2_0_0.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_0_0.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_2_1_0.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_1_0.eps} \\
+(a) Configuration (2,0,0). & (b) Configuration (3,0,0). 
+  & (c) Configuration (2,1,0). & (d) Configuration (3,1,0).\\
+\\
+\includegraphics[width=1.2in]{images/config3D_2_0_0_3x3x3.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_0_0_3x3x3.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_2_1_0_3x3x3.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_1_0_3x3x3.eps} \\
+(e) $\gDim{3}$ regions. & (f) $\gDim{3}$ regions. 
+  & (g) $\gDim{3}$ regions. & (h) $\gDim{3}$ regions.\\
+Configuration (2,0,0). & Configuration (3,0,0). 
+  & Configuration (2,1,0). & Configuration (3,1,0).
+\end{tabular}
+\caption{Tightly packed 3D configurations of selected cubes.}
+\label{fig:packed3D}
+\end{figure*}
+
+
 \section{Selecting Edge and Corner Cubes}
 \label{section:selection}
 
@@ -644,6 +633,44 @@ then additional squares can be selected between them.
 For instance, a magenta square can be selected between the two colored squares
 in Figure~\ref{fig:config2D_4_2}(a) and the $3 \times 3$ regions
 will fit together tightly.
+
+\begin{figure*}
+\centering
+
+\begin{tabular}{ccc}
+\includegraphics[width=1.2in]{images/config3D_3_2_0.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_2_1.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_2_2.eps} \\
+(a) Configuration (3,2,0). & (b) Configuration (3,2,1). 
+  & (c) Configuration (3,2,2).\\
+\\
+\includegraphics[width=1.2in]{images/config3D_3_2_0_3x3x3.eps} \qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_2_1_3x3x3.eps}
+\qquad &
+\qquad
+\includegraphics[width=1.2in]{images/config3D_3_2_2_3x3x3.eps} \\
+(d) $\gDim{3}$ regions. & (e) $\gDim{3}$ regions.
+  & (f) $\gDim{3}$ regions.\\
+Configuration (3,2,0). & Configuration (3,2,1). 
+  & Configuration (3,2,2).
+\end{tabular}
+\caption{Problematic 3D configurations of selected cubes.}
+\label{fig:loose3D}
+\end{figure*}
+
+\begin{figure}[t]
+\centering
+
+\includegraphics[width=1.2in]{images/config3D_3_2_2_B.eps}
+
+\caption{Problematic interaction of red and blue cubes
+in configuration (3,2,2) is blocked by magenta cube.}
+\label{fig:blocked3D}
+\end{figure}
 
 Some examples of tightly packed 3D configurations of cubes are given
 in Figure~\ref{fig:packed3D}.
@@ -817,6 +844,18 @@ then merges active cubes which share an edge with a selected edge cube,
 and finally merges active cubes which share a vertex 
 with a selected edge cube.
 
+
+\begin{figure}[t]
+\centering
+
+\includegraphics[width=3in]{images/connectedToIII.eps}
+
+\caption{Isosurface in yellow square is connected to three selected cubes.
+Yellow square should map to middle green squares, 
+not to either of the blue squares.}
+\label{fig:connectedToIII}
+\end{figure}
+
 \subsection{Merging Tests}
 \label{section:merging_tests}
 
@@ -835,7 +874,7 @@ which is contained in four isosurface triangles or quadrilaterals
 \item If $\tcb$ is connected to three different selected edge cubes,
 $\cb$, $\cb'$ and $\cb''$,
 then $\cb$ should lie ``between'' $\cb'$ and $\cb''$.
-(See Figure~???.)
+(See Figure~\ref{fig:connectedToIII} for a 2D illustration.)
 \item Merging $\tcb$ with $\cb$ does not create a triangle
 with very small angles.
 \item Merging $\tcb$ with $\cb$ does not ``flip'' a triangle,
@@ -877,13 +916,11 @@ If some selected $\cb'$ is connected to both $\cb$ and $\tcb$,
 but no isosurface quadrilateral has vertices in $\tcb$, $\cb$ and $\cb'$,
 then SHREC does not merge $\tcb$ with $\cb$.
 
-Third, SHREC checks whether mapping $\tcb$ to $\cb$
-will create thin triangles between selected cubes.
-If SHREC is connected to selected edge cubes $\cb$, $\cb'$ and $\cb''$
-and $\cb''$ lies between $\cb$ and $\cb'$
-(or $\cb'$ lies between $\cb$ and $\cb''$),
-then mapping $\tcb$ to $\cb$ will create a thin triangle
-with vertices in $\cb$, $\cb'$ and $\cb''$.
+Third, SHREC checks that if $\tcb$ is connected to three selected edge cubes,
+$\cb$, $\cb'$ and $\cb''$, then $\cb$ is between $\cb'$ and $\cb''$.
+If not, then mapping $\tcb$ to $\cb$ could create a triangle 
+with a small angle.
+(See Figure~\ref{fig:connectedToIII} for a 2D illustration.)
 Let $\cb$, $\cb'$ and $\cb''$ be grid cubes with grid indices
 $(x_0,x_1,x_2)$, $(x'_0,x'_1,x'_2)$ and $(x''_0,x''_1,x''_2)$, respectively.
 If $(x''_0,x''_1,x''_2)$ is contained in the box with corners
@@ -891,12 +928,16 @@ $(x_0,x_1,x_2)$ and $(x'_0,x'_1,x'_2)$ and does not lie on any
 of the eight corners of that box,
 then we say that $\cb''$ lies between $\cb$ and $\cb'$.
 If $\tcb$ is connected to selected edge cubes $\cb$, $\cb'$ and $\cb''$,
-and $\cb''$ lies between $\cb$ and $\cb'$,
+and $\cb''$ lies between $\cb$ and $\cb'$
+or $\cb'$ lies between $\cb$ and $\cb''$
 then SHREC does not merge $\tcb$ with $\cb$.
 
-Fourth, SHREC checks whether mapping $\tcb$ creates thin triangles
-or flips triangles.
-This test is described in Section~\ref{section:distortion_tests}.
+In the fourth and fifth tests,
+SHREC checks whether mapping $\tcb$ to $\cb$ creates an isosurface triangle 
+with a small angle or ``flips'' an isosurface triangle,
+creating a ``fold'' in the isosurface.
+These tests are a little more complicated than the others
+and are explained in the next section.
 
 Finally, SHREC checks whether cube $\tcb$ has more than one isosurface vertex.
 If cube $\tcb$ has more than one isosurface vertex,
@@ -932,19 +973,19 @@ are not covered or selected.
 Let $\tw$, $\tw'$ and $\tw''$ be the vertices generated
 by $\tcb$, $\tcb'$ and $\tcb''$.
 Let $w$ be the vertex generated by selected cube $\cb$.
-SHREC applies three tests to determine if mapping $\tw$ to $w$
-severely distorts triangle $(\tw,\tw',\tw'')$.
-The first test simply checks that the angles in the new triangle
-are not very small.
+In the fourth test,
+SHREC computes $\angle(w,\tw',\tw'')$ and $\angle(w,\tw'',\tw')$.
 If $\angle(w,\tw',\tw'')$ or $\angle(w,\tw'',\tw')$ is less than $5^\circ$,
 then SHREC does not map $\tcb$ to $\cb$.
 
-The second test checks whether mapping $\tw$ to $w$
+The fifth test is composed of two different parts.
+In the first part,
+SHREC checks whether mapping $\tw$ to $w$
 significantly changes the normal of triangle $(\tw,\tw',\tw'')$.
 If the angle between the normal of $(w, \tw', \tw'')$ is less than $30^\circ$,
 then the triangle passes this test.
 
-The third test checks the orientation of $(w, \tw', \tw'')$.
+In the second part, SHREC checks the orientation of $(w, \tw', \tw'')$.
 Let $\eb$ be the grid edge shared by cubes $\tcb$, $\tcb'$ and $\tcb''$.
 Let $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$ be the orthogonal projection
 of $w$, $\tw'$ and $\tw''$, respectively, 
@@ -953,12 +994,13 @@ If the orientation of $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$
 matches the orientation of $\tcb$, $\tcb'$ and $\tcb''$ around $\eb$,
 then triangle $(w,\tw',\tw'')$ passes the orientation test.
 
-We require that a triangle pass either the normal or the orientation test,
-not necessarily both test.
+To pass the fifth test,
+SHREC requires that a triangle pass either the normal or the orientation test,
+not necessarily both tests.
 The original triangle $(\tw,\tw',\tw'')$ could have a normal which
 is very far from the true surface normal.
-In that case, we actually want the normal of triangle $(w, \tw', \tw'')$
-to be far from the normal of triangle $(\tw, \tw', \tw'')$.
+In that case, the normal of triangle $(w, \tw', \tw'')$ should
+be far from the normal of triangle $(\tw, \tw', \tw'')$.
 On the other hand,
 the projected vertices $\pi(w)$, $\pi(\tw')$ and $\pi(\tw'')$
 could be nearly collinear.
