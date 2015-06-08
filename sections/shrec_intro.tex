@@ -3,16 +3,47 @@
 
 \maketitle
 
+Given a regular grid sampling of a scalar field, $f: \Rthree \rightarrow \R$,
+and a scalar value $\sigma$,
+we are interested in constructing a good mesh representation
+of the level set $f^{-1}(\sigma) = \{x : f(x) = \sigma \}$.
+Such a representation is called an {\em isosurface} 
+and the scalar value $\sigma$ is called an {\em isovalue}.
+
+When $f$ is smooth,
+i.e., when $f$ is continuous and its derivatives are continuous,
+a number of algorithms do an excellent job of isosurface construction.
+However, if the gradient field of $f$ is discontinuous,
+then the problem of isosurface construction is more challenging.
+If the level set $f^{-1}(\sigma)$ intersects a gradient discontinuity,
+then the level set $f^{-1}(\sigma)$ will have a ``sharp corner''
+(a 0-dimensional feature) or a ``sharp edge'' (a 1-dimensional feature)
+at that discontinuity.
+We are interested in constructing isosurfaces
+which do a good job of representing those sharp features.
+
+Isosurfaces are represented by piecewise linear or piecewise smooth meshes,
+usually composed of triangles or quadrilaterals.
+This underlying mesh should model the sharp features
+of the isosurface $\Sigma$.
+A 1-dimensionalf feature of $\Sigma$ should be represented by a single, 
+connected sequence of mesh edges with similar dihedral angle.
+A 0-dimensional feature of $\Sigma$ should be represented by a single
+isosurface vertex with similar solid angle.
+On the other hand, mesh edges and vertices
+representing smooth, low curvature portions of $\Sigma$ should have
+dihedral angles near 180 degrees and solid angles near $2 \pi$.
+
+...
+
 Our paper contains the following contributions:
 \begin{enumerate}
-\item We describe sharp vertex generation and selection steps
-in SHREC which result in substantially better sets of sharp vertices
-than those produced by MergeSharp.
-We discuss why this set of vertices is better.
-\item We describe merging steps in SHREC
-which avoid constructing degenerate or small angle triangles and
-avoid flipping triangles,
-problems which occur in MergeSharp.
+\item We describe an isosurface generation algorithm
+called SHREC which does measurable better than previous algorithms
+in constructing isosurfaces with sharp features.
+In particular, SHREC does better at generating and selecting verties 
+on sharp features and in avoiding constructing degenerate 
+or small angle triangles and flipping triangles.
 \item We define the ``Angular Distance'' between two surfaces
 and use this distance to evaluate the quality 
 of surface reconstruction algorithms.
