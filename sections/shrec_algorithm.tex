@@ -33,141 +33,6 @@ Region $\RV_\cb$ is the $5 \times 5 \times 5$ region
 of 125 grid cubes centered at $\cb$.
 
 
-\section{Computing Isosurface Vertex Locations}
-\label{section:loc}
-
-At the heart of any algorithm to compute a surface with sharp features 
-is an algorithm to compute the locations of mesh vertices on those features.
-In order to understand some of the problems in MergeSharp 
-and the improvements in this paper,
-it is necessary to understand this algorithm for computing vertex locations.
-We review that algorithm here.
-
-Mergesharp computes one isosurface vertex location $p_\cb$
-for each active grid cube $\cb$.
-The algorithm computes an isosurface vertex location for $\cb$
-by using the gradients at vertices of $\cb$ and neighboring cubes.
-If grid vertex $v$ has scalar $s_{v}$ and gradient $g_{v}$, 
-then the plane tangent to the isosurface  with isovalue $\sigma$ is
-\begin{equation}
-\label{eqn:isoplane}
-h_v = \{p : (p-v) \cdot g_{v} + s_{v}= \sigma \}.
-\end{equation}
-A set of $k$ vertices and gradients gives a set of $k$ equations 
-in three variables $M p = b$
-where $M$ is a $k \times 3$ matrix 
-and $b$ is a column vector with $k$ rows 
-and the unknown $p$ is a column vector with three rows.
-Of course, if $M$ has more than three rows,
-the system $Mp = b$ is over-determined and has no exact solution.
-The least squares approximation to $M p = b$ 
-is the solution to $M^T M p = M^T b$.
-
-Let $A$ be the $3 \times 3$ matrix $M^T M$ and 
-let $b'$ equal the column vector $M^T b$.
-MergeSharp uses singular valued decomposition (SVD)
-as described in~\cite{jlsw-dchd-02,kbsh-fssev-01,l-oslpm-00}
-to compute an isosurface vertex location from the equation $A p = b'$.
-
-Let $\sigma_1$, $\sigma_2$ and $\sigma_3$ be the singular values of $A$
-sorted in decreasing order.
-A singular value $\sigma_i$ is {\em large},
-if $\sigma_i/\sigma_1 \ge \epsilon$ for some predefined parameter $\epsilon$.
-There are three possible cases based on the number of large singular values
-of $A$.
-In the first case $A$ has three large singular values.
-In this case, the tangent planes around $\cb$ have normals in three or more
-very distinct directions.
-The isosurface has some 0-dimensional feature near cube $\cb$.
-We call a cube $\cb$ a {\em 0D feature cube} if the matrix $A$ associated
-with $\cb$ has three large singular values.
-The solution to $A p = b'$ approximates the 0-dimensional feature 
-near cube $\cb$.
-
-In the second case, matrix $A$ has only two large singular values.
-In this case, 
-the tangent plane normals are close to two different directions.
-The isosurface has some 1-dimensional feature near cube $\cb$.
-We call a cube $\cb$ a {\em 1D feature cube} if the matrix $A$ associated
-with $\cb$ has two large singular values.
-
-To compute the sharp edge near $\cb$,
-we use singular valued decomposition to remove the small singular value
-from $A$.
-The singular valued decomposition of $A$ is $A = U \Sigma V^T$
-where
-\begin{equation*}
-\Sigma = \left (
-\begin{array}{ccc}
-\sigma_1 & 0 & 0 \\
-0 & \sigma_2 & 0 \\
-0 & 0 & \sigma_3
-\end{array}
-\right )
-.
-\end{equation*}
-When $A$ has only two large singular values, $\sigma_1$ and $\sigma_2$,
-MergeSharp replaces $\Sigma$ by a new diagonal matrix $\Sigma'$
-with diagonal entries $\sigma_1$, $\sigma_2$, 0.
-Let $A'$ equal $U \Sigma V^T$.
-Matrix $A'$ has rank two.
-The solution to $A' p = b'$ is a set of points on a line.
-That line represents a line containing the sharp edge.
-
-In the last case,
-matrix $A$ has only one large singular value.
-In this case, the tangent plane normals are close to a single direction.
-The isosurface is smooth around cube $\cb$.
-Replace $\Sigma$ by a new diagonal matrix $\Sigma'$
-with diagonal entries $\sigma_1$, 0, 0.
-Let $A'$ equal $U \Sigma V^T$.
-Matrix $A'$ has rank one.
-The solution to $A' p = b'$ is a set of points on a plane.
-That plane represents a tangent plane to the isosurface in cube $\cb$.
-
-In the case that $A$ has only one or two large singular values,
-the solution to $A' p = b'$ is a line or plane.
-Using linear interpolation,
-MergeSharp approximates the intersection of each edge of $\cb$
-and the isosurface and then computes the point $q_\cb$
-at the centroid of those interpolated intersection points.
-As suggested in~\cite{sw-dcss-02},
-MergeSharp selects the point on the line or plane that is closest to $q_\cb$.
-
-More precisely, MergeSharp defines the diagonal matrix $\Sigma^+$
-with diagonal entries:
-\begin{equation*}
-\begin{array}{ll}
-1/\sigma_1, 1/\sigma_2, 1/\sigma_3, 
-  & \mbox{ if $A$ has three singular values,}\\
-1/\sigma_1, 1/\sigma_2, 0, 
-  & \mbox{ if $A$ has two singular values,}\\
-1/\sigma_1, 0, 0, 
-  & \mbox{ if $A$ has one singular value.}
-\end{array}
-\end{equation*}
-The point
-\begin{equation}
-\label{eqn:Lindstrom}
-p_\cb = q_\cb + V \Sigma^+ U^T (b' - A q_\cb) 
-\end{equation}
-is the point on $A' p = b'$ closest to $q_\cb$.
-
-The intersection of bipolar edge $\eb = (v_a,v_b)$ and the isosurface
-is approximated as $w_\eb = (1-\alpha) v_a + \alpha v_b$
-where $\alpha = (\sigma - s_a)/(s_a-s_b)$
-and $s_a$ and $s_b$ are the scalar values at vertices $v_a$ and $v_b$.
-Point $q_\cb$ equals $(w_{\eb_1}+w_{\eb_2}+\ldots+w_{\eb_k})/k$
-where the $w_{\eb_i}$ are summed 
-over the bipolar edges $\eb_i$ of cube $\cb$.
-
-The number of large singular values of $A$ determines
-whether the computed isosurface vertex location lies 
-on a 0-dimensional feature, a 1-dimensional feature, 
-or a smooth portion of the isosurface.
-This information is used in subsequent steps in the MergeSharp algorithm.
-
-
 \begin{figure}
 \begin{equation*}
 \xymatrix{
@@ -285,10 +150,10 @@ Thus, the gradients in $\cb$ and its neighbors may not be known.
 Algorithm SHREC selects gradients from a larger area
 than just the immediate neighbors of $\cb$.
 
-Seond, the isosurface vertex $\cb.\isov$ generated by cube $\cb$
+Second, the isosurface vertex $\cb.\isov$ generated by cube $\cb$
 may lie outside $\cb$.
 Moreover, point $\cb.\isov$ may lie outside of $\cb$
-even if the sharp edge containing $\cb.\isov$ intersects $\cb$.
+even if the 1-dimensional feature containing $\cb.\isov$ intersects $\cb$.
 In addition, because of curvature, noise and numerical instability,
 point $\cb.\isov$ could lie in some cube $\cb'$ adjacent to $\cb$
 while point $\cb'.\isov$ lies inside $\cb.\isov$.
@@ -301,7 +166,7 @@ it probably is located in cube $\cb$
 and is a good approximation of the vertex location.
 While this is reasonable,
 it ignores the interaction between selected cubes.
-MergeSharp does better when sharp edges are well-covered 
+MergeSharp does better when 1-dimensional features are well-covered 
 by the selected and covered cubes.
 For instance, in the 2D illustration in Figure~\ref{fig:select}, 
 the selected squares are packed together more closely
@@ -320,6 +185,156 @@ It extends the merging by one more cube in certain regions
 to ensure good covering of 1D features.
 
 
+\section{Generating Points on Sharp Features}
+\label{section:generation}
+
+\subsection{Computing Isosurface Vertex Locations}
+\label{section:loc}
+
+At the heart of any algorithm to compute a surface with sharp features 
+is an algorithm to compute the locations of mesh vertices on those features.
+SHREC uses the algorithm from MergeSharp~\cite{bw-cisec-13}
+to compute an initial vertex locations $\cb.\isovLoc$ 
+for each active cube $\cb$.
+The algorithm computes the vertex locations 
+from gradients at grid vertices.
+The MergeSharp algorithm is a variation 
+of the algorithms in~\cite{jlsw-dchd-02,kbsh-fssev-01,sw-dcss-02,zhk-dctps-04}
+for computing vertex locations from surface normals.
+
+SHREC computes one isosurface vertex location $\cb.\isovLoc$
+for each active grid cube $\cb$.
+The algorithm computes an isosurface vertex location for $\cb$
+by using the gradients at vertices of $\cb$ and nearby cubes.
+A grid vertex $v$ with scalar $s_{v}$ and gradient $g_{v}$ gives a plane
+\begin{equation}
+\label{eqn:isoplane}
+h_v = \{p : (p-v) \cdot g_{v} + s_{v}= \sigma \}.
+\end{equation}
+This plane is an ``approximation'' to the tangent planes to the isosurface
+at isosurface points in the neighborhood of $v$.
+
+A set of $k$ vertices and gradients gives a set of $k$ equations 
+in three variables $M p = b$
+where $M$ is a $k \times 3$ matrix 
+and $b$ is a column vector with $k$ rows 
+and the unknown $p$ is a column vector with three rows.
+Of course, if $M$ has more than three rows,
+the system $Mp = b$ is over-determined and has no exact solution.
+The least squares approximation to $M p = b$ 
+is the solution to $M^T M p = M^T b$.
+
+Let $A$ be the $3 \times 3$ matrix $M^T M$ and 
+let $b'$ equal the column vector $M^T b$.
+SHREC uses singular valued decomposition (SVD)
+as described in~\cite{jlsw-dchd-02,kbsh-fssev-01,l-oslpm-00}
+to compute an isosurface vertex location from the equation $A p = b'$.
+
+Let $\sigma_1$, $\sigma_2$ and $\sigma_3$ be the singular values of $A$
+sorted in decreasing order.
+A singular value $\sigma_i$ is {\em large},
+if $\sigma_i/\sigma_1 \ge \epsilon$ for some predefined parameter $\epsilon$.
+There are three possible cases based on the number of large singular values
+of $A$.
+In the first case $A$ has three large singular values.
+In this case, the tangent planes around $\cb$ have normals in three or more
+very distinct directions.
+The isosurface has some 0-dimensional feature near cube $\cb$.
+We call a cube $\cb$ a {\em 0D feature cube} if the matrix $A$ associated
+with $\cb$ has three large singular values.
+The solution to $A p = b'$ approximates the 0-dimensional feature 
+near cube $\cb$.
+
+In the second case, matrix $A$ has only two large singular values.
+In this case, 
+the tangent plane normals are close to two different directions.
+The isosurface has some 1-dimensional feature near cube $\cb$.
+We call a cube $\cb$ a {\em 1D feature cube} if the matrix $A$ associated
+with $\cb$ has two large singular values.
+
+To compute the 1-dimensional feature near $\cb$,
+we use singular valued decomposition to remove the small singular value
+from $A$.
+The singular valued decomposition of $A$ is $A = U \Sigma V^T$
+where
+\begin{equation*}
+\Sigma = \left (
+\begin{array}{ccc}
+\sigma_1 & 0 & 0 \\
+0 & \sigma_2 & 0 \\
+0 & 0 & \sigma_3
+\end{array}
+\right )
+.
+\end{equation*}
+When $A$ has only two large singular values, $\sigma_1$ and $\sigma_2$,
+MergeSharp replaces $\Sigma$ by a new diagonal matrix $\Sigma'$
+with diagonal entries $\sigma_1$, $\sigma_2$, 0.
+Let $A'$ equal $U \Sigma' V^T$.
+Matrix $A'$ has rank two.
+The solution to $A' p = b'$ is a set of points on a line $L$.
+Line $L$ approximates a line tangent to the 1-dimensional feature.
+
+In the last case,
+matrix $A$ has only one large singular value.
+In this case, the tangent plane normals are close to a single direction.
+The isosurface is smooth around cube $\cb$.
+Replace $\Sigma$ by a new diagonal matrix $\Sigma'$
+with diagonal entries $\sigma_1$, 0, 0.
+Let $A'$ equal $U \Sigma' V^T$.
+Matrix $A'$ has rank one.
+The solution to $A' p = b'$ is a set of points on a plane.
+That plane represents a tangent plane to the isosurface in cube $\cb$.
+
+In the case that $A$ has only one or two large singular values,
+the solution to $A' p = b'$ is a line or plane.
+As suggested in~\cite{sw-dcss-02},
+SHREC selects the point on the line or plane that is closest 
+to $\cb.\centroid$.
+
+More precisely, SHREC defines the diagonal matrix $\Sigma^+$
+with diagonal entries:
+\begin{equation*}
+\begin{array}{ll}
+1/\sigma_1, 1/\sigma_2, 1/\sigma_3, 
+  & \mbox{ if $A$ has three singular values,}\\
+1/\sigma_1, 1/\sigma_2, 0, 
+  & \mbox{ if $A$ has two singular values,}\\
+1/\sigma_1, 0, 0, 
+  & \mbox{ if $A$ has one singular value.}
+\end{array}
+\end{equation*}
+The point
+\begin{equation}
+\label{eqn:Lindstrom}
+p_\cb = \cb.\centroid + V \Sigma^+ U^T (b' - A \, \cb.\centroid) 
+\end{equation}
+is the point on $A' p = b'$ closest to $\cb.\centroid$.
+
+The number of large singular values of $A$ determines
+whether the computed isosurface vertex location lies 
+on a 0-dimensional feature, a 1-dimensional feature, 
+or a smooth portion of the isosurface.
+This information is used in subsequent steps in the SHREC algorithm.
+
+When $A' p = b'$ is a line,
+the direction of that line is given by $(I - V \Sigma^+ U^T ) w$
+for any $w$ which is not in the kernel of $(I - V \Sigma^+ U^T ) w$.
+Substituting $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$ for $w$
+and using $(I - V \Sigma^+ U^T ) w$ with largest magnitude
+gives the direction.
+
+Instead of using $A = M^T M$,
+we could have used the singular value decomposition of $M$.
+Using $M$ is preferable for numerical stability,
+since the condition number of $A$ is the square of the condition number of $M$.
+However, because we remove small eigenvalues,
+the numerical stability is not an issue.
+We use the singular value decomposition of the $3 \times 3$ matrix $A$
+because it is simpler and faster to compute 
+than the singular valued decomposition of the $k \times 3$ matrix $M$.
+
+
 \begin{figure}[t]
 \centering
 
@@ -330,49 +345,46 @@ to ensure good covering of 1D features.
 (a) & (b)
 \end{tabular}
 
-\caption{The green line is the line containing the
-sharp edge near cube $\cb$. 
+\caption{Green line $L$ is the solution to $A'x = b'$.
 Black cube vertices have scalar value above the isovalue.
 (a) Green line intersects cube $\cb$
 but point location $p^0_\cb$ (red) is outside cube $\cb$.
 Cyan points are the intersection points of the isosurface
 and the cube edges, computed using linear interpolation.
-Gold point is $q_\cb$, the centroid of the cyan points, .
-Red point is the closest point on the green line to $q_\cb$.
+Gold point is $\cb.\protect\centroid$, the centroid of the cyan points.
+Red point is the closest point on the green line to $\cb.\protect\centroid$.
 (b) Green line intersects cube $\cb$
 but point location $p^1_\cb$ (red) is outside cube $\cb$.
-Gold point is $\cb.\protect\Center$, the cube center.
-Red point is the closest point on the green line to $\cb.\protect\Center$.
+Gold point is $\cb.\protect\centerVar$, the cube center.
+Red point is the closest point on the green line to $\cb.\protect\centerVar$.
 }
 \label{fig:out_of_cube}
 \end{figure}
 
-\section{Generating Points on Sharp Features}
-\label{section:generation}
+\subsection{Computing Vertex Locations on 1-Dimensional Features}
 
-\subsection{Computing Vertex Locations on Sharp Edges}
-
-Consider an edge cube $\cb$.
-By definition, edge cube $\cb$ is near some sharp edge.
+Consider a 1D feature cube $\cb$.
+By definition, cube $\cb$ is near some 1-dimensional feature.
 The location $\cb.\isovLoc$ of the isosurface vertex associated with $\cb$ 
-should be on that sharp edge.
+should be on that 1-dimensional feature.
 However, that condition still gives one degree of freedom in selecting
 the location of $\cb.\isovLoc$.
-One obvious additional condition is that if the sharp edge intersects $\cb$,
+One obvious additional condition is that if the 1D feature intersects $\cb$,
 then $\cb.\isovLoc$ should be in $\cb$.
-An additional condition is that if the sharp edge does not intersect $\cb$,
+An additional condition is that if the 1D feature does not intersect $\cb$,
 then $\cb.\isovLoc$ should be ``close to'' $\cb$ 
 under some suitably defined metric.
 
 Algorithm SHREC computes three different possible isosurface vertex locations.
-First, Algorithm SHREC computes $p^0_\cb$ 
-by computing a line $L$ through the sharp edge and 
-selecting the point on $L$ nearest the centroid point $q_\cb$.
+Let $L$ be the line which is the solution to $A' x = b'$
+(Section~\ref{section:loc}.)
+First, Algorithm SHREC computes the point $p^0_\cb$ 
+on $L$ nearest $\cb.\centroid$.
 Equation~\ref{eqn:Lindstrom}, for computing $p^0_\cb$ is given
 in Section~\ref{section:loc}.
-The idea is that the centroid point $q_\cb$ is a good approximation
+The idea is that $\cb.\centroid$ is a good approximation
 for the intersection of $\cb$ and the isosurface,
-and so one should choose a point near $q_\cb$.
+and so one should choose a point near $\cb.\centroid$.
 If $p^0_\cb$ lies in $\cb$, then SHREC sets $\cb.\isovLoc$ to $p^0_\cb$.
 
 In most cases, if line $L$ intersects cube $\cb$.
@@ -384,8 +396,8 @@ outside $\cb$.
 
 If $p^0_\cb$ lies outside $\cb$,
 then let $p^1_\cb$ be the point on $L$ which lies closest 
-to the center $\cb.\Center$ of cube $\cb$.
-We can compute $p^1_\cb$ replacing $q_\cb$ by $\cb.\Center$
+to the center $\cb.\centerVar$ of cube $\cb$.
+We can compute $p^1_\cb$ replacing $q_\cb$ by $\cb.\centerVar$
 in Equation~\ref{eqn:Lindstrom}.
 If $p^1_\cb$ is in $\cb$ while $p^0_\cb$ is not,
 SHREC sets $\cb.\isovLoc$ to $p^1_\cb$.
@@ -394,7 +406,7 @@ Unfortunately, it is possible that both $p^0_\cb$ and $p^1_\cb$
 are not in $\cb$ even though $L$ intersects $\cb$.
 (See Figure~\ref{fig:out_of_cube}(b).)
 As a final step, we compute the point $p^2_\cb$ on $L$ which is closest 
-to the center $\cb.\Center$ of $\cb$ under the $L_\infty$ metric.
+to the center $\cb.\centerVar$ of $\cb$ under the $L_\infty$ metric.
 If $L$ intersects $\cb$, then this point is guaranteed to lie in $\cb$.
 Details for computing $p^2_\cb$ are in Appendix~\ref{appendix:Linf}.
 If $p^2_\cb$ is in $\cb$ while $p^0_\cb$ and $p^1_\cb$ are not,
@@ -488,7 +500,7 @@ neither condition may hold.
 To ensure that either $\tcb.\isovLoc$ lies in $\tcb$
 or $\tcb'.\isovLoc$ lies in $\tcb'$,
 Algorithm SHREC computes the plane $h$ containing $\eb$
-and perpendicular to the line from $\cb.\Center$ to $\cb'.\Center$.
+and perpendicular to the line from $\cb.\centerVar$ to $\cb'.\centerVar$.
 SHREC then computes the intersection of the line $L$ containing $\eb$
 and plane $h$.
 This intersections point, $p_I$, lies in either $\tcb$ or $\tcb'$.
@@ -512,7 +524,7 @@ point $\tcb.\isovLoc$ may not be in $\tcb$ for any of the six grid cubes $\tcb$.
 
 To ensure that $p_\tcb$ lies in $\tcb$ for one of the six grid cubes,
 Algorithm SHREC computes the plane $h$ containing $v$
-and perpendicular to the line from $\cb.\Center$ to $\cb'.\Center$.
+and perpendicular to the line from $\cb.\centerVar$ to $\cb'.\centerVar$.
 SHREC then computes the intersection of the line $L$ containing $\eb$
 and plane $h$.
 This intersections point, $p_I$, lies in at least one of the six grid cubes.
