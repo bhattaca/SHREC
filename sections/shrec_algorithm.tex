@@ -90,6 +90,7 @@ The curve is far away from any uncovered square.
 
 
 \section{MergeSharp}
+\label{section:mergesharp}
 
 Algorithm SHREC has three parts:
 computation of isosurface vertex locations, 
@@ -100,7 +101,7 @@ Algorithm MergeSharp from~\cite{bw-cisec-13}
 has a similar three parts,
 but each part is substantially different in SHREC.
 To motivate the description of Algorithm SHREC,
-we briefly describe each part in Algorithm MergeSharp
+we briefly describe each part in algorithm mergesharp
 and the associated problems.
 
 In the first part, 
@@ -272,8 +273,8 @@ MergeSharp replaces $\Sigma$ by a new diagonal matrix $\Sigma'$
 with diagonal entries $\sigma_1$, $\sigma_2$, 0.
 Let $A'$ equal $U \Sigma' V^T$.
 Matrix $A'$ has rank two.
-The solution to $A' p = b'$ is a set of points on a line $L$.
-Line $L$ approximates a line tangent to the 1-dimensional feature.
+The solution to $A' p = b'$ is a set of points on a line $\cb.\Lsharp$.
+Line $\cb.\Lsharp$ represents a line tangent to the 1-dimensional feature.
 
 In the last case,
 matrix $A$ has only one large singular value.
@@ -323,6 +324,7 @@ for any $w$ which is not in the kernel of $(I - V \Sigma^+ U^T ) w$.
 Substituting $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$ for $w$
 and using $(I - V \Sigma^+ U^T ) w$ with largest magnitude
 gives the direction.
+The direction and point $p_\cb$ defines the line $\cb.\Lsharp$.
 
 Instead of using $A = M^T M$,
 we could have used the singular value decomposition of $M$.
@@ -345,7 +347,7 @@ than the singular valued decomposition of the $k \times 3$ matrix $M$.
 (a) & (b)
 \end{tabular}
 
-\caption{Green line $L$ is the solution to $A'x = b'$.
+\caption{Green line is $\cb.\protect\Lsharp$.
 Black cube vertices have scalar value above the isovalue.
 (a) Green line intersects cube $\cb$
 but point location $p^0_\cb$ (red) is outside cube $\cb$.
@@ -365,21 +367,20 @@ Red point is the closest point on the green line to $\cb.\protect\centerVar$.
 
 Consider a 1D feature cube $\cb$.
 By definition, cube $\cb$ is near some 1-dimensional feature.
+That 1D feature is approximated by the line $\cb.\Lsharp$.
 The location $\cb.\isovLoc$ of the isosurface vertex associated with $\cb$ 
-should be on that 1-dimensional feature.
+should be on $\cb.\Lsharp$.
 However, that condition still gives one degree of freedom in selecting
 the location of $\cb.\isovLoc$.
-One obvious additional condition is that if the 1D feature intersects $\cb$,
+One obvious additional condition is that if $\cb.\Lsharp$ intersects $\cb$,
 then $\cb.\isovLoc$ should be in $\cb$.
-An additional condition is that if the 1D feature does not intersect $\cb$,
+An additional condition is that if $\cb.\Lsharp$ does not intersect $\cb$,
 then $\cb.\isovLoc$ should be ``close to'' $\cb$ 
 under some suitably defined metric.
 
 Algorithm SHREC computes three different possible isosurface vertex locations.
-Let $L$ be the line which is the solution to $A' x = b'$
-(Section~\ref{section:loc}.)
 First, Algorithm SHREC computes the point $p^0_\cb$ 
-on $L$ nearest $\cb.\centroid$.
+on $\cb.Lsharp$ nearest $\cb.\centroid$.
 Equation~\ref{eqn:Lindstrom}, for computing $p^0_\cb$ is given
 in Section~\ref{section:loc}.
 The idea is that $\cb.\centroid$ is a good approximation
@@ -387,27 +388,29 @@ for the intersection of $\cb$ and the isosurface,
 and so one should choose a point near $\cb.\centroid$.
 If $p^0_\cb$ lies in $\cb$, then SHREC sets $\cb.\isovLoc$ to $p^0_\cb$.
 
-In most cases, if line $L$ intersects cube $\cb$.
+In most cases, if line $\cb.\Lsharp$ intersects cube $\cb$.
 then the point $p^0_\cb$ will lie in $\cb$.
-However, if line $L$ is ``near'' some facet or edge of $\cb$,
-then it is possible for $L$ to intersect $\cb$ but $p^0_\cb$ to lie
-outside $\cb$.
+However, if line $\cb.\Lsharp$ is ``near'' some facet or edge of $\cb$,
+then it is possible for $\cb.\Lsharp$ to intersect $\cb$
+but $p^0_\cb$ to lie outside $\cb$.
 (See Figure~\ref{fig:out_of_cube}(a).)
 
 If $p^0_\cb$ lies outside $\cb$,
-then let $p^1_\cb$ be the point on $L$ which lies closest 
+then let $p^1_\cb$ be the point on $\cb.\Lsharp$ which lies closest 
 to the center $\cb.\centerVar$ of cube $\cb$.
-We can compute $p^1_\cb$ replacing $q_\cb$ by $\cb.\centerVar$
+We can compute $p^1_\cb$ replacing $\cb.\centroid$ by $\cb.\centerVar$
 in Equation~\ref{eqn:Lindstrom}.
 If $p^1_\cb$ is in $\cb$ while $p^0_\cb$ is not,
 SHREC sets $\cb.\isovLoc$ to $p^1_\cb$.
 
 Unfortunately, it is possible that both $p^0_\cb$ and $p^1_\cb$ 
-are not in $\cb$ even though $L$ intersects $\cb$.
+are not in $\cb$ even though $\cb.\Lsharp$ intersects $\cb$.
 (See Figure~\ref{fig:out_of_cube}(b).)
-As a final step, we compute the point $p^2_\cb$ on $L$ which is closest 
-to the center $\cb.\centerVar$ of $\cb$ under the $L_\infty$ metric.
-If $L$ intersects $\cb$, then this point is guaranteed to lie in $\cb$.
+As a final step, we compute the point $p^2_\cb$ on $\cb.\Lsharp$ 
+which is closest to the center $\cb.\centerVar$ of $\cb$ 
+under the $L_\infty$ metric.
+If $\cb.\Lsharp$ intersects $\cb$, 
+then this point is guaranteed to lie in $\cb$.
 Details for computing $p^2_\cb$ are in Appendix~\ref{appendix:Linf}.
 If $p^2_\cb$ is in $\cb$ while $p^0_\cb$ and $p^1_\cb$ are not,
 SHREC sets $\cb.\isovLoc$ to $p^2_\cb$.
@@ -456,15 +459,15 @@ Algorithm MergeSharp computes only $p^0_\cb$.
 Many of the problems in Algorithm SHREC (and MergeSharp) occur when
 isosurface vertex location $\cb.\isovLoc$ lies outside of cube $\cb$.
 Thus, it is always preferable that $\cb.\isovLoc$ be in $\cb$.
-This is not always possible since the sharp edge or corner near $\cb$
+This is not always possible since the sharp features near $\cb$
 may not intersect $\cb$.
-However, in cases where a sharp edge or corner intersects $\cb$,
+However, in cases where a sharp feature intersects $\cb$,
 we would like $\cb.\isovLoc$ to be in $\cb$.
 
-The computation of a sharp edge or corner near $\cb$ depends
+The computation of a sharp feature near $\cb$ depends
 upon gradients in the neighborhood of $\cb$.
 The set of such gradients changes for each cube $\cb$.
-Because of the inaccuracy in computing sharp edges and corners,
+Because of the inaccuracy in computing sharp features,
 it is possible that $\cb.\isovLoc$ is in a cube $\cb'$ adjacent to $\cb$
 while $\cb'.\isovLoc$ is not contained in $\cb$.
 In some cases,
@@ -487,21 +490,21 @@ Consider two grid cubes, $\cb$ and $\cb'$,
 which intersect in an edge $\eb$ but not in any facet.
 (See Figure~\ref{fig:shared_edge}.)
 Two other grid cubes, $\tcb$ and $\tcb'$ share edge $\eb$.
-A sharp edge which passes through $\cb$ and $\cb'$ must intersect
+A 1-dimensional feature which passes through $\cb$ and $\cb'$ must intersect
 either $\tcb$ or $\tcb'$.
-(In the exceptional case, the edge passes through $\eb$,
+(In the exceptional case, the 1-dimensional featuer passes through $\eb$,
 in which case it intersects both $\tcb$ and $\tcb'$.)
-Since the edge intersects either $\tcb$ and $\tcb'$,
+Since the 1D feature intersects either $\tcb$ and $\tcb'$,
 either $\tcb.\isovLoc$ should be in $\tcb$ 
 or $\tcb'.\isovLoc$ should be in $\tcb'$.
-However, because of inaccuracies in computing sharp edges and corners,
+However, because of inaccuracies in computing points on 1D features,
 neither condition may hold.
 
 To ensure that either $\tcb.\isovLoc$ lies in $\tcb$
 or $\tcb'.\isovLoc$ lies in $\tcb'$,
 Algorithm SHREC computes the plane $h$ containing $\eb$
 and perpendicular to the line from $\cb.\centerVar$ to $\cb'.\centerVar$.
-SHREC then computes the intersection of the line $L$ containing $\eb$
+SHREC then computes the intersection of the line $\cb.\Lsharp$ 
 and plane $h$.
 This intersections point, $p_I$, lies in either $\tcb$ or $\tcb'$.
 If $p_I$ lies in $\tcb$ and $\tcb.\isovLoc$ is not in $\tcb$,
@@ -513,30 +516,30 @@ Next consider the case of two grid cubes, $\cb$ and $\cb'$,
 which intersect in a vertex $v$ but not in any edge.
 (See Figure~\ref{fig:shared_vertex}.)
 Six other grid cubes share vertex $v$ with $\cb$ and $\cb'$.
-A sharp edge which passes through $\cb$ and $\cb'$ must intersect
+A 1-dimensional feature which passes through $\cb$ and $\cb'$ must intersect
 one of these six other grid cubes.
-(In the exceptional case, the edge passes through $v$,
+(In the exceptional case, the 1D feature passes through $v$,
 in which case all six.)
-Since the edge intersects one of the six grid cubes,
+Since the 1D feature intersects one of the six grid cubes,
 point $\tcb.\isovLoc$ should lie in $\tcb$ for one of the six grid cubes $\tcb$.
-Again because of inaccuracies in computing sharp edges and corners,
+Again because of inaccuracies in computing points on 1D features,
 point $\tcb.\isovLoc$ may not be in $\tcb$ for any of the six grid cubes $\tcb$.
 
 To ensure that $p_\tcb$ lies in $\tcb$ for one of the six grid cubes,
 Algorithm SHREC computes the plane $h$ containing $v$
 and perpendicular to the line from $\cb.\centerVar$ to $\cb'.\centerVar$.
-SHREC then computes the intersection of the line $L$ containing $\eb$
-and plane $h$.
+SHREC then computes the intersection of the line $\cb.\Lsharp$
+which is the solution to $A' x = b'$ and plane $h$.
 This intersections point, $p_I$, lies in at least one of the six grid cubes.
 If $p_I$ lies in cube $\tcb$ and $\tcb.\isovLoc$ is not in $\tcb$,
 SHREC sets $\tcb.\isovLoc$ to $p_I$.
 
 The computation in this section ensures ``continuity'' in the cubes
-which intersect a sharp edge.
-If a sharp edge intersects a cube $\cb$,
-then the edge should intersect two cubes $\cb'$ and $\cb''$
+which intersect a 1-dimensional feature
+If a 1-dimensional feature intersects a cube $\cb$,
+then the 1-dimensional feature should intersect two cubes $\cb'$ and $\cb''$
 which share a facet with $\cb$.
-SHREC's computation of edge-plane intersections described above,
+SHREC's computation of line-plane intersections described above,
 ensures that if $\cb'$ and $\cb''$ are active cubes,
 then $\cb'$ will contain $\cb'.\isovLoc$ and 
 $\cb''$ will contain $\cb''.\isovLoc$.
@@ -629,11 +632,12 @@ Configuration (2,0,0). & Configuration (3,0,0).
 \end{figure*}
 
 
-\section{Selecting Edge and Corner Cubes}
+\section{Selecting 0D and 1D Feature Cubes}
 \label{section:selection}
 
-Algorithm SHREC selects a well-spaced subset of the edge and corner cubes
-and merges isosurface vertices adjacent cubes 
+Algorithm SHREC selects a well-spaced subset 
+of the 0D and 1D feature cubes
+and merges isosurface vertices in adjacent cubes 
 with the vertices generated by the selected cubes.
 To ensure that the isosurface vertices on sharp features are well-spaced,
 SHREC never selects two cubes which have a common vertex.
@@ -642,9 +646,10 @@ any adjacent cube sharing a vertex with $\cb$ is marked as ``covered''
 by $\cb$.
 SHREC never selects a covered cube.
 
-As noted in Section~???, 
+As noted in Section~\ref{section:mergesharp}, 
 SHREC does better when selected cubes 
 are packed ``tightly'' together.
+(See also Figure~\ref{fig:select}.)
 In particular, SHREC tries to avoid certain configurations of nearby cubes.
 
 Consider cubes $\cb$ and $\cb'$ with grid indices $(x_0,x_1,x_2)$
@@ -749,7 +754,7 @@ Unfortunately, we found that avoiding such configurations is too restrictive.
 Consider two cubes, $\cb$ and $\cb''$ 
 in a $(3,2,0)$, $(3,2,1)$ or $(3,2,2)$ configuration.
 If a third selected cube $\cb'$ lies between $\cb$ and $\cb''$,
-then the sharp edge will pass from $\cb$ to $\cb'$ to $\cb''$.
+then the 1-dimensional feature will pass from $\cb$ to $\cb'$ to $\cb''$.
 The selection of $\cb'$ ``blocks'' the problematic interaction 
 of $\cb$ and $\cb''$.
 If cubes $\cb$ and $\cb'$ are selected,
@@ -768,35 +773,37 @@ SHREC avoids selecting cube $\cb''$ if some already selected cube $\cb$
 forms a $(3,2,0)$ or $(3,2,1)$ or $(3,2,2)$ configuration with $\cb''$
 and no already selected cube separates $\cb$ from $\cb''$.
 
-SHREC first selects corner cubes.
-When the corner location is inside an active cube,
-SHREC selects the active cube containing the corner.
-When the corner location is not in an active cube,
-SHREC selects the active cube ``closest'' to the corner location
-by choosing the cube whose center has minimum $L_\infty$ distance
-to the corner.
+SHREC first selects 0D feature cubes.
+When the 0-dimensional feature is inside an active cube,
+SHREC selects the active cube containing the feature point.
+When the feature point is not in an active cube,
+SHREC selects the active cube ``closest'' to the feature point
+by choosing the cube $\cb$ whose center has minimum $L_\infty$ distance
+to the feature point.
 
-SHREC next selects edge cubes which are ``near'' the corner cubes,
+SHREC next selects 1D feature cubes which are ``near'' 
+the selected 0D feature cubes,
 i.e., they are contained in an $7 \times 7 \times 7$ region
-around each corner cube.
-Selecting edge cubes near corners poses special challenges
-since there are multiple sharp edges ending at a corner.
-Selecting a cube which is near two such sharp edges
+around each selected 0D feature cube.
+Selecting 1D feature cubes near 0D feature cubes poses special challenges
+since there are multiple 1-dimensional features ending 
+at a 0-dimensional feature.
+Selecting a cube which is near two such 1-dimensional features.
 can obscure one of the edges.
 
-Let $\cb$ be a corner cube and let $\cb'$ be an edge cube
+Let $\cb$ be a selected 0D feature cube and let $\cb'$ be a 1D feature cube
 which is in a $(2,0,0)$, $(2,1,0)$ or $(2,1,1)$ configuration with $\cb$.
 Let $\cb''$ be any cube sharing an edge or facet with $\cb'$
 which is contained in the $5 \times 5 \times 5$ region
 but is not covered by $\cb$.
-If $\cb''$ is active and an edge cube,
+If $\cb''$ is active and a 1D feature cube,
 then SHREC attempts to avoid selecting cube $\cb'$.
 
-Once edge cubes near corners are selected,
-SHREC could iterate by selecting uncovered edge cubes 
+Once 1D feature cubes near 0D feature cubes are selected,
+SHREC could iterate by selecting uncovered 1D feature cubes 
 near already selected cubes.
-If no uncovered edge cubes were near selected cubes,
-SHREC could select an arbitrary uncovered edge cube
+If no uncovered 1D feature cubes was near a selected cube,
+SHREC could select an arbitrary uncovered 1D feature cube
 and extend the set of selected cubes from that cube.
 By not selecting a cube $\cb''$ 
 if it forms a $(3,2,0)$, $(3,2,1)$ or $(3,2,2)$
@@ -819,27 +826,29 @@ The algorithm is completely local and easily distributed and parallelizable.
 Each grid cube has an index $(x_0, x_1, x_2)$.
 SHREC processes the grid cubes by reducing the indices modulo six
 to $(x_0 \bmod 6, x_1 \bmod 6, x_2 \bmod 6)$.
-SHREC first selects edge cubes with indices congruent to $(0,0,0)$ modulo six.
-SHREC next selects edge cubes with indices congruent modulo six
+SHREC first selects 1D feature cubes 
+with indices congruent to $(0,0,0)$ modulo six.
+SHREC next selects 1D feature cubes with indices congruent modulo six
 to $(\pm 1,0,0)$ or $(0, \pm 1, 0)$ $(0, 0, \pm 1)$.
-SHREC then selects edge cubes with indices congruent modulo six
+SHREC then selects 1D feature cubes with indices congruent modulo six
 to $(\pm 2,0,0)$ or $(0, \pm 2, 0)$ $(0, 0, \pm 2)$.
-Finally, SHREC selects edge cubes with indices congruent modulo six
+Finally, SHREC selects 1D feature cubes with indices congruent modulo six
 to $(3,0,0)$ or $(0, 3, 0)$ $(0, 0, 3)$.
-SHREC does not select an edge cube $\cb$ if some already selected cube $\cb'$
+SHREC does not select a 1D feature cube $\cb$ 
+if some already selected cube $\cb'$
 forms configuration $(3,2,0)$, $(3,2,1)$ or $(3,2,2)$ with $\cb$
 and no already selected cube separates $\cb$ from $\cb''$.
 
-SHREC next selects edge cubes which are some permutation
+SHREC next selects 1D feature cubes which are some permutation
 of $(k_a,k_b,0)$ modulo six,
 starting first with permutations of $(\pm 1, \pm 1, 0)$
 and ending with permutations of $(3, 3, 0)$.
-Finally, SHREC selects edge cubes which are permutations
+Finally, SHREC selects 1D feature cubes which are permutations
 $(k_a, k_b, k_c)$ modulo six,
 starting first with permutations of $(\pm 1, \pm 1, \pm 1)$
 and ending with $(3, 3, 3)$.
 
-It is possible that the selection of two edge cubes $\cb$ and $\cb''$
+It is possible that the selection of two 1D feature cubes $\cb$ and $\cb''$
 at distance five apart can force the selection of an edge cube $\cb'$
 which has a $(3,2,1)$ or $(3,2,2)$ configuration 
 with either $\cb$ or $\cb''$.
@@ -852,10 +861,10 @@ Of course, if $\cb$ and $\cb''$ are separated by some other selected cube,
 then they can both be selected.
 
 While the above rules select a set of cubes which almost completely cover
-the sharp edges of a surface,
+the 1-dimensional features of a surface,
 it is possible that the configuration restrictions leave a few areas uncovered.
 Therefore, SHREC repeats the selection process to select any remaining
-uncovered edge cubes but drops the configuration restrictions.
+uncovered 1D feature cubes but drops the configuration restrictions.
 
 
 \section{Merging Points with Features Points}
@@ -879,23 +888,23 @@ to the regular grid composed of unit cubes.
 \subsection{Ordered Merging}
 \label{section:ordered_merging}
 
-SHREC first merges neighbors of selected corner cubes.
+SHREC first merges neighbors of selected 0D feature cubes.
 SHREC merges these neighbors in three steps.
-First, for each selected corner cube $\cb$,
+First, for each selected 0D feature cube $\cb$,
 SHREC merges with $\cb$ the active cubes which share a facet with $\cb$.
-Next, for each selected corner cube $\cb$,
+Next, for each selected 0D feature cube $\cb$,
 SHREC merges with $\cb$ the active cubes which share an edge with $\cb$.
-Finally, for each selected corner cube $\cb$,
+Finally, for each selected 0D feature cube $\cb$,
 SHREC merges with $\cb$ the active cubes which share a vertex with $\cb$.
 Of course, once an active cube is merged with some selected cube,
 it is never merged with any other cube.
 
-SHREC next merges neighbors of selected corner cubes.
-The procedure is similar to the one for corner cubes.
-SHREC first merges active cubes which share a facet with a selected edge cube,
-then merges active cubes which share an edge with a selected edge cube,
+SHREC next merges neighbors of selected 0D feature cubes.
+The procedure is similar to the one for 0D feature cubes.
+SHREC first merges active cubes which share a facet with a selected 1D feature cube,
+then merges active cubes which share an edge with a selected 1D feature cube,
 and finally merges active cubes which share a vertex 
-with a selected edge cube.
+with a selected 1D feature cube.
 
 
 \begin{figure}[t]
@@ -912,7 +921,7 @@ not to either of the blue squares.}
 \subsection{Merging Tests}
 \label{section:merging_tests}
 
-For both the corner cube and edge cube merging,
+For both the 0D feature cube and 1D feature cube merging,
 SHREC applies six different tests to avoid creating very thin triangles
 or flipping triangles or violating manifold conditions.
 Consider a cube $\tcb$ which SHREC would like to merge 
@@ -924,7 +933,7 @@ cubes $\tcb$ and $\cb$ should satisfy the following conditions:
 \item Merging $\tcb$ with $\cb$ does not create an edge 
 which is contained in four isosurface triangles or quadrilaterals
 (manifold condition).
-\item If $\tcb$ is connected to three different selected edge cubes,
+\item If $\tcb$ is connected to three different selected 1D feature cubes,
 $\cb$, $\cb'$ and $\cb''$,
 then $\cb$ should lie ``between'' $\cb'$ and $\cb''$.
 (See Figure~\ref{fig:connectedToIII} for a 2D illustration.)
@@ -969,7 +978,7 @@ If some selected $\cb'$ is connected to both $\cb$ and $\tcb$,
 but no isosurface quadrilateral has vertices in $\tcb$, $\cb$ and $\cb'$,
 then SHREC does not merge $\tcb$ with $\cb$.
 
-Third, SHREC checks that if $\tcb$ is connected to three selected edge cubes,
+Third, SHREC checks that if $\tcb$ is connected to three selected 1D feature cubes,
 $\cb$, $\cb'$ and $\cb''$, then $\cb$ is between $\cb'$ and $\cb''$.
 If not, then mapping $\tcb$ to $\cb$ could create a triangle 
 with a small angle.
@@ -980,7 +989,7 @@ If $(x''_0,x''_1,x''_2)$ is contained in the box with corners
 $(x_0,x_1,x_2)$ and $(x'_0,x'_1,x'_2)$ and does not lie on any 
 of the eight corners of that box,
 then we say that $\cb''$ lies between $\cb$ and $\cb'$.
-If $\tcb$ is connected to selected edge cubes $\cb$, $\cb'$ and $\cb''$,
+If $\tcb$ is connected to selected 1D feature cubes $\cb$, $\cb'$ and $\cb''$,
 and $\cb''$ lies between $\cb$ and $\cb'$
 or $\cb'$ lies between $\cb$ and $\cb''$
 then SHREC does not merge $\tcb$ with $\cb$.
@@ -1096,20 +1105,21 @@ and in this section to any remaining covered, unmerged cubes.
 
 The merging of cubes in $3 \times 3 \times 3$ region
 around each selected cube will clear most but not all of the vertices 
-around sharp edges and corners.
-There are multiple reasons that some vertices near sharp edges may remain.
+around sharp features.
+There are multiple reasons that some vertices 
+near sharp features may remain.
 First, the location of some vertex outside of $\RIII_\cb$
 may stop some cube covered by $\cb$ from merging with $\cb$.
 Second, if two selected $\cb$ and $\cb'$ are 
 in a $(2,2,0)$ or $(2,2,1)$ or $(2,2,2)$ configuration, 
-then a sharp edge with endpoints in $\cb$ and $\cb'$ can intersect
+then a 1-dimensional feature with endpoints in $\cb$ and $\cb'$ can intersect
 the boundary of the $\RIII_\cb \cup \RIII_{\cb'}$.
-Vertices in uncovered can be arbitrarily close to such a sharp edge.
+Vertices in uncovered can be arbitrarily close to such a 1-dimensional feature.
 Third, while the selection step avoids most $(3,2,*)$ configurations,
 it does not avoid all of them.
 If $\cb$ and $\cb'$ are in a $(3,2,*)$ configurations,
-then a sharp edge with endpoints in $\cb$ and $\cb'$ may contain points
-outside of $\RIII_\cb \cup \RIII_{\cb'}$.
+then a 1-dimensional feature passing through $\cb$ and $\cb'$ 
+may contain points outside of $\RIII_\cb \cup \RIII_{\cb'}$.
 
 To handle such problems, SHREC extends the merging to cubes
 in a $5 \times 5 \times 5$ region around each selected cube.
@@ -1117,7 +1127,7 @@ Merging cubes in a $5 \times 5 \times 5$ region $\RV_\cb$
 around a selected cube $\cb$ can create its own problems 
 of thin or flipped triangles.
 Thus, SHREC only attempts to merge cubes in $\RV_\cb$
-which are potentially near a sharp edge through $\cb$.
+which are potentially near a 1-dimensional feature through $\cb$.
 
 First, SHREC checks whether any covered cubes are unmerged
 after the steps in Sections~\ref{section:ordered_merging}
@@ -1302,10 +1312,10 @@ As noted in Section~\ref{section:loc},
 a singular value $\sigma_i$ of matrix $A$ 
 is large if $\sigma_i/\sigma_1$ is greater than or equal to $\epsilon$.
 The number of large singular values determines whether a vertex
-is on a sharp corner or a sharp curve or a smooth region of the isosurface.
+is on a sharp feature or a smooth region of the isosurface.
 To the best of our knowledge, all algorithms which reconstruct surfaces 
-with sharp corners or sharp curves require some parameter
-to distinguish the corners and curves from the smooth regions of the surface.
+with sharp features require some parameter
+to distinguish the sharp features from the smooth regions of the surface.
 
 The second parameter is an odd integer $k \ge 3$.
 Each cube $\cb$ uses gradients from a $\gDim{k}$ around the cube
