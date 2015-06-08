@@ -5,6 +5,19 @@ A grid edge, facet or cube is {\em active} if it contains at least one vertex
 with scalar value greater than or equal to the isovalue
 and at least one vertex with scalar value less than the isovalue.
 
+For each active grid edge $\eb$,
+let $w_\eb = (1-\alpha) v_a + \alpha v_b$
+where $\alpha = (\sigma - s_a)/(s_a-s_b)$
+and $s_a$ and $s_b$ are the scalar values at vertices $v_a$ and $v_b$.
+Point $w_\eb$ approximates the intersection of $\eb$ and the isosurface.
+
+For each active grid cube $\cb$,
+let $\cb.\centroid$ be the centroid of the points $w_\eb$
+over all the active edges of $\cb$.
+If the isosurface is smooth around $\cb$
+and intersects $\cb$ in a single connected component,
+than point $\cb.\centroid$ will lie close to the isosurface.
+
 A grid cube with grid indices $(x_0,x_1,x_2)$ is in column $x_0$, row $x_1$
 and $z$-plane $x_2$ of the grid.
 Let $\cb$ and $\cb'$ be grid cubes with grid indices $(x_0,x_1,x_2)$
@@ -65,16 +78,17 @@ of $A$.
 In the first case $A$ has three large singular values.
 In this case, the tangent planes around $\cb$ have normals in three or more
 very distinct directions.
-The isosurface has some sharp corner near cube $\cb$.
-We call a cube $\cb$ a {\em corner cube} if the matrix $A$ associated
+The isosurface has some 0-dimensional feature near cube $\cb$.
+We call a cube $\cb$ a {\em 0D feature cube} if the matrix $A$ associated
 with $\cb$ has three large singular values.
-The solution to $A p = b'$ approximates the corner point near cube $\cb$.
+The solution to $A p = b'$ approximates the 0-dimensional feature 
+near cube $\cb$.
 
 In the second case, matrix $A$ has only two large singular values.
 In this case, 
 the tangent plane normals are close to two different directions.
-The isosurface has some sharp edge near cube $\cb$.
-We call a cube $\cb$ an {\em edge cube} if the matrix $A$ associated
+The isosurface has some 1-dimensional feature near cube $\cb$.
+We call a cube $\cb$ a {\em 1D feature cube} if the matrix $A$ associated
 with $\cb$ has two large singular values.
 
 To compute the sharp edge near $\cb$,
@@ -149,8 +163,10 @@ over the bipolar edges $\eb_i$ of cube $\cb$.
 
 The number of large singular values of $A$ determines
 whether the computed isosurface vertex location lies 
-on a sharp corner, sharp edge or smooth portion of the isosurface.
+on a 0-dimensional feature, a 1-dimensional feature, 
+or a smooth portion of the isosurface.
 This information is used in subsequent steps in the MergeSharp algorithm.
+
 
 \begin{figure}
 \begin{equation*}
@@ -161,24 +177,31 @@ This information is used in subsequent steps in the MergeSharp algorithm.
 }
 \end{equation*}
 \caption{Algorithm SHREC.}
-\label{alg:mergesharp}
+\label{alg:shrec}
 \end{figure}
 
-\begin{figure}
-\begin{equation*}
-\xymatrix{
-\action{Sort $\Ccorner$ by increasing $|p_\cb-q_\cb|$} \ar[d] \\
-\action{Select the next uncovered cube $\cb$ where $p_\cb$ does not\\
-create a large angle with vertices from previously selected cubes} \ar[d] \\
-\action{Merge with $\cb$ every vertex adjacent neighbor
-which is not covered.\\
-Mark all the vertex adjacent neighbors of $\cb$ as covered.}
+
+\begin{algorithm}[t]
+\tcc{$C_d$ = cubes generating vertices on $d$-dimensional features}
+Sort $C_0$ and $C_1$ by increasing $|\cb.\isov-\cb.\centroid|$\;
+Mark all cubes as uncovered\;
+\ForEach{cube $\cb$ of $C_0$}{
+\label{step:A}
+\If{(cube $\cb$ is uncovered)}{
+\If{($\cb.\isov$ does not create a large
+angle triangle with vertices from previously selected cubes)}{
+Select $\cb$\;
+\ForEach{cube $\cb'$ sharing a vertex with $\cb$}{
+Mark $\cb'$ as covered\;
 }
-\end{equation*}
-\caption{Selecting and merging corner vertices in MergeSharp.
-$\Ccorner$ is the list of cubes $\cb$ where $p_\cb$ is on a sharp corner.}
-\label{alg:select}
-\end{figure}
+}
+}
+}
+\label{step:B}
+Repeat steps~\ref{step:A}-\ref{step:B} on $C_1$\;
+\caption{Selection of feature cubes in MergeSharp.}
+\label{alg:mergesharp_select}
+\end{algorithm}
 
 
 \begin{figure}[t]
@@ -200,60 +223,80 @@ The curve is far away from any uncovered square.
 \label{fig:select}
 \end{figure}
 
+
 \section{MergeSharp}
 
-As show in Figure~\ref{alg:mergesharp}, Algorithm SHREC has three parts:
+Algorithm SHREC has three parts:
 computation of isosurface vertex locations, 
 selection of a well-spaced subset of vertices on sharp features
 and merging of vertices around selected vertices.
-Algorithm MergeSharp has a similar three parts,
-but each part is substantially improved in SHREC.
-We start with a brief description of MergeSharp
-as presented in~\cite{bw-cisec-13}.
+(Figure~\ref{alg:shrec}.)
+Algorithm MergeSharp from~\cite{bw-cisec-13} 
+has a similar three parts,
+but each part is substantially different in SHREC.
+To motivate the description of Algorithm SHREC,
+we briefly describe each part in Algorithm MergeSharp
+and the associated problems.
 
-The computation of isosurface vertex locations
-was described in Section~\ref{section:loc}.
-The procedure in Section~\ref{section:loc}
-returns not only a point $p_\cb$ on the isosurface,
-but whether $p_\cb$ lies on a sharp corner, sharp edge or smooth portion 
-of the isosurface.
-Let $\Ccorner$ and $\Cedge$ be lists of cubes $\cb$ 
-whose generated points $p_\cb$ lie on sharp corners and sharp edges, 
-respectively.
+In the first part, 
+MergeSharp computes the location of an isosurface vertex, $\cb.\isov$,
+in or near each active grid cube $\cb$.
+MergeSharp computes this location using gradients at the vertices of $\cb$
+and cubes adjacent to $\cb$.
+When cube $\cb$ is near a sharp feature,
+the isosurface vertex will lie on that feature.
+MergeSharp also identifies whether the feature 
+is 0-dimensional or 1-dimensional
+or if the vertex lies on a smooth region of the isosurface.
 
-As defined in Section~\ref{section:loc},
-point $q_\cb$ is the centroid of interpolated intersection points
-of the isosurface and grid edges of $\cb$.
-Sort lists $\Ccorner$ and $\Cedge$ by increasing distance $|p_\cb - q_\cb|$
-from $p_\cb$ to $q_\cb$.
+In the second part, MergeSharp selects a subset of the isosurface vertices
+lying on 0 or 1-dimensional features.
+These vertices will form the sharp feature in the isosurface mesh.
+Cubes which generate such vertices are called {\em selected} cubes.
+MergeSharp chooses selected cubes as follows.
+
+Let $C_0$ and $C_1$ be the set of cubes whose isosurface vertices
+lie on 0-dimensional features or 1-dimensional features, respectively.
 Mark all the cubes as ``uncovered''.
-Select the next uncovered cube $\cb$ in $\Ccorner$
+Sort $C_0$ and $C_1$ by increasing distance
+of $\cb.\isov$ from $\cb.\centroid$.
+Select the next uncovered cube $\cb$ in $C_0$
 where $p_\cb$ does not form a large angle triangle 
 with vertices in previously selected cubes.
-Merge $\cb$ with every uncovered vertex neighbor.
-Mark all vertex neighbors of $\cb$ as covered.
-The algorithm for $\Ccorner$ is shown in Figure~\ref{alg:select}.
-After processing list $\Ccorner$, apply the same procedure to list $\Cedge$.
+Mark all cubes which share a vertex with $\cb$ as covered.
+After processing list $C_0$, apply the same procedure to list $C_1$.
+Pseudocode is given in Figure~\ref{alg:mergesharp_select}.
 
-Note that the selection and merging are combined in the above description,
-just as they are combined in~\cite{bw-cisec-13}.
-In the modified version we present here,
-those two steps will be separated.
+The third part is merging covered cubes with selected cubes.
+MergeSharp simply merges each covered cube with the first selected cube
+which covers it.
+In the description of MergeSharp in~\cite{bw-cisec-13}, 
+the selection and merging steps are combined
+so that a cube is merged as soon as it is covered,
+but the outcome of the algorithm is exactly the same.
 
 There are problems with every one of the three steps of MergeSharp.
-First, the vertex location $p_\cb$ generated by cube $\cb$
-may lie outside $\cb$.
-Moreover, point $p_\cb$ may lie outside of $\cb$
-even if the sharp edge containing $p_\cb$ intersects $\cb$.
-In addition, because of curvature, noise and numerical instability,
-point $p_\cb$ could lie in some cube $\cb'$ adjacent to $\cb$
-while point $p_{\cb'}$ lies inside $\cb$.
-We will modify MergeSharp to generate point $p_\cb$ inside cube $\cb$
-wherever possible.
+First, MergeSharp uses gradients from $\cb$ or its immediate neighbors
+to compute the location of $\cb.\isov$.
+As discussed in~\ref{cite:bw-isifsd-15},
+computing correct gradients near sharp features is difficult,
+if not impossible.
+Thus, the gradients in $\cb$ and its neighbors may not be known.
+Algorithm SHREC selects gradients from a larger area
+than just the immediate neighbors of $\cb$.
 
-Second, the selection step chooses cubes based on the proximity
-of $p_\cb$ to $q_\cb$.
-If a point $p_\cb$ is near $q_\cb$, 
+Seond, the isosurface vertex $\cb.\isov$ generated by cube $\cb$
+may lie outside $\cb$.
+Moreover, point $\cb.\isov$ may lie outside of $\cb$
+even if the sharp edge containing $\cb.\isov$ intersects $\cb$.
+In addition, because of curvature, noise and numerical instability,
+point $\cb.\isov$ could lie in some cube $\cb'$ adjacent to $\cb$
+while point $\cb'.\isov$ lies inside $\cb.\isov$.
+Algorithm SHREC locates $\cb.\isov$ inside $\cb$ whenever possible.
+
+Third, the selection step chooses cubes based on the proximity
+of $\cb.\isov$ to $\cb.\centroid$.
+If a point $\cb.\isov$ is near $\cb.\centroid$,
 it probably is located in cube $\cb$ 
 and is a good approximation of the vertex location.
 While this is reasonable,
@@ -264,19 +307,17 @@ For instance, in the 2D illustration in Figure~\ref{fig:select},
 the selected squares are packed together more closely
 and their $3 \times 3$ regions do a better job of covering
 the given curve.
-We modified the MergeSharp selection to pack selected cubes 
-more closely together.
+Algorithm SHREC selects cubes so that they are packed closely together.
 
 Finally, the merging step merges cube $\cb$
 with the the first selected cube adjacent to $\cb$.
 Doing so sometimes distorts triangles, creating extremely thin triangles
 and sometimes creating ``folds'' in the surface mesh.
-We modify MergeSharp so that it prefers merging cubes which are facet
+Algorithm SHREC prefers merging cubes which are facet
 adjacent over merging edge adjacent or vertex adjacent cubes.
-We add checks which avoid merging which creates small thin triangles
-or creates folds.
-We also extend the merging by one more cube in certain regions
-to ensure good covering of sharp isosurface edges.
+It also avoids merges which creates small thin triangles or creates folds.
+It extends the merging by one more cube in certain regions
+to ensure good covering of 1D features.
 
 
 \begin{figure}[t]
@@ -1108,6 +1149,34 @@ SHREC applies the pair merging procedure described
 in Section~\ref{section:pair_merging} to determine whether
 to allow the pair $(\tcb,\tcb')$ to merge with $\cb$.
 
+
+\begin{figure}[t]
+\centering
+
+\begin{tabular}{cc}
+\includegraphics[width=0.4\linewidth]{images/undefined_grad_7x7x7.eps} \qquad &
+\qquad
+\includegraphics[width=0.4\linewidth]{images/ugrad_graph_7x7x7.eps} \\
+(a) & (b) \\
+\\
+\includegraphics[width=0.4\linewidth]{images/ugrad_component_7x7x7.eps} \qquad &
+\qquad
+\includegraphics[width=0.4\linewidth]{images/selected_grad_7x7x7.eps} \\
+(c) & (d) \\
+\end{tabular}
+
+\caption{2D example of selecting gradients ``close'' to square $\cb$.
+(a)~Set $Q$ of red vertices with undefined gradients.
+(b)~Graph $G_\cb$ formed from $Q \cup Q_\cb$ and the grid edges.
+$Q_\cb$ is the set of four blue vertices of square~$\cb$.
+(c) Connnected component $G'$ of $G_\cb$.
+(d) Green vertices which are connected to the vertices of $G'$.
+The green vertices are the vertices with defined gradients
+which are ``close'' to $\cb$.
+}
+\label{fig:grad_select}
+\end{figure}
+
 \section{Selecting Gradients}
 \label{section:gradients}
 
@@ -1131,10 +1200,11 @@ When gradients are not provided in the input,
 they must be computed from the scalar data.
 If an isosurface has sharp features,
 then the gradient field is discontinuous around those sharp features.
-As discussed in~???, 
+As discussed in~\cite{bw-isifsd-15}, 
 computing correct gradients near gradient field discontinuities
 is extremely difficult.
-In~???, Bhattaca and Wenger give an algorithm for computing correct gradients
+In~\cite{bw-isifsd-15},
+Bhattaca and Wenger give an algorithm for computing correct gradients
 in the presence of gradient discontinuities, but the algorithm does
 not compute correct gradients at all the grid vertices.
 Instead, the algorithm returns a set of correct gradients
@@ -1144,8 +1214,8 @@ Under suitable conditions,
 the algorithm returns the correct gradient at any vertex
 which is at least three edge lengths from any gradient discontinuity.
 
-Because the algorithm in~??? does not return gradients 
-near gradient discontinuities,
+Because the algorithm in~\cite{bw-isifsd-15} 
+does not return gradients near gradient discontinuities,
 no gradient information may be available for the vertices 
 of cubes which contain those discontinuities
 or for neighbors of such cubes.
@@ -1154,7 +1224,8 @@ Thus, we must use gradients from a $\gDim{7}$ region around each cube $\cb$.
 When scalar data is provided by computer tomography (CT),
 then the scalar values near gradient discontinuities
 may also be incorrect.
-As discussed in~???, we must go out even further to a $\gDim{9}$ region 
+As discussed in~\cite{bw-isifsd-15},
+we must go out even further to a $\gDim{9}$ region 
 around each cube $\cb$ to get gradient information.
 
 Only gradients which determine isosurface tangent planes near $\cb$
@@ -1172,23 +1243,33 @@ and only choose a vertex $v$
 if the plane $h_v$ given by Equation~\ref{eqn:isoplane}
 intersects $\cb'$.
 
-???
+Third, if vertices ``close'' to $\cb$ have been chosen,
+then there is no reason to select vertices ``far'' from $\cb$.
+In fact, choosing gradients at vertices ``far'' from $\cb$
+in smooth, curved surfaces can cause the creation 
+of non-existent sharp features in the isosurface.
 
-In smooth, curved surfaces, choosing gradients at vertices far from $\cb$
-can cause the creation of non-existent sharp features in the isosurface.
-Thus, we wish to only choose a vertex which is far from $\cb$
-if the closer vertices are not chosen.
+To choose only vertices close to $\cb$,
+we consider the set $Q$ of vertices 
+of the $9 \times 9 \times 9$ (or $7 \times 7 \times 7$) subgrid,
+whose gradients are undefined.
+(See Figure~\ref{fig:grad_select}.)
+We choose only vertices with defined gradients
+which are adjacent to vertices in $Q$.
 
-Let $Q$ be the set of vertices of the subgrid
-whose gradients are $(0,0,0)$.
+More precisely, let $Q$ be the set of vertices of the subgrid
+whose gradients are undefined (Figure~\ref{fig:grad_select}(a)).
 Let $Q_\cb$ be the vertices of $\cb$.
 Let $G_\cb$ be the graph whose vertices are $Q \cup Q_\cb$
-and whose edges are $(u,v)$ where $(u,v)$ is a grid edge.
-We find the connected component $G'$ of $G_\cb$ containing $Q_\cb$.
+and whose edges are $(u,v)$ where $(u,v)$ is a grid edge
+(Figure~\ref{fig:grad_select}(b)).
+We find the connected component $G'$ of $G_\cb$ containing $Q_\cb$
+(Figure~\ref{fig:grad_select}(c)).
 A grid vertex $u \not\in V(G')$ is on the boundary of $G'$
 if $(u,v)$ is a grid edge and $v$ is in $V(G')$.
-We only a choose a vertex if it is in $Q_\cb$
+As out third test, we only a choose a vertex if it is in $Q_\cb$
 or if it is on the boundary of $G'$.
+(Figure~\ref{fig:grad_select}(d)).
 
 Applying the three tests gives a set of vertices and their gradients
 which define planes.
