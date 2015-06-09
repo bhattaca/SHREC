@@ -16,7 +16,7 @@ let $\cb.\centroid$ be the centroid of the points $w_\eb$
 over all the active edges of $\cb$.
 If the isosurface is smooth around $\cb$
 and intersects $\cb$ in a single connected component,
-than point $\cb.\centroid$ will lie close to the isosurface.
+then point $\cb.\centroid$ will lie close to the isosurface.
 
 A grid cube with grid indices $(x_0,x_1,x_2)$ is in column $x_0$, row $x_1$
 and $z$-plane $x_2$ of the grid.
@@ -319,8 +319,8 @@ or a smooth portion of the isosurface.
 This information is used in subsequent steps in the SHREC algorithm.
 
 When $A' p = b'$ is a line,
-the direction of that line is given by $(I - V \Sigma^+ U^T ) w$
-for any $w$ which is not in the kernel of $(I - V \Sigma^+ U^T ) w$.
+the direction of that line is given by the equation $(I - V \Sigma^+ U^T ) w$
+for any vector $w$ which is not in the kernel of $(I - V \Sigma^+ U^T ) w$.
 Substituting $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$ for $w$
 and using $(I - V \Sigma^+ U^T ) w$ with largest magnitude
 gives the direction.
@@ -380,7 +380,7 @@ under some suitably defined metric.
 
 Algorithm SHREC computes three different possible isosurface vertex locations.
 First, Algorithm SHREC computes the point $p^0_\cb$ 
-on $\cb.Lsharp$ nearest $\cb.\centroid$.
+on $\cb.\Lsharp$ nearest $\cb.\centroid$.
 Equation~\ref{eqn:Lindstrom}, for computing $p^0_\cb$ is given
 in Section~\ref{section:loc}.
 The idea is that $\cb.\centroid$ is a good approximation
@@ -512,7 +512,7 @@ SHREC sets $\tcb.\isovLoc$ to $p_I$.
 If $p_I$ lies in $\tcb'$ and $\tcb'.\isovLoc$ is not in $\tcb'$,
 SHREC sets $\tcb'.\isovLoc$ to $p_I$.
 
-Next consider the case of two grid cubes, $\cb$ and $\cb'$, 
+Next, consider the case of two grid cubes, $\cb$ and $\cb'$, 
 which intersect in a vertex $v$ but not in any edge.
 (See Figure~\ref{fig:shared_vertex}.)
 Six other grid cubes share vertex $v$ with $\cb$ and $\cb'$.
@@ -528,8 +528,7 @@ point $\tcb.\isovLoc$ may not be in $\tcb$ for any of the six grid cubes $\tcb$.
 To ensure that $p_\tcb$ lies in $\tcb$ for one of the six grid cubes,
 Algorithm SHREC computes the plane $h$ containing $v$
 and perpendicular to the line from $\cb.\centerVar$ to $\cb'.\centerVar$.
-SHREC then computes the intersection of the line $\cb.\Lsharp$
-which is the solution to $A' x = b'$ and plane $h$.
+SHREC then computes the intersection of the line $\cb.\Lsharp$ and plane $h$.
 This intersections point, $p_I$, lies in at least one of the six grid cubes.
 If $p_I$ lies in cube $\tcb$ and $\tcb.\isovLoc$ is not in $\tcb$,
 SHREC sets $\tcb.\isovLoc$ to $p_I$.
@@ -913,7 +912,7 @@ with a selected 1D feature cube.
 \includegraphics[width=3in]{images/connectedToIII.eps}
 
 \caption{Isosurface in yellow square is connected to three selected cubes.
-Yellow square should map to middle green squares, 
+Yellow square should merge with the middle green square,
 not to either of the blue squares.}
 \label{fig:connectedToIII}
 \end{figure}
@@ -951,12 +950,9 @@ We describe these conditions in more detail below.
 First, SHREC checks that the isosurface vertex in $\tcb$
 is connected to the isosurface vertex in $\cb$.
 A cube $\tcb$ is connected to a selected cube $\cb$
-if $\tcb$ shares an active facet with $\cb$
-or some cube $\tcb'$ shares an active facet with $\tcb$ and
+if $\tcb$ shares an active facet or edge with $\cb$
+or some cube $\tcb'$ shares an active facet or edge with $\tcb$ and
 is merged with $\cb$.
-(A facet is active if some facet vertex has scalar value greater than
-or equal to the isovalue and some facet vertex has scalar value less
-than the isovalue.)
 If $\tcb$ is not connected with $\cb$, then $\tcb$ is not merged with $\cb$.
 
 Second, SHREC checks for some manifold violations that
@@ -1324,10 +1320,10 @@ The size of $k$ depends upon the input data.
 If correct gradients are provided at each grid vertex,
 then $k$ should equal 3 for a $\gDim{3}$ region around each cube.
 If gradients are computed from correct scalar values 
-using the algorithm in~???,
+using the algorithm in~\cite{bw-isifsd-15},
 then $k$ should equal 7 for a $\gDim{7}$ region around each cube.
 If gradients are computed from CT data 
-using the algorithm in~???,
+using the algorithm in~\cite{bw-isifsd-15},
 then $k$ should equal 9 for a $\gDim{9}$ region around each cube.
 
 SHREC uses three other constants:
