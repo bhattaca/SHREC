@@ -95,14 +95,13 @@ The curve is far away from any uncovered square.
 Algorithm SHREC has three parts:
 computation of isosurface vertex locations, 
 selection of a well-spaced subset of vertices on sharp features
-and merging of vertices around selected vertices.
-(Figure~\ref{alg:shrec}.)
+and merging of vertices around selected vertices
+(Figure~\ref{alg:shrec}).
 Algorithm MergeSharp from~\cite{bw-cisec-13} 
 has a similar three parts,
 but each part is substantially different in SHREC.
 To motivate the description of Algorithm SHREC,
-we briefly describe each part in algorithm mergesharp
-and the associated problems.
+we briefly describe each part in MergeSharp and the associated problems.
 
 In the first part, 
 MergeSharp computes the location of an isosurface vertex, $\cb.\isov$,
@@ -254,7 +253,7 @@ Details of all three steps follow.
 At the heart of any algorithm to compute a surface with sharp features 
 is an algorithm to compute the locations of mesh vertices on those features.
 SHREC uses the algorithm from MergeSharp~\cite{bw-cisec-13}
-to compute an initial vertex locations $\cb.\isovLoc$ 
+to compute an initial vertex location $\cb.\isovLoc$ 
 for each active cube $\cb$.
 The algorithm computes the vertex locations 
 from gradients at grid vertices.
@@ -440,9 +439,9 @@ then $\cb.\isovLoc$ should be ``close to'' $\cb$
 under some suitably defined metric.
 
 Algorithm SHREC computes three different possible isosurface vertex locations.
-First, Algorithm SHREC computes the point $p^0_\cb = \phi_\cb(\cb.\centroid)$ 
-on $\cb.\Lsharp$ nearest $\cb.\centroid$
-(Equation~\ref{eqn:Lindstrom}).
+First, Algorithm SHREC computes the point $p^0_\cb = \phi_\cb(\cb.\centroid)$
+(Equation~\ref{eqn:Lindstrom}),
+the point on $\cb.\Lsharp$ which is closest to $\cb.\centroid$.
 The idea is that $\cb.\centroid$ is a good approximation
 for the intersection of $\cb$ and the isosurface,
 and so one should choose a point near $\cb.\centroid$.
@@ -1034,8 +1033,8 @@ with a selected 1D feature cube.
 \caption{(a)~Isosurface in yellow square is connected to three selected cubes.
 Yellow square should merge with the middle green square,
 not with either of the blue squares.
-(b)~Merging the red vertex with either of the magenta vertices
-will cause the magenta edge to be contained in four polygons.}
+(b)~Merging the red vertex with either of the yellow vertices
+will cause the yellow edge to be contained in four polygons.}
 
 \label{fig:connectedToIII}
 \label{fig:manifold_problem}
@@ -1059,7 +1058,7 @@ which is contained in four isosurface triangles or quadrilaterals
 \item If $\tcb$ is connected to three different selected 1D feature cubes,
 $\cb$, $\cb'$ and $\cb''$,
 then $\cb$ should lie ``between'' $\cb'$ and $\cb''$.
-(See Figure~\ref{fig:connectedToIII} for a 2D illustration.)
+(See Figure~\ref{fig:connectedToIII}(a) for a 2D illustration.)
 \item Merging $\tcb$ with $\cb$ does not create a triangle
 with very small angles.
 \item Merging $\tcb$ with $\cb$ does not ``flip'' a triangle,
@@ -1094,7 +1093,7 @@ However, if no isosurface quadrilateral dual to an active edge of $\tcb$
 has vertices in $\tcb$, $\cb$ and $\cb'$,
 then merging $\tcb$ with $\cb$ creates a non-manifold edge 
 from $\cb$ to $\cb'$ with four incident polygons.
-(See Figure~\ref{fig:manifold_problem}.)
+(See Figure~\ref{fig:manifold_problem}(b).)
 If some selected $\cb'$ is connected to both $\cb$ and $\tcb$,
 but no isosurface quadrilateral has vertices in $\tcb$, $\cb$ and $\cb'$,
 then SHREC does not merge $\tcb$ with $\cb$.
