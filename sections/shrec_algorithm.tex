@@ -55,6 +55,7 @@ Mark all cubes as uncovered\;
 \If{(cube $\cb$ is uncovered)}{
 \If{($\cb.\isov$ does not create a large
 angle triangle with vertices from previously selected cubes)}{
+\label{step:largeAngle}
 Select $\cb$\;
 \ForEach{cube $\cb'$ sharing a vertex with $\cb$}{
 Mark $\cb'$ as covered\;
@@ -704,6 +705,13 @@ Whenever SHREC selects a cube $\cb$,
 any adjacent cube sharing a vertex with $\cb$ is marked as ``covered''
 by $\cb$.
 SHREC never selects a covered cube.
+
+SHREC follows a MergeSharp rule in never selecting a cube $\cb$
+if $\cb.\isov$ creates a large angle triangle 
+(Algorithm~\ref{alg:mergesharp_select}, step~\ref{step:largeAngle})
+with vertices from previously selected cubes.
+SHREC does not select cube $\cb$
+if $\cb.\isov$ creates such a triangle with angle $140^\circ$ or greater.
 
 As noted in Section~\ref{section:mergesharp}, 
 SHREC does better when selected cubes 
@@ -1456,7 +1464,7 @@ one for the angle test in merging cubes
 and a second for the normal test in merging cubes.
 In the triangle test,
 if selecting cube $\cb$ would possibly create a triangle between three
-selected cubes with angle greater than $150^\circ$, 
+selected cubes with angle greater than $140^\circ$, 
 cube $\cb$ is not selected.
 In the angle test,
 if merging cube $\tcb$ with $\cb$ would create a triangle with angle
