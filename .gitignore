@@ -25,6 +25,11 @@
 *.aux
 *.log
 *.out
+*.avi
+*.mp4
+
+*.bbl
+*.blg
 
  
 # Logs and databases #
@@ -43,7 +48,5 @@
 ehthumbs.db
 Thumbs.db
 *.ini
-
-# Only keep eps images #
-*.png
-
+mt-tvcg.bbl
+mt-tvcg.blg
