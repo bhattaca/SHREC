@@ -3,6 +3,17 @@
 \section{Related Work}
 \label{section:related}
 
+In~\cite{l-oslpm-00}, Lindtrom gives an algorithm for locating a point on a surface from a set of $n$ tangent planes.
+The $n$ tangent give a set of $n$ equations in three unknowns,
+described by $M x = b$ where $M$ is an $n \times 3$ matrix and $b$ is a column vector of length $n$.
+Lindstrom approximates the intersection of the tangent planes using the singular valued decomposition (SVD) of $M$.
+If all the eigenvalues of $M$ are large,
+then approximate intersection of the tangent planes is the point
+which is the least squares solution to $M x = b$
+(or, equivalently, the solution to $M^T M x = M^T b$.)
+If $M$ has two large eigenvalues, then the approximate intersection of the planes is a line.
+Lindstrom's algorithm returns a point on that line closest to some input point.
+
 The well-known Marching Cubes algorithm~\cite{lc-mchr3-87}
 constructs isosurface patches within grid cubes.
 The isosurface patches align along their common boundaries.
