@@ -51,4 +51,9 @@ using least squares and singular valued decomposition.
 The Dual Marching Cubes algorithm by Schaefer and Warren~\cite{sw-dmcpc-04}
 constructs a dual mesh which aligns with sharp features
 and then extracts the isosurface from that mesh using Marching Cubes.
+Because the isosurface is extracted using Marching Cubes,
+the isosurface will have many "sliver" triangles with small angles.
+Dual Marching Cubes reduces the number of "sliver" triangles
+by positioning the vertices of the dual grid to lie on the isosurface,
+whenever possible.
 
