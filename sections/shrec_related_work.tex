@@ -1,4 +1,54 @@
 
 
 \section{Related Work}
+\label{section:related}
+
+The well-known Marching Cubes algorithm~\cite{lc-mchr3-87}
+constructs isosurface patches within grid cubes.
+The isosurface patches align along their common boundaries.
+Because Marching Cubes positions vertices only on grid edges,
+never inside grid cubes,
+it does a poor job at representing sharp features on isosurfaces.
+
+Kobbelt et al.~\cite{kbsh-fssev-01} modified Marching Cubes 
+to position vertices inside grid cubes when those grid cubes
+intersected sharp features.
+In addition to scalar values at regular grid vertices,
+the algorithm by Kobbelt et al. requires a directed distance field
+representing the distance along each axis to the modeled surface.
+The algorithm uses the directed distance field to determine
+the location of vertices on sharp features.
+
+Ju et al.~\cite{jlsw-dchd-02,sw-dcss-02} present a dual contouring algorithm
+for constructing isosurfaces with sharp features.
+Vertices of dual contouring isosurfaces lie inside grid cubes
+while isosurface quadrilaterals are dual to grid edges.
+Dual contouring algorithms were first described
+by Gibson in~\cite{gh-ssqem-97,g-cesng-98}.
+In addition to scalar values at regular grid vertices,
+the algorithm by Ju et al. requires surface normals
+at the intersection of the grid edges and the surface.
+The surface normals are used to construct tangent planes
+intersecting a grid cube.
+The intersection of those tangent planes is approximated 
+using least squares and singular valued decomposition,
+and the resulting point is used as the isosurface vertex location.
+Variations on~\cite{jlsw-dchd-02} are given 
+in~\cite{zhk-dctps-04,Varadhan:2003:fss}.
+
+Ashida and Bandler~\cite{ab-fpmmo-03}, Ho et al.~\cite{hwco-cmsaf-05}
+and Gre{\ss} and Klein~\cite{gk-eretm-04} give algorithms
+for constructing multiresolution isosurface with sharp features
+using oct-trees or kd-trees.
+The isosurface mesh is constructed
+by first constructing polygonal curves representing the intersection
+of the isosurface and oct-tree or kd-tree cells,
+and then connecting an isosurface vertex with those polgyonal curves.
+As in~\cite{jlsw-dchd-02},
+isosurface locations are computed from input surface normals
+using least squares and singular valued decomposition.
+
+The Dual Marching Cubes algorithm by Schaefer and Warren~\cite{sw-dmcpc-04}
+constructs a dual mesh which aligns with sharp features
+and then extracts the isosurface from that mesh using Marching Cubes.
 

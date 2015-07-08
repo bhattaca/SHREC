@@ -26,26 +26,130 @@ Isosurfaces are represented by piecewise linear or piecewise smooth meshes,
 usually composed of triangles or quadrilaterals.
 This underlying mesh should model the sharp features
 of the isosurface $\Sigma$.
-A 1-dimensionalf feature of $\Sigma$ should be represented by a single, 
-connected sequence of mesh edges with similar dihedral angle.
-A 0-dimensional feature of $\Sigma$ should be represented by a single
-isosurface vertex with similar solid angle.
+A 1-dimensionalf feature of $\Sigma$ with dihedral angle $\alpha$
+should be represented by a single, 
+connected sequence of mesh edges with dihedral angle near $\alpha$.
+A 0-dimensional feature of $\Sigma$ with solid angle $\alpha$
+should be represented by a single
+isosurface vertex with solid angle near $\alpha$.
 On the other hand, mesh edges and vertices
 representing smooth, low curvature portions of $\Sigma$ should have
 dihedral angles near 180 degrees and solid angles near $2 \pi$.
 
-...
+A number of algorithms have been proposed
+for constructing isosurfaces 
+with sharp features~\cite{ab-fpmmo-03,gk-eretm-04,hwco-cmsaf-05,
+jlsw-dchd-02,kbsh-fssev-01,ms-ispmg-10,Varadhan:2003:fss,
+sw-dmcpc-04,zhk-dctps-04}.
+Unfortunately, these algorithms create ``notches'' along sharp edges,
+degenerate, zero area triangles or quadrilaterals,
+and ``folds'' in the mesh with ``flipped'' triangles.
+(See Figures~??? in Section~??? for illustrations of these problems.)
 
-Our paper contains the following contributions:
-\begin{enumerate}
-\item We describe an isosurface generation algorithm
+In~\cite{bw-cisec-13},
+we describe an algorithm, MergeSharp,
+for constructing isosurfaces with sharp features
+based on merging grid cubes around sharp features.
+By placing a single isosurface vertex in these merged regions,
+MergeSharp significantly reduces problems of ``notches'',
+degenerate mesh polygons and ``folds'' in the mesh.
+While MergeSharp reduced the mesh problems,
+it did not eliminate them, 
+with many meshes still having
+one or two locations with degenerate mesh polygons or folds in the mesh.
+
+In this paper, we present an algorithm, SHREC,
+which almost completely eliminates the mesh problems listed above.
+The algorithm is based on the MergeSharp paradigm,
+where grid cubes around sharp features are merged
+into a region containing a single isosurface vertex.
+However, it differs from MergeSharp by better generation
+of isosurface vertices on sharp features,
+better selection of isosurface vertices on the sharp features,
+and more controlled merging of grid cubes.
+The algorithm performs measurably better
+than MergeSharp or than other algorithms for which we had implementations.
+
+There is extensive work on construction of surfaces with sharp features 
+from point cloud data,
+e.g.~\cite{avron2010L,cdr-drpsc-07,Daniels:2007:Robust,dgqsww-fprss-12,
+fcs-rmlsf-2005,Oztireli2009,sym-fpmg-10,Wang:2013:Feature}
+and many other articles.
+In~\cite{Oztireli2009} and~\cite{Wang:2013:Feature},
+the final construction of the surface mesh is accomplished 
+by Marching Cubes~\cite{lc-mchr3-87}
+or some other isosurface reconstruction algorithm.
+The algorithms in this and similar papers
+can be used by algorithms in those papers
+to construct a surface mesh which better represents sharp surface features
+than the Marching Cubes isosurface.
+
+In~\cite{cdr-drpsc-07,dgqsww-fprss-12} and~\cite{sym-fpmg-10},
+the final construction of the surface mesh is accomplished
+by Voronoi based algorithms described 
+in~\cite{cdr-drpsc-07} and \cite{dgqsww-fprss-12}.
+These algorithms could be applied to isosurface reconstruction
+from regular grid scalar data
+by constructing point clouds from the grid data
+and then applying the algorithms to the point clouds.
+We compare isosurfaces with sharp features constructed
+using the algorithm from~\cite{dgqsww-fprss-12}
+with isosurfaces constructed by our algorithm.
+
+Few of the isosurface or point cloud reconstruction papers
+provide quantitative analysis of the resulting surfaces.
+Some provide a distance measure (Hausdorff or root-mean squared)
+between the constructed surface and an ideal surface,
+but such measures fail to capture errors in surface normals
+of the mesh polygons.
+Instead of quantitative measures,
+most papers provide a few images for visual inspection
+of the quality of reconstructed features.
+Needless to say, the lack of quantitative measures makes it
+difficult evaluate the quality of the algorithms results,
+to compare different algorithms,
+or to comprehensively test an algorithm on a large number of data sets.
+
+In contrast, the Hausdorff metric and variants are excellent
+quantitative measures of the difference between reconstructed
+and ideal smooth surfaces.
+Software tools such as Metro~\cite{Cignoni:1998:metro} 
+and MESH~\cite{Aspert:2002:MESH} are commonly used to measure
+the quality of surface reconstructions
+and provide quantitative evaluations of reported results.
+However, these tools completely ignore surface orientation
+and are not suitable for evaluating reconstructed features.
+
+In this paper, we present the angular distance as a measure
+of the difference between the surface orientation of two meshes.
+Essentially, the angular distance measures the difference 
+between the surface normal at a point on one mesh with the surface normals
+on nearby points on the other mesh.
+The angular distance is defined and discussed in Section~???.
+We also provide a software tool which measures the angular distance.
+
+In this paper, we are using the term ``feature'' to refer 
+to a ``significant'' discontinuity in surface normals,
+not a region with higher curvature.
+Most of the papers on reconstruction from point clouds
+don't distinguish between discontinuities in surface normals
+and surface points with high curvature.
+When isosurfaces are reconstructed from scalar data on a regular grid,
+the sampling density is fixed and
+it is impossible to determine if the original surface has
+a discontinuity in surface normals or very high curvature.
+Thus, we assume that features in our ideal surface are
+points or curves where the surface normal is discontinuous.
+
+
+\subsection*{Contributions}
+
+The major contibution of our work is an isosurface generation algorithm
 called SHREC which does measurable better than previous algorithms
 in constructing isosurfaces with sharp features.
 In particular, SHREC does better at generating and selecting vertices 
 on sharp features and in avoiding constructing degenerate 
 or small angle triangles and flipping triangles.
-\item We define the ``Angular Distance'' between two surfaces
-and use this distance to evaluate the quality 
+A second contribution is a definition of angular distance 
+between two surfaces which we use to evaluate the quality 
 of surface reconstruction algorithms.
-\end{enumerate}
-
