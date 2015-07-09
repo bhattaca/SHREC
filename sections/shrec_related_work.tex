@@ -188,6 +188,26 @@ By starting from the sharp features,
 Schreiner et al. claim that their advancing front method
 can do a good job of representing sharp features.
 
+Two algorithms, one by Dey et al.~\cite{dgqsww-fprss-12} and 
+one by Salman et al.~\cite{sym-fpmg-10},
+first identify and select points on sharp features
+and then reconstruct the surface mesh from the selected feature points
+and a subset of the smooth points.
+The algorithms differ in how they identify points on sharp features.
+Dey et al. use the graph Laplacian to identify points on sharp features
+while Salman et al use an analysis of the shape of Voronoi cells.
+
+Both algorithms use the ``protecting ball'' technique from~\cite{cdr-drpsc-07}
+to construct the surface mesh from the weighted Delaunay triangulation
+of the selected feature points and a subset of the smooth points.
+The meshing algorithm ensures that surface vertices are well-spaced
+along feature curves and that surface vertices which are not 
+on feature curves are suitably far from those curves.
+The method requires constructing and 
+updating the weighted Delaunay triangulation of a set of points.
+Dey et al.'s algorithm works on non-manifold surfaces
+and handles three or more smooth pieces joined at a single curve.
+
 
 
 
