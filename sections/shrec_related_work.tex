@@ -3,23 +3,56 @@
 \section{Related Work}
 \label{section:related}
 
-In~\cite{l-oslpm-00}, Lindtrom gives an algorithm for locating a point on a surface from a set of $n$ tangent planes.
-The $n$ tangent give a set of $n$ equations in three unknowns,
-described by $M x = b$ where $M$ is an $n \times 3$ matrix and $b$ is a column vector of length $n$.
-Lindstrom approximates the intersection of the tangent planes using the singular valued decomposition (SVD) of $M$.
-If all the eigenvalues of $M$ are large,
-then approximate intersection of the tangent planes is the point
-which is the least squares solution to $M x = b$
-(or, equivalently, the solution to $M^T M x = M^T b$.)
-If $M$ has two large eigenvalues, then the approximate intersection of the planes is a line.
-Lindstrom's algorithm returns a point on that line closest to some input point.
-
 The well-known Marching Cubes algorithm~\cite{lc-mchr3-87}
-constructs isosurface patches within grid cubes.
+by Lorensen and Cline
+constructs isosurface patches within active grid cubes.
 The isosurface patches align along their common boundaries.
 Because Marching Cubes positions vertices only on grid edges,
 never inside grid cubes,
 it does a poor job at representing sharp features on isosurfaces.
+
+Dual contouring algorithms construct an isosurface using quadrilaterals
+which are dual to bipolar grid edges.
+The isosurface vertices are located within the grid cubes,
+not on grid edges.
+Gibson~\cite{gh-ssqem-97,g-cesng-98} gave the first dual contouring algorithm
+which she called surface nets.
+Because Gibson's algorithm placed only one isosurface vertex 
+in each active cube,
+it produced many isosurface edges contained in four quadrilaterals.
+Thus, the resulting isosurface was not a manifold.
+Nielson~\cite{n-dmc-04} modified Gibson's algorithm
+to allow multiple isosurface vertices in active cubes.
+The number of vertices in a grid cube $\cb$
+corresponds to the number of isosurface patches in $\cb$
+produced by the Marching Cubes algorithm.
+
+Nielson's algorithm eliminates most, but not all, 
+of the non-manifold problems in dual contouring.
+A dual contouring algorithm
+for constructing an isosurface which is a always a manifold
+is contained in~\cite{Wenger:2013:Isosurfaces}.
+The algorithm is essentially Nielson's algorithm
+but the number and connectivity of isosurface vertices in grid cubes
+is sometimes modified.
+
+In~\cite{l-oslpm-00}, Lindstrom gave an algorithm for locating a point 
+on a surface from a set of $n$ tangent planes.
+The $n$ tangent give a set of $n$ equations in three unknowns,
+described by $M x = b$ where $M$ is an $n \times 3$ matrix 
+and $b$ is a column vector of length $n$.
+Lindstrom uses the singular valued decomposition (SVD) of $M$
+to determine a point close to all the tangent planes.
+The SVD of $M$ also indicates whether the point is
+on a 0-dimensional (corner) or 1-dimensional (edge) surface feature
+or on a smooth portion of the surface
+Lindstrom's algorithm is described in more detail 
+in Section~\ref{section:loc}.
+All the papers for isosurface construction with sharp features
+use Lindstrom's algorithm or some variation
+to locate points on sharp features.
+Most of them also use Lindstrom's algorithm to identify sharp features
+and classify them as 0 or 1 dimensional.
 
 Kobbelt et al.~\cite{kbsh-fssev-01} modified Marching Cubes 
 to position vertices inside grid cubes when those grid cubes
@@ -27,8 +60,8 @@ intersected sharp features.
 In addition to scalar values at regular grid vertices,
 the algorithm by Kobbelt et al. requires a directed distance field
 representing the distance along each axis to the modeled surface.
-The algorithm uses the directed distance field to determine
-the location of vertices on sharp features.
+The algorithm uses the directed distance field
+to locate points on sharp features.
 
 Ju et al.~\cite{jlsw-dchd-02,sw-dcss-02} present a dual contouring algorithm
 for constructing isosurfaces with sharp features.
@@ -41,9 +74,9 @@ the algorithm by Ju et al. requires surface normals
 at the intersection of the grid edges and the surface.
 The surface normals are used to construct tangent planes
 intersecting a grid cube.
-The intersection of those tangent planes is approximated 
-using least squares and singular valued decomposition,
-and the resulting point is used as the isosurface vertex location.
+Ju et al. apply Lindstrom's algorithm to the tangent planes
+to locate an isosurface vertex in each grid cube
+and determine if the vertex lies on a sharp 0 or 1 dimensional feature.
 Variations on~\cite{jlsw-dchd-02} are given 
 in~\cite{zhk-dctps-04,Varadhan:2003:fss}.
 
@@ -57,14 +90,104 @@ of the isosurface and oct-tree or kd-tree cells,
 and then connecting an isosurface vertex with those polgyonal curves.
 As in~\cite{jlsw-dchd-02},
 isosurface locations are computed from input surface normals
-using least squares and singular valued decomposition.
+using Lindstrom's algorithm.
 
-The Dual Marching Cubes algorithm by Schaefer and Warren~\cite{sw-dmcpc-04}
+The Dual Marching Cubes\footnote{Nielson also calls his
+dual contouring algorithm ``Dual Marching Cubes''~\cite{n-dmc-04},
+but it is totally different from Schaefer and Warren's algorithm.}
+algorithm by Schaefer and Warren~\cite{sw-dmcpc-04}
 constructs a dual mesh which aligns with sharp features
-and then extracts the isosurface from that mesh using Marching Cubes.
+and then extracts the isosurface from that mesh 
+using Marching Cubes.
+Vertices of the dual mesh are positioned on sharp features
+using Lindstrom's algorithm.
 Because the isosurface is extracted using Marching Cubes,
 the isosurface will have many "sliver" triangles with small angles.
 Dual Marching Cubes reduces the number of "sliver" triangles
 by positioning the vertices of the dual grid to lie on the isosurface,
 whenever possible.
+
+The algorithms described above 
+produce ``sliver'' triangles with very small angles 
+along the 1-dimensional features.
+A small perturbation of a vertex of such triangles
+has a large effect on the triangle normal direction,
+so the normal direction of such triangles is almost arbitrary.
+The triangle angles may be so small that the triangles are effectively
+degenerate with zero area.
+
+With the exception of~\cite{sw-dmcpc-04},
+all the algorithms listed above generate isosurface vertices
+within active grid cubes.
+However, a sharp edge (1-dimensional feature) may intersect 
+an inactive grid cube  and a sharp corner (0-dimensional feature) 
+may lie in an inactive grid cube.
+In such cases, the algorithms produce isosurfaces which contain notches
+or truncated corners.
+The algorithms could be modified to allow placement of isosurface vertices
+in inactive grid cubes,
+but at the cost of exacerbating the problem 
+of sliver and degenerate triangles.
+Placing vertices in inactive grid cubes also introduces a new problem 
+of isosurface vertices in the wrong order along 1-dimensional features
+creating folds in the mesh.
+
+The MergeSharp algorithm by Bhattaca and Wenger~\cite{bw-cisec-13,bw-erm-13}
+attacks the problem of sliver triangles, notches, and folds
+by merging grid cubes around features
+so that isosurface vertices on features are well-separated 
+from each other and from non-feature vertices.
+Isosurface vertices are permitted to be placed in inactive grid cubes.
+
+Bhattaca and Wenger analyzed their algorithm by extracting all 
+``sharp'' mesh edges with dihedral angle below a threshold ($140^\circ$),
+forming a graph (1-skeleton) from those edges
+and counting the number of vertices with degrees other than two.
+For instance, the 1-skeleton from the sharp mesh edges in the reconstruction
+of a cube should have eight vertices with degree three
+and no vertices with degrees other than two or three.
+The 1-skeleton from the sharp mesh edges in the reconstruction
+of a thickened annulus should have no vertices with degree other than two.
+By counting the difference between the expected and the actual degree counts,
+Bhattaca and Wenger gave a quantitative measure of the performance
+of their algorithm.
+
+We mention only a few papers from the large literature
+on surface and feature reconstruction from point sets.
+Point set data is inherently noisy, so much of the literature
+focuses on finding the true position of points on surfaces.
+Daniels et al.~\cite{Daniels:2007:Robust},
+Fleishman et al.~\cite{fcs-rmlsf-2005}
+and Oztireli et al.~\cite{Oztireli2009}
+construct local surface patches fitted to local sets of points
+and project points onto these surface patches.
+Wang et al.~\cite{Wang:2013:Feature}
+construct approximations of the tangent planes at the sample points
+and project points onto these tangent planes.
+Avron et al.~\cite{avron2010L} estimate surface normals
+at sample points using convex optimization,
+and then reposition the points, again using convex optimization.
+
+The papers cited above focus on correct positioning of surface points
+in the presence of sharp features.
+The actual construction of the surface mesh is
+left to preexisting algorithms.
+For constructing the surface mesh,
+Oztireli et al. and Wang et al. use Marching Cubes,
+Daniels et al. use the advancing front algorithm 
+from~\cite{Schreiner:2006:Direct},
+and Avron et al. use the Ball Pivoting algorithm 
+from~\cite{Bernardini:1999:Ball}.
+(Wang uses Poisson Surface Reconstruction described 
+in~\cite{Kazhdan:2006:Poisson} but that algorithm
+uses a variation of Marching Cubes.)
+Neither Marching Cubes nor the Ball Pivoting algorithm
+is particularly well-adapted to constructing meshes 
+with good representations of sharp features.
+By starting from the sharp features,
+Schreiner et al. claim that their advancing front method
+can do a good job of representing sharp features.
+
+
+
 
