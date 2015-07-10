@@ -76,24 +76,28 @@ Note that the translation could be arbitrarily small
 and there would still be a point in $A$ whose normal was $90^\circ$
 from the closest point in $A'$.
 
-In contrast, the corner of polygon $B$ in Figure~\ref{fig:rect}(c)
+In contrast to the match between the normals of $A$ and $A'$, 
+the corner of polygon $B$ in Figure~\ref{fig:rect}(c)
 is clipped and its normal is $45^\circ$ from any normal of $A$.
 We would like some measurement which gives a high value 
 between $q \in B$ and $A$ while giving a low value between
 any point of $A'$ and $A$.
+Our idea is to compare the normal at $p \in \Sigma_P$ 
+with the normals of $\Sigma_Q$ in some suitable neighborhood 
+around $p$.
 
 Let $\Sigma^S_P$ and $\Sigma^S_Q$ be the set of smooth points
 in $\Sigma_P$ and $\Sigma_Q$.
 Let $n_p$ and $n_q$ be the normals of $p \in \Sigma^S_P$
 and $q \in \Sigma^S_Q$, respectively.
-Let $\Ballep$ be the ball around $p$ of radius $\epsilon$.
+Let $B_p(\epsilon)$ be the ball around $p$ of radius $\epsilon$.
 For each point $p \in \Sigma^S_a$ 
-where $\Ballep \cap \Sigma^S_Q \neq \emptyset$,
+where $B_p(\epsilon) \cap \Sigma^S_Q \neq \emptyset$,
 define the angle distance between $p$ and $\Sigma_Q$
 in the neighborhood $\epsilon$ as:
 \begin{align*}
 \tdAe(p,\Sigma_Q) & = \liminf\{ \angle(n_p, n_q) : 
-q \in \Sigma^S_Q \cap \Ballep \}.
+q \in \Sigma^S_Q \cap B_p(\epsilon) \}.
 \end{align*}
 
 Define the directed angle distance between $\Sigma_P$ and $\Sigma_Q$
@@ -101,7 +105,7 @@ in neighborhood $\epsilon$ as:
 \begin{align*}
 \tdAe(\Sigma_P,\Sigma_Q) & = 
   \limsup_{p \in \Sigma^S_P \mbox{ and } 
-  \Ballep \cap \Sigma^S_Q \neq \emptyset} 
+  B_p(\epsilon) \cap \Sigma^S_Q \neq \emptyset} 
          \tdAe(p,\Sigma_Q).
 \end{align*}
 
@@ -112,10 +116,10 @@ in neighborhood $\epsilon$ as:
 \max(\tdAe(\Sigma_P,\Sigma_Q), \tdAe(\Sigma_Q,\Sigma_P)).
 \end{align*}
 
-Unfortunately, the angle distance depends upon the parameter $\epsilon$.
+The angle distance depends upon the parameter $\epsilon$.
 If some point $p \in \Sigma^S_P$ is not within $\epsilon$ of $\Sigma_Q$,
 then $\tdAe(p,\Sigma_Q)$ is undefined.
-To address this problem, we replaced the neighborhood $B_p(\epsilon)$
+To address this problem, we replace the neighborhood $B_p(\epsilon)$
 by an extended neighborhood $B_p(\epsilon+d(p,\Sigma_q))$
 where $d(p,\Sigma_q)$ is the distance from $p$ to $\Sigma_Q$.
 The ball around $p$ is now guaranteed to intersect $\Sigma_Q$.
@@ -145,5 +149,9 @@ in extended neighborhood $\epsilon$ as:
 \max(\tdApe(\Sigma_P,\Sigma_Q), \tdApe(\Sigma_Q,\Sigma_P)).
 \end{align*}
 
+Unfortunately, neither $\dAe(\Sigma_p, \Sigma_q)$
+nor $\dApe(\Sigma_p, \Sigma_q)$ obey the triangle inequality.
+Nevertheless, we think that the angle distance is a useful way
+of measuring the difference in surface normals between two surfaces.
 
 
