@@ -107,6 +107,17 @@ Dual Marching Cubes reduces the number of "sliver" triangles
 by positioning the vertices of the dual grid to lie on the isosurface,
 whenever possible.
 
+With the exception of~\cite{hwco-cmsaf-05},
+none of the reconstruction papers listed above give any quantitative
+analysis of the reconstructed features.
+Ho et al.~\cite{hwco-cmsaf-05} measured the geometric distance
+between the boundary of the union of three random tetrehedra and 
+the reconstructed surface produced by their algorithm.
+Unfortunately, Ho et al. do not explain whether the geometric distance
+is the Hausdorff distance or some distance averaged over the surface.
+In any case, they are not measuring the correspondence 
+between surface normals.
+
 The algorithms described above 
 produce ``sliver'' triangles with very small angles 
 along the 1-dimensional features.
