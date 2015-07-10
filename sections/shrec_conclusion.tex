@@ -2,17 +2,29 @@
 \section{Conclusion and Future Work}
 \label{section:conclusion}
 
-Our goal in designing SHREC was to produce a mesh
-which represents 1-dimensional features by a sequence
-of sharp mesh edges and 0-dimensional features by sharp vertices.
-Perhaps this requirement is overly severe.
-Why can't 1-dimensional features be represented by a few small polygons
-instead of single edges?
-Why shouldn't 1-dimensional features be represented 
-as very high curvature regions instead of as non-smooth regions 
-where the surface normals are discontinuous?
+SHREC produces far fewer polygons with normal errors 
+than any other software we tested,
+but it still occasionally produces such errors.
+Because of the regular structure of the regular grid,
+we were hoping, but unable, to eliminate all such errors
+and even to prove ``correctness'' of the reconstruction
+under appropriate conditions.
+We still believe that some algorithm along the lines of SHREC
+should be able to construct isosurfaces with provable
+guarantees on the reconstruction of sharp features
+and surface normal directions.
 
-TO BE CONTINUED...
+One of the problems with the work on sharp feature reconstruction
+is the lack of quantitative measures of the accuracy 
+of the feature reconstruction.
+We presented the angle distance as a measurement of the difference
+between the normals in two surfaces.
+The angle distance does not obey the triangle inequality
+and is not a metric.
+It would be nice to have some measurement similar to angle distance
+which measured the difference between surface normals
+and is a metric.
+
 
 \section{Acknowledgments}
 
