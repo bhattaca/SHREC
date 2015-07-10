@@ -208,6 +208,21 @@ updating the weighted Delaunay triangulation of a set of points.
 Dey et al.'s algorithm works on non-manifold surfaces
 and handles three or more smooth pieces joined at a single curve.
 
-
-
-
+The papers~\cite{avron2010L,dgqsww-fprss-12,fcs-rmlsf-2005,Oztireli2009}
+do not give any quantitative analysis of the reconstructed surfaces.
+Salman et al.~\cite{sym-fpmg-10} present the Hausdorff distance
+between their reconstruction and the ideal surface.
+The Hausdorff distance does not contain information
+about the match between surface normals.
+Daniels et al.~\cite{Daniels:2007:Robust} report quantitative
+results of a data compression algorithm~\cite{Ochotta:2004:Compression}
+which was modified using the ideas of their paper.
+However, they do not report any quantitative results of their algorithm.
+Wang et al.~\cite{Wang:2013:Feature} report the difference 
+between normals estimated by their algorithm and the true surface normals.
+Their analysis is the closest we found to a measure
+of the quality of the feature reconstruction.
+However, even this analysis 
+does not measuring the actual reconstructed surface and its features.
+It measures an intermediate quantity,
+the estimated surface normals, computed by the algorithm.
