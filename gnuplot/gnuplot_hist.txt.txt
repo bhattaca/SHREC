@@ -1,0 +1,150 @@
+ set term png truecolor
+ set output "num_simplices.png"
+ set xlabel "Surface Angle Difference (in Degrees)"
+ set ylabel "Number of simplices (LogScale)"
+ set grid
+ set xrange [-1:90]
+set boxwidth 0.95 
+set style fill transparent solid 0.5 noborder
+ plot 'E:\Data\SyntheticDataSets\garb\TwoCube\t120_test_area.dat' using 3 title "WeightCocone:b" w boxes lc rgb"green", '' using 2 title "WeightCocone:a" w boxes lc rgb"blue", '' using 4  title "MergeSharp" w boxes lc rgb"red" 
+ 
+ 
+ 
+ large test
+  set term png truecolor
+ set output "num_simplices_large_test_twoCube.png"
+ set xlabel "TwoCube data set id"
+ set ylabel "Number of simplices"
+ set grid
+set style fill transparent solid 0.5
+ plot 'E:\Data\SyntheticDataSets\garb\TwoCube\comparison_table.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+ 
+ set term png truecolor
+ set output "shrecResCol3.png"
+ set xlabel "TwoCube TestCase Id"
+ set ylabel "Max. angle diff. (in Degrees)"
+ set grid
+ set xrange [1:143]
+set boxwidth 0.95 
+set style fill transparent solid 0.5 noborder
+ 
+plot 'ShrecRes.dat' using 3 title 'SHREC \w perfect gradients.' w boxes
+
+set term png truecolor
+set output "shrecResCol1.png"
+ set xlabel "TwoCube TestCase Id"
+ set ylabel "Number of Errors"
+ set grid
+ set yrange[1:]
+ set xrange [1:143]
+
+set style fill transparent solid 0.5
+ 
+plot 'ShrecRes.dat' using 1 title 'SHREC \w perfect gradients.' w boxes lc rgb"green", '' using 2 title 'SHREC \w RELIGRAD gradients' w boxes lc rgb"red"
+plot 'ShrecRes.dat' using 2 title 'SHREC \w RELIGRAD gradients.' w boxes lc rgb"green"
+
+#flange plot errors
+set term png truecolor
+set output "shrecFlange1.png"
+ set xlabel "Flange TestCase Id"
+ set ylabel "Number of Errors"
+ set grid
+ set xrange [1:132]
+ set xlabel font 'Verdana,12'
+ set ylabel font 'Verdana,12'
+ set style fill transparent solid 0.5
+plot 'cg0ms1Err.dat' using 1 title 'SHREC w\ perfect gradients' w boxes
+#flange religrad
+set term png truecolor
+set output "shrecFlange2.png"
+ set xlabel "Flange TestCase Id"
+ set ylabel "Number of Errors"
+ set grid
+ set xrange [1:132]
+  set xlabel font 'Verdana,12'
+ set ylabel font 'Verdana,12'
+ set style fill transparent solid 0.5
+plot 'cg1ms1Err.dat' using 1 title 'SHREC w\ RELIGRAD gradients' w boxes lc rgb"green"
+
+#flange angle errors. 
+set terminal postscript eps enhanced color \
+    font 'Helvetica,20' linewidth 2
+set output "flangeAngle1.eps"
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20'
+set boxwidth 0.9 
+set style fill transparent solid 0.50 noborder
+set xlabel "Flange TestCase Id"
+set ylabel "Num Simplices"
+ set grid
+ set xrange [0:40]
+plot 'E:\Data\SyntheticDataSets\garb\Flange\comparison_table.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+#flange f167
+set terminal postscript eps enhanced color \
+    font 'Helvetica,20' linewidth 2
+set output "flangeAngle2.eps"
+set logscale y
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20' offset 3
+set boxwidth 0.9 
+set style fill transparent solid 0.50 noborder
+set xlabel "Surface Angle Difference (in Degrees)" 
+set ylabel "Num Simplices (LogScale)"
+ set grid
+ set xrange [0:90]
+ set yrange [0.5:]
+plot 'E:\Data\SyntheticDataSets\garb\Flange\f167_1_ms_1_num_simplices_histogram_1.dat'  using 2  notitle w boxes lc rgb"green"
+#flange countdegree
+set terminal postscript eps enhanced color \
+    font 'Helvetica,20' linewidth 2
+set output "flangeAngle3.eps"
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20' offset 3
+set boxwidth 0.9 
+set style fill transparent solid 0.50 noborder
+set xlabel "flange TestCase Id" 
+set ylabel "CountDegree Errors" 
+ set grid
+ set xrange [0:40]
+plot 'E:\Data\SyntheticDataSets\garb\Flange\shrecFlangeSmall.dat'  using 1  notitle w boxes lc rgb"green", '' using 2  notitle w boxes lc rgb"green"
+#cannon
+set terminal postscript eps enhanced color \
+    font 'Helvetica,20' linewidth 2
+	set term png truecolor
+set output "cannon.png"
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20' offset 2
+set boxwidth 0.9 
+set style fill transparent solid 0.50 noborder
+set xlabel "Cannon TestCase Id" 
+set ylabel "CountDegree Errors" 
+ set grid
+ set xrange[1:]
+ set yrange[:10]
+plot 'E:\Data\SyntheticDataSets\garb\Cannon\comparison.dat'  using 1  title "SHREC + RELIGRAD" w boxes lc rgb"blue"
+#cone
+
+set term png truecolor
+set output "cone.png"
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20' offset 2
+set boxwidth 0.9 
+set style fill transparent solid 0.50 noborder
+set xlabel "Cone TestCase Id" 
+set ylabel "CountDegree Errors" 
+ set grid
+ set yrange [:10]
+ set xrange[1:]
+plot 'E:\Data\SyntheticDataSets\garb\Cone\comparison.dat'  using 1  title "SHREC + PERFECT GRADIENT" w boxes lc rgb"red", '' using 2 title "SHREC + RELIGRAD" w boxes lc rgb"blue"
+
+# polymender 
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20' offset 2
+set boxwidth 0.9 
+set style fill transparent solid 0.50 noborder
+set xlabel "Surface Angle Difference (in Degrees)" 
+set ylabel "Number of simplices (in logscale)" 
+set grid
+set xrange[0:]
+set logscale y
+plot 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_exe\input\f151_1_ms_1.offhistnum_simplices_histogram_1.dat' using 2 w boxes title 'Polymender', 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_exe\f151_shrecnum_simplices_histogram_1.dat' using 2 w boxes title 'SHREC'
