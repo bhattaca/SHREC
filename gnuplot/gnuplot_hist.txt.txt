@@ -6,9 +6,10 @@
  set xrange [-1:90]
 set boxwidth 0.95 
 set style fill transparent solid 0.5 noborder
- plot 'E:\Data\SyntheticDataSets\garb\TwoCube\t120_test_area.dat' using 3 title "WeightCocone:b" w boxes lc rgb"green", '' using 2 title "WeightCocone:a" w boxes lc rgb"blue", '' using 4  title "MergeSharp" w boxes lc rgb"red" 
+ plot 'E:\Data\SyntheticDataSets\garb\TwoCube\t120_test_area.dat' using 3 title "WeightCocone:b" w boxes lc rgb"green", '' using 2 title "WeightCocone:a" w boxes lc rgb"blue", '' using 4  title "SHREC" w boxes lc rgb"red" 
  
- 
+
+
  
  large test
   set term png truecolor
@@ -148,3 +149,16 @@ set grid
 set xrange[0:]
 set logscale y
 plot 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_exe\input\f151_1_ms_1.offhistnum_simplices_histogram_1.dat' using 2 w boxes title 'Polymender', 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_exe\f151_shrecnum_simplices_histogram_1.dat' using 2 w boxes title 'SHREC'
+
+
+####
+set term png truecolor
+set output "twocubeQuant.png"
+set logscale y
+set xlabel font 'Verdana,20'
+set ylabel font 'Verdana,20' offset 2
+set boxwidth 0.9 
+set style fill transparent solid 0.5 noborder
+set xlabel "Surface Angle Difference (in degrees)
+set ylabel "Number of simplices (logscale)"
+plot 'E:\Data\SyntheticDataSets\garb\TwoCube\mc_comparenum_simplices_histogram_2.dat' w boxes title "WC:mc", 'E:\Data\SyntheticDataSets\garb\TwoCube\t110num_simplices_histogram_2.dat' w boxes  title "WC:perfect", 'E:\Data\SyntheticDataSets\garb\TwoCube\shrecComparenum_simplices_histogram_2.dat' w boxes title "SHREC & RELIGRAD"
