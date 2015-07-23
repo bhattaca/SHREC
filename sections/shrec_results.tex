@@ -120,6 +120,19 @@ A single cone data set using synthetic gradients produces two Count Degree error
 \subsection{Description of CT Data Sets}
 
 \subsection{Comparison with Other Algorithms}
+\paragraph{Comparison with MergeSharp}
+%#150
+\begin{figure}[htb]
+	\centering
+	\subfloat[]{\includegraphics[width=0.8\linewidth]{images/mergeSharpvsShrec.eps}\label{fig:mergesharp:a}}\\
+	\subfloat[]{\includegraphics[width=0.6\linewidth]{images/mergeSharpvsShrec2.eps}\label{fig:mergesharp:b}}\\
+	\subfloat[]{\includegraphics[width=0.6\linewidth]{images/cone_mergesharp.eps}\label{fig:mergesharp:c}}
+	\caption{Result of  MERGESHARP and SHREC with synthetic gradients. (a) Summary results of  CountDegree errors of 40 Flange datasets. SHREC does not produce an errors. (b) Result on one particular data set using MERGESHARP, magnified region shows one of the ``notches" created. (c) Apart from ``Notches", MERGESHARP produces gentle dimples which decays the visual quality. Magnified region shows a portion of a Cone dataset (Left) MERGESHARP (Right) SHREC. }
+	\label{fig:mergeSharpVShrec}
+\end{figure}	
+We first compare our algorithm with MERGESHARP ~\cite{bw-cisec-13}, Figure~\ref{fig:mergeSharpVShrec} shows the result. Figure~\protect\subref*{fig:mergesharp:a} shows the summary of CountDegree results of running MERGESHARP on 40 Flange datasets. SHREC as discussed above does not generate any errors. Figure~\protect\subref*{fig:mergesharp:b} shows the result on one of the Flange data sets. MERGESHARP produces ``notches" such as the one shown. 
+
+MERGESHARP also produces gentle dimples such as the ones in the edge of a Cone data set shown in Figure~\protect\subref*{fig:mergesharp:c}, SHREC does not produce them. 	
 \paragraph{Comparison with Cocone}
 We compare our algorithm to the algorithm WeightCocone by Dey et al.~\cite{Dey2012}. WeightCocone reconstructs a surface with sharp edges and corners from a sampled point cloud. WeightCocone takes two inputs; one contains the point cloud, another is a weighted sampling of feature curves. Weight of the sampling will be used as weight of the protecting balls. WeightCocone generates as output a feature sensitive mesh. 
 
