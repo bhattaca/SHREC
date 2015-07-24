@@ -65,29 +65,31 @@ Figure~\protect\subref*{fig:flangeAngle3} shows the number of CountDegree errors
 Fourteen cases ($35\%$) produced no degree errors. The mean error was 4.5. The maximum error was 22.
 Figure~\protect\subref*{fig:flangeAngle1} shows the number of simplices with angle difference greater than 30$^\circ$, 40$^\circ$ and 50$^\circ$ from the original mesh for the 40 test cases. Figure~\protect\subref*{fig:flangeAngle2} shows  the number of simplices versus the angle difference for one particular dataset (id 16). This particular dataset has no CountDegree errors, it has three simplices with surface angle difference greater than 30 degrees from the original and one simplex above 40 degrees. The mesh itself has approximately 133 thousand simplices. 
 Figure~\ref{fig:flange1} shows the result on a single dataset. The magnified region shows edges with dihedral angle less than $140^\circ$ in red blended with a subset of the ``non-sharp" edges. 
-\begin{figure}[tb]
+
+\begin{figure}[t]
 \includegraphics[width=\linewidth]{images/shrecFlangeCombine2.eps}
 \caption{Result of SHREC on a Flange dataset. ``Sharp" edges (with dihedral angle less than $140^\circ$) are marked in red. 
 ``Smooth" edges are in dark grey. The magnified region shows a blend of the ``sharp" edges with a subset of the ``smooth" edges.}
 \label{fig:flange1}
 \end{figure}
-\begin{figure*}[tb]
+
+\begin{figure*}[p]
 	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle3.eps}\label{fig:flangeAngle3}}
 	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle1.eps}\label{fig:flangeAngle1}}
 	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle2.eps}\label{fig:flangeAngle2}}
 	\caption{SHREC with gradients computed from scalar data using RELIGRAD on 40 datasets. (a) Number of CountDegree errors. (b) Number of simplices with angle difference to ``perfect" mesh above 30, 40 and 50 degrees. (b) Shows the angle distribution of one particular case (16) which has three simplices over 30 degrees and 1 above 40 degrees. Total number of simplices is ~133k.}\label{fig:flangeAngle}
 \end{figure*}
-\begin{figure*}[tb] 
+
+\begin{figure*}[p] 
 	\centering
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/shrecResCol1.eps}\label{fig:shrecTwoCube:a}}
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/shrecResCol3.eps}\label{fig:shrecTwoCube:b}}\\
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/shrecResCol2.eps}\label{fig:shrecTwoCube:c}}
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/shrecResCol4.eps}\label{fig:shrecTwoCube:d}}
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol1.eps}\label{fig:shrecTwoCube:a}}
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol3.eps}\label{fig:shrecTwoCube:b}}\\
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol2.eps}\label{fig:shrecTwoCube:c}}
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol4.eps}\label{fig:shrecTwoCube:d}}
 	\caption{SHREC with perfect gradients and with RELIGRAD gradients(computed directly from scalar data.).~\protect\subref{fig:shrecTwoCube:a} shows the number of CountDegree errors when using SHREC along with the correct gradients.~\protect\subref{fig:shrecTwoCube:c} The same result when using gradients computed directly from scalar data (RELIGRAD). ~\protect\subref{fig:shrecTwoCube:b} shows the maximum angle difference from the ``perfect mesh" when using correct gradients.~\protect\subref{fig:shrecTwoCube:d} The same result when using RELIGRAD gradients. }
 	\label{fig:shrecTwoCube}
 	\vskip-0.2cm
 \end{figure*}
-
 
 We next ran SHREC on 143 TwoCube datasets; Figure~\ref{fig:shrecTwoCube} shows the summary results. As with Flange we first tested SHREC with synthetic gradients and then with gradients computed from the scalar data using RELIGRAD.
 
