@@ -72,7 +72,7 @@ than MergeSharp or than other algorithms for which we had implementations.
 
 There is extensive work on construction of surfaces with sharp features 
 from point cloud data,
-e.g.~\cite{avron2010L,cdr-drpsc-07,Daniels:2007:Robust,dgqsww-fprss-12,
+e.g.~\cite{avron2010L,cdr-drpsc-07,Daniels:2007:Robust,Dey2012,
 fcs-rmlsf-2005,Oztireli2009,sym-fpmg-10,Wang:2013:Feature}
 and many other articles.
 In~\cite{Oztireli2009} and~\cite{Wang:2013:Feature},
@@ -84,16 +84,16 @@ can be used by algorithms in those papers
 to construct a surface mesh which better represents sharp surface features
 than the Marching Cubes isosurface.
 
-In~\cite{cdr-drpsc-07,dgqsww-fprss-12} and~\cite{sym-fpmg-10},
+In~\cite{cdr-drpsc-07,Dey2012} and~\cite{sym-fpmg-10},
 the final construction of the surface mesh is accomplished
 by Voronoi based algorithms described 
-in~\cite{cdr-drpsc-07} and \cite{dgqsww-fprss-12}.
+in~\cite{cdr-drpsc-07} and \cite{Dey2012}.
 These algorithms could be applied to isosurface reconstruction
 from regular grid scalar data
 by constructing point clouds from the grid data
 and then applying the algorithms to the point clouds.
 We compare isosurfaces with sharp features constructed
-using the algorithm from~\cite{dgqsww-fprss-12}
+using the algorithm from~\cite{Dey2012}
 with isosurfaces constructed by our algorithm.
 
 Few of the isosurface or point cloud reconstruction papers
