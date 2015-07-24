@@ -122,7 +122,27 @@ A single cone data set using synthetic gradients produces two Count Degree error
 \section{Experimental Results on CT Data}
 
 \subsection{Description of CT Data Sets}
+We tested the SHREC algorithm on a number of real industrial dataset. Here we show the results on three of the them. 
+Figure~\ref{fig:ict:hondaEng} shows the result on a subset of a Honda Engine data set. The Honda engine data is $411*431*61$ in size. In red we see an image of the part of the original item. The dimension of the data set are $101*111*61$.
+Figure~\ref{fig:ict:volt} shows the result on our Volt dataset. Volt is a scan of a generic 440 voltage electrical connector. Finally, Figure~\ref{fig:ict:CMM} shows a part of our coordinate measuring machine (CMM) data (size $500*500*196$), Figure~\protect\subref*{fig:ict:CMM:a} shows the reconstruction result. Figure~\protect\subref*{fig:ict:CMM:b} shows a single slice of the CT scan, mapped to the ``heat" color map. 
 
+Through these reconstructions and others we have confirmed that SHREC performs well on real industrial CT data sets. 
+\begin{figure}\centering
+	\includegraphics[width=\linewidth]{images/ictsetA.eps}
+	\caption{SHREC with RELIGRAD gradients computed from part of industrial CT data (Honda Engine). Magnified regions show ``sharp" edges reconstructed. In red, picture from the original item.}
+	\label{fig:ict:hondaEng}
+\end{figure}
+\begin{figure}\centering
+	\includegraphics[width=\linewidth]{images/volt.eps}
+	\caption{SHREC with RELIGRAD gradients computed from part of the VOLT data. Magnified regions show ``sharp" reconstructed edges. In red picture of the original item.}
+	\label{fig:ict:volt}
+\end{figure}
+\begin{figure}[htb]
+	\centering
+	\subfloat[]{\includegraphics[width=\linewidth]{images/cmm.eps}\label{fig:ict:CMM:a}}\\
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/CMM.singleSliceXY.eps}\label{fig:ict:CMM:b}}
+	\caption{(a) SHREC with RELIGRAD gradients computed from part of the CMM dataset. Magnified regions show ``sharp" reconstructed edges. (b) Single slice of the CT scan, mapped to the ``heat" color map.}\label{fig:ict:CMM}
+\end{figure}
 \subsection{Comparison with Other Algorithms}
 \label{section:comparison}
 
@@ -171,7 +191,7 @@ WeightCocone using points sampled from the perfect mesh produces a considerable 
 SHREC on same dataset produces no errors ( see Figure~\ref{fig:shrecPerfect1}). 
 
 Dey et al.~\cite{Dey2012,Dey2013} report better results on their datasets, Which might possibly be because of parameter tuning. They themselves acknowledged as such in their work.
-\begin{figure}[tb]
+\begin{figure}[htb]
 	\centering
 		\subfloat[]{\includegraphics[width=0.6\linewidth]{images/num_simplices_large_test_twoCube.eps}\label{table:cocone_compare_with_mc_table_2}}\\
 		\subfloat[]{\includegraphics[width=0.6\linewidth]{images/twoCubeQuant.eps}\label{table:cocone_compare_with_mc_table_1}}
@@ -182,7 +202,7 @@ We next compared SHREC to Polymender. Polymender is an implementation of mesh re
 
 We quantitatively compare the surface angle difference between the Polymender and SHREC result with the known perfect mesh. 
 The results in Figure~\protect\subref*{fig:polymender:c} shows the results. Polymender produces many simplices which have large angle difference from the perfect mesh. 
-\begin{figure}[tb]
+\begin{figure}[htb]
 	\centering
 		\subfloat[]{\includegraphics[width=0.45\linewidth]{images/polymender3.eps}\label{fig:polymender:a}}\quad
 		\subfloat[]{\includegraphics[width=0.45\linewidth]{images/polymender4.eps}\label{fig:polymender:b}}\\
@@ -190,7 +210,7 @@ The results in Figure~\protect\subref*{fig:polymender:c} shows the results. Poly
 		\caption{Comparison of Polymender with SHREC on a Flange dataset. The edges with dihedral angle less than $140^\circ$ are overlay-ed in red, a subset of the rest of the edges are overlay-ed in blue. (a) SHREC with RELIGRAD on a part of a flange dataset. (b) Polymender on the same part. (c) Surface angle distance for Polymender and SHREC results from the perfect mesh. Y-axis is in logscale. }	
 \end{figure}
 \paragraph{Extended Marching Cubes comparison;}
-\begin{figure}[tb]
+\begin{figure}[htb]
 	\centering
 	\subfloat[]{\includegraphics[width=0.7\linewidth]{images/isoExFlange.eps}\label{fig:isoEx:a}}\\
 	\subfloat[]{\includegraphics[width=0.7\linewidth]{images/isoExTwoCube.eps}\label{fig:isoEx:b}}
