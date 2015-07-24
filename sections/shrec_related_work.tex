@@ -45,7 +45,7 @@ Lindstrom uses the singular valued decomposition (SVD) of $M$
 to determine a point close to all the tangent planes.
 The SVD of $M$ also indicates whether the point is
 on a 0-dimensional (corner) or 1-dimensional (edge) surface feature
-or on a smooth portion of the surface
+or on a smooth portion of the surface.
 Lindstrom's algorithm is described in more detail 
 in Section~\ref{section:loc}.
 All the papers for isosurface construction with sharp features
@@ -54,14 +54,20 @@ to locate points on sharp features.
 Most of them also use Lindstrom's algorithm to identify sharp features
 and classify them as 0 or 1 dimensional.
 
-Kobbelt et al.~\cite{kbsh-fssev-01} modified Marching Cubes 
+Kobbelt et al.~\cite{kbsh-fssev-01} modified the Marching Cubes algorithm
 to position vertices inside grid cubes when those grid cubes
-intersected sharp features.
+intersect sharp features.
+They called their algorithm Extended Marching Cubes.
 In addition to scalar values at regular grid vertices,
-the algorithm by Kobbelt et al. requires a directed distance field
+Extended Marching Cubes requires a directed distance field
 representing the distance along each axis to the modeled surface.
-The algorithm uses the directed distance field
-to locate points on sharp features.
+It also requires the surface normals
+at the intersection of the grid edges and the surface.
+Extended Marching Cubes uses the directed distance field
+to locate points on the intersection of grid edges and the isosurface.
+It uses the surface normals to construct tangent planes
+intersecting a grid cube and computes a point on the sharp features
+from those tangent planes.
 
 Ju et al.~\cite{jlsw-dchd-02,sw-dcss-02} present a dual contouring algorithm
 for constructing isosurfaces with sharp features.
@@ -72,7 +78,8 @@ by Gibson in~\cite{gh-ssqem-97,g-cesng-98}.
 In addition to scalar values at regular grid vertices,
 the algorithm by Ju et al. requires surface normals
 at the intersection of the grid edges and the surface.
-The surface normals are used to construct tangent planes
+As in~\cite{kbsh-fssev-01},
+the surface normals are used to construct tangent planes
 intersecting a grid cube.
 Ju et al. apply Lindstrom's algorithm to the tangent planes
 to locate an isosurface vertex in each grid cube
@@ -107,15 +114,19 @@ Dual Marching Cubes reduces the number of "sliver" triangles
 by positioning the vertices of the dual grid to lie on the isosurface,
 whenever possible.
 
-With the exception of~\cite{hwco-cmsaf-05},
+With the exception of~\cite{kbsh-fssev-01} and~\cite{hwco-cmsaf-05},
 none of the reconstruction papers listed above give any quantitative
 analysis of the reconstructed features.
+Kobbelt et al.~\cite{kbsh-fssev-01} give the ``approximation error''
+of their reconstructions to two original models.
 Ho et al.~\cite{hwco-cmsaf-05} measured the geometric distance
-between the boundary of the union of three random tetrehedra and 
+between the boundary of the union of three random tetrahedra and 
 the reconstructed surface produced by their algorithm.
-Unfortunately, Ho et al. do not explain whether the geometric distance
-is the Hausdorff distance or some distance averaged over the surface.
-In any case, they are not measuring the correspondence 
+Unfortunately, neither Kobbelt et al. nor Ho et al. explain
+exactly what they mean by ``approximation error'' or ``geometric distance'',
+but these values are probably the Hausdorff distance 
+or some distance averaged over the surface.
+In any case, they do not measure the correspondence 
 between surface normals.
 
 The algorithms described above 
@@ -128,20 +139,27 @@ The triangle angles may be so small that the triangles are effectively
 degenerate with zero area.
 
 With the exception of~\cite{sw-dmcpc-04},
-all the algorithms listed above generate isosurface vertices
-within active grid cubes.
+all the papers listed assume
+that generated isosurface vertices will lie within active grid cubes.
 However, a sharp edge (1-dimensional feature) may intersect 
 an inactive grid cube  and a sharp corner (0-dimensional feature) 
 may lie in an inactive grid cube.
-In such cases, the algorithms produce isosurfaces which contain notches
-or truncated corners.
-The algorithms could be modified to allow placement of isosurface vertices
+In such cases, if isosurface vertices are required to lie within active cubes,
+the isosurfaces will contain notches or truncated corners.
+The algorithms could allow placement of isosurface vertices
 in inactive grid cubes,
 but at the cost of exacerbating the problem 
 of sliver and degenerate triangles.
 Placing vertices in inactive grid cubes also introduces a new problem 
 of isosurface vertices in the wrong order along 1-dimensional features
 creating folds in the mesh.
+Kobbelt et al. provide an implementation of Extended Marching Cubes 
+at \href{https://www.graphics.rwth-aachen.de/IsoEx}{www.graphics.rwth-aachen.de/IsoEx}
+that allows isosurface vertices to lie outside of active cubes.
+The constructed isosurface meshes sometimes have sliver or degenerate triangles
+and sometimtes have folds.
+In Section~\ref{section:comparison},
+we evaluate this implementation of Extended Marching Cubes.
 
 The MergeSharp algorithm by Bhattaca and Wenger~\cite{bw-cisec-13,bw-erm-13}
 attacks the problem of sliver triangles, notches, and folds
