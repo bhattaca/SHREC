@@ -95,12 +95,16 @@ set ylabel "Num Simplices (LogScale)"
  set xrange [0:90]
  set yrange [0.5:]
 plot 'E:\Data\SyntheticDataSets\garb\Flange\f167_1_ms_1_num_simplices_histogram_1.dat'  using 2  notitle w boxes lc rgb"green"
+
+
 #flange countdegree
-set terminal postscript eps enhanced color \
-    font 'Helvetica,20' linewidth 2
-set output "flangeAngle3.eps"
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20' offset 3
+#set terminal postscript eps enhanced color \
+#    font 'Helvetica,20' linewidth 2
+#set output "flangeAngle3.eps"
+
+set term png truecolor	
+set output "flangeAngle3.png"
+set ylabel  offset 2
 set boxwidth 0.9 
 set style fill transparent solid 0.50 noborder
 set xlabel "flange TestCase Id" 
@@ -112,9 +116,11 @@ plot 'E:\Data\SyntheticDataSets\garb\Flange\shrecFlangeSmall.dat'  using 1  noti
 set terminal postscript eps enhanced color \
     font 'Helvetica,20' linewidth 2
 	set term png truecolor
+	
+	
+set term png truecolor	
 set output "cannon.png"
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20' offset 2
+set ylabel offset 2
 set boxwidth 0.9 
 set style fill transparent solid 0.50 noborder
 set xlabel "Cannon TestCase Id" 
@@ -127,8 +133,7 @@ plot 'E:\Data\SyntheticDataSets\garb\Cannon\comparison.dat'  using 1  title "SHR
 
 set term png truecolor
 set output "cone.png"
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20' offset 2
+set ylabel offset 2
 set boxwidth 0.9 
 set style fill transparent solid 0.50 noborder
 set xlabel "Cone TestCase Id" 
@@ -136,11 +141,12 @@ set ylabel "CountDegree Errors"
  set grid
  set yrange [:10]
  set xrange[1:]
-plot 'E:\Data\SyntheticDataSets\garb\Cone\comparison.dat'  using 1  title "SHREC + PERFECT GRADIENT" w boxes lc rgb"red", '' using 2 title "SHREC + RELIGRAD" w boxes lc rgb"blue"
+plot 'E:\Data\SyntheticDataSets\garb\Cone\comparison.dat'  using 1  title "SHREC + SYNTHETIC GRADIENTS" w boxes lc rgb"red", '' using 2 title "SHREC + RELIGRAD" w boxes lc rgb"blue"
 
 # polymender 
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20' offset 2
+set term png truecolor
+set output "polymenderHistogram_1.png"
+set ylabel font offset 2
 set boxwidth 0.9 
 set style fill transparent solid 0.50 noborder
 set xlabel "Surface Angle Difference (in Degrees)" 
@@ -155,10 +161,21 @@ plot 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_ex
 set term png truecolor
 set output "twocubeQuant.png"
 set logscale y
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20' offset 2
+set ylabel offset 2
 set boxwidth 0.9 
 set style fill transparent solid 0.5 noborder
 set xlabel "Surface Angle Difference (in degrees)
 set ylabel "Number of simplices (logscale)"
 plot 'E:\Data\SyntheticDataSets\garb\TwoCube\mc_comparenum_simplices_histogram_2.dat' w boxes title "WC:mc", 'E:\Data\SyntheticDataSets\garb\TwoCube\t110num_simplices_histogram_2.dat' w boxes  title "WC:perfect", 'E:\Data\SyntheticDataSets\garb\TwoCube\shrecComparenum_simplices_histogram_2.dat' w boxes title "SHREC & RELIGRAD"
+
+####
+mergesharp compare with shrec
+set term png truecolor
+set output "mergeSharpvsShrec.png"
+set ylabel offset 2
+set boxwidth 0.9 
+set style fill transparent solid 0.5 noborder
+set xlabel "Flange data set id."
+set ylabel "CountDegree Errors."
+set yrange [: 10]
+plot 'E:\Data\SyntheticDataSets\garb\Flange\shrecMergeSharpCompare.dat' using 1 w boxes title "SHREC WITH SYN. GRADIENT", '' using 2 w boxes title "MERGESHARP WITH SYN. GRADIENT"
