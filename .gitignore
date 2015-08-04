@@ -33,6 +33,8 @@
 *.png
 *.PNG
 *.xlsx
+*synctex.gz
+
  
 # Logs and databases #
 ######################
@@ -53,7 +55,7 @@ Thumbs.db
 mt-tvcg.bbl
 mt-tvcg.blg
 
-tables/
+tables\
 offfile/
 polymenderImage/
 povrayFiles/
