@@ -30,7 +30,9 @@
 
 *.bbl
 *.blg
-
+*.png
+*.PNG
+*.xlsx
  
 # Logs and databases #
 ######################
@@ -50,3 +52,8 @@ Thumbs.db
 *.ini
 mt-tvcg.bbl
 mt-tvcg.blg
+
+tables/
+offfile/
+polymenderImage/
+povrayFiles/
