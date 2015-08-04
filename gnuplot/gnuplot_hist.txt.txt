@@ -70,31 +70,31 @@ plot 'cg1ms1Err.dat' using 1 title 'SHREC w\ RELIGRAD gradients' w boxes lc rgb"
 #flange angle errors. 
 set terminal postscript eps enhanced color \
     font 'Helvetica,20' linewidth 2
-set output "flangeAngle1.eps"
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20'
+	
+	
+set term png truecolor		
+set output "flangeAngle1.png"
 set boxwidth 0.9 
 set style fill transparent solid 0.50 noborder
 set xlabel "Flange TestCase Id"
 set ylabel "Num Simplices"
  set grid
- set xrange [0:40]
-plot 'E:\Data\SyntheticDataSets\garb\Flange\comparison_table.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+ set yrange [0:40]
+plot 'E:\Data\SyntheticDataSets\garb\Flange\comparison_table.dat'  using 2:xtic(5) title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
 #flange f167
-set terminal postscript eps enhanced color \
-    font 'Helvetica,20' linewidth 2
-set output "flangeAngle2.eps"
-set logscale y
-set xlabel font 'Verdana,20'
-set ylabel font 'Verdana,20' offset 3
+
+set term png truecolor		
+set output "flangeAngle2.png"
+
 set boxwidth 0.9 
-set style fill transparent solid 0.50 noborder
+set style data histogram
+set style fill  solid 0.50 noborder
 set xlabel "Surface Angle Difference (in Degrees)" 
 set ylabel "Num Simplices (LogScale)"
- set grid
- set xrange [0:90]
- set yrange [0.5:]
-plot 'E:\Data\SyntheticDataSets\garb\Flange\f167_1_ms_1_num_simplices_histogram_1.dat'  using 2  notitle w boxes lc rgb"green"
+set grid
+set yrange [0.5:]
+set logscale y
+plot 'E:\Data\SyntheticDataSets\garb\Flange\f167_1_ms_1_num_simplices_histogram_1.dat'  using 2:xtic(5)  notitle w boxes lc rgb"green"
 
 
 #flange countdegree
@@ -103,7 +103,7 @@ plot 'E:\Data\SyntheticDataSets\garb\Flange\f167_1_ms_1_num_simplices_histogram_
 #set output "flangeAngle3.eps"
 
 set term png truecolor	
-set output "flangeAngle3.png"
+set output "flangeAngle3_OLD.png"
 set ylabel  offset 2
 set boxwidth 0.9 
 set style fill transparent solid 0.50 noborder
@@ -112,6 +112,19 @@ set ylabel "CountDegree Errors"
  set grid
  set xrange [0:40]
 plot 'E:\Data\SyntheticDataSets\garb\Flange\shrecFlangeSmall.dat'  using 1  notitle w boxes lc rgb"green", '' using 2  notitle w boxes lc rgb"green"
+### new flangeAngle3 
+set term png truecolor	
+set output "flangeAngle3.png"
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid 0.5 noborder
+set boxwidth 0.9
+set xlabel "flange TestCase Id" 
+set ylabel "CountDegree Errors" 
+set grid
+set yrange [0:40]
+plot 'E:\Data\SyntheticDataSets\garb\Flange\shrecMergeSharpCompare.dat'  using 2:xtic(5)  title "SHREC+SYNGRAD" w boxes lc rgb"green", '' using 3  title "SHREC+RELIGRAD" w boxes lc rgb"red"
+
 #cannon
 set terminal postscript eps enhanced color \
     font 'Helvetica,20' linewidth 2
@@ -120,28 +133,40 @@ set terminal postscript eps enhanced color \
 	
 set term png truecolor	
 set output "cannon.png"
-set ylabel offset 2
+set style data histogram
 set boxwidth 0.9 
-set style fill transparent solid 0.50 noborder
+set yrange [:10]
+set style fill solid 0.50 noborder
 set xlabel "Cannon TestCase Id" 
 set ylabel "CountDegree Errors" 
  set grid
- set xrange[1:]
- set yrange[:10]
-plot 'E:\Data\SyntheticDataSets\garb\Cannon\comparison.dat'  using 1  title "SHREC + RELIGRAD" w boxes lc rgb"blue"
+plot 'E:\Data\SyntheticDataSets\garb\Cannon\comparison.dat'  using 2:xtic(1)  title "SHREC + RELIGRAD" w boxes lc rgb"red"
 #cone
 
 set term png truecolor
 set output "cone.png"
 set ylabel offset 2
 set boxwidth 0.9 
-set style fill transparent solid 0.50 noborder
+set style fill solid 0.50 noborder
 set xlabel "Cone TestCase Id" 
 set ylabel "CountDegree Errors" 
- set grid
- set yrange [:10]
- set xrange[1:]
+set grid
+set yrange [:10]
+plot 'E:\Google\SHREC\tables\cone_comparison.dat'  using 2:xtic(1) title "SHREC + SYNTHETIC GRADIENTS" w boxes lc rgb"red", '' using 3:xtic(1)  title "SHREC + RELIGRAD" w boxes lc rgb"blue" 
+
 plot 'E:\Data\SyntheticDataSets\garb\Cone\comparison.dat'  using 1  title "SHREC + SYNTHETIC GRADIENTS" w boxes lc rgb"red", '' using 2 title "SHREC + RELIGRAD" w boxes lc rgb"blue"
+############# cone new image
+set term png truecolor
+set output "cone.png"
+set xlabel "Cone TestCase Id" 
+set ylabel "CountDegree Errors" 
+set grid
+set yrange [:10]
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid 0.5 noborder
+set boxwidth 0.9
+plot 'E:\Google\SHREC\tables\cone_comparison.dat' using 2:xtic(1)  ti col, '' u 3 ti col, 
 
 # polymender 
 set term png truecolor
@@ -179,3 +204,99 @@ set xlabel "Flange data set id."
 set ylabel "CountDegree Errors."
 set yrange [: 10]
 plot 'E:\Data\SyntheticDataSets\garb\Flange\shrecMergeSharpCompare.dat' using 1 w boxes title "SHREC WITH SYN. GRADIENT", '' using 2 w boxes title "MERGESHARP WITH SYN. GRADIENT"
+
+#### polymender
+##### 5 flange , 6 two cube > 30 40 50 results on polymender 
+set term png truecolor
+set output "polymender_angle_histogram.png"
+set boxwidth 0.9 
+set xrange [0:]
+set ylabel "Number of simplices."
+set xlabel "Test case id"
+set style fill solid 0.5 noborder
+plot 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_exe\polymender_shrec_compare.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+##### 5 flange , 6 two cube > 30 40 50 same test case result using shrec and perfect gradients
+set term png truecolor
+set output "polymender_shrec_compare_1.png"
+set boxwidth 0.9 
+set xrange [0:]
+set yrange [:10]
+set ylabel "Number of simplices."
+set xlabel "Test case id"
+set style fill solid 0.5 noborder
+plot 'E:\ResearchDocs\IEEEVIS2015_movedtoGD\PolyMender_1_7_1\PolyMender_1_7_1_exe\polymender_large_test.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+
+#### two cube version 2 
+on 35 test case
+set term png truecolor
+set output "twoCube35_test_1.png"
+set ylabel "Number of simplices."
+set xlabel "Test case id"
+set xrange [0:]
+set boxwidth 0.9 
+set style fill solid 0.5 noborder
+plot 'E:\Google\SHREC\tables\twoCube_RELIGRAD_shrec.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+#####  
+set term png truecolor
+set output "flange-35-polymender.png"
+set xrange [0:]
+set yrange [:400]
+set boxwidth 0.9
+set style fill solid 0.5 noborder 
+set xlabel "Flange Test case id"
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\tables\surfaceAngle_polymender_flange.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+set term png truecolor
+set output "twocube-35-polymender.png"
+set xrange [0:]
+set yrange [:200]
+set boxwidth 0.9
+set style fill solid 0.5 noborder 
+set xlabel "TwoCube Test case id"
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\tables\surfaceAngle_polymender_twoCube.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+##### iso ex 
+set term png truecolor
+set output "isoex_surf_angle_dist.png"
+set boxwidth 0.9
+set style fill solid 0.5 noborder 
+set yrange [:80]
+set xrange [0:]
+set xlabel "Test case id"
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\tables\isoExSurface_comparison_table.dat'  using 2:xtic(1) title ">30 deg" w boxes lc rgb"blue", '' using 3:xtic(1) title ">40 deg" w boxes lc rgb"green", '' using 4:xtic(1)  title ">50 deg" w boxes lc rgb"red" 
+
+
+#cocone comparisons
+set term png truecolor
+set output "cocone_max_angle_twoCube.png"
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid 0.5 noborder
+set boxwidth 0.9
+set ylabel "Max. surf. angle diff. (in degrees)"
+set yrange[:100]
+plot 'E:\Google\SHREC\tables\cocone_twoCube.dat' using 2:xtic(1) title "WC" , '' u 3 title "SHREC+RELIGRAD" 
+
+
+set term png truecolor
+set output "cocone_cd_twoCube.png"
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid 0.5 noborder
+set boxwidth 0.9
+set yrange[:470]
+set ylabel "CountDegree errors."
+plot 'E:\Google\SHREC\tables\cocone_twoCube.dat' using 4:xtic(1) title "WC" , '' u 5 title "SHREC+SYNGRAD", '' u 6 title "SHREC+RELIGRAD" 
+
+set term png truecolor
+set output "cocone_angle_distri_twoCube.png"
+set boxwidth 0.9
+set yrange[:900]
+set style fill solid 0.5 noborder 
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\tables\cocone_twoCube_dey.dat'  using 2:xtic(1) title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
