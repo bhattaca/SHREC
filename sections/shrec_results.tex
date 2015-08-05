@@ -60,7 +60,9 @@ We use the Flange data sets as test sets.
 
 \subsection{Isosurface Reconstruction on Synthetic Data}
 This section describes the result of running SHREC on various synthetic datasets. 
-We compare the results with known synthetic meshes by reporting the degree count of the ``sharp" edges (dihedral angle less than $140^\circ$) and by reporting the surface angle distances between the output and the synthetic mesh.
+
+We compare the results with synthetic meshes by reporting the degree count of the ``sharp" edges (dihedral angle less than $140^\circ$) and by reporting the surface angle distances between the output and the synthetic mesh. All meshes were scaled to a unit origin centered meshes for surface angle comparison tests. The following parameters were used for the surface angle tests; the epsilon neighborhood parameter was set to 0.01 and the delta edge distance was set to 0.01.
+
 We first ran SHREC on 40 Flange datasets with different unique orientations. Figure~\ref{fig:flangeAngle} shows the summary results.
 Figure~\protect\subref*{fig:flangeAngle3} shows the countDegree errors for SHREC with synthetic gradients and with RELIGRAD gradients computed directly from scalar data. With synthetic gradients, SHREC produced no degree errors on the 40 test cases.
 With RELIGRAD gradients 32 cases (80$\%$) produced no degree errors. The maximum number of error was only 8.
