@@ -27,9 +27,9 @@ Vertices in the yellow circles are also part of degenerate triangles
 which lie on the 1D feature.
 Note that the mesh is fully triangulated so that the apparent
 mesh quadrilaterals are actually mesh triangles adjacent 
-to a degenerate triangle.
+to degenerate triangles.
 (d)~Mesh folds produced by Extended Marching Cubes near a cube corner.
-The folds are at highlighted in red.
+The fold edges are at highlighted in red.
 The magenta triangle overlaps six other mesh triangles.}
 \label{fig:problems}
 \end{figure*}
@@ -47,7 +47,7 @@ never inside grid cubes,
 it does a poor job at representing sharp features on isosurfaces.
 
 Dual contouring algorithms construct an isosurface using quadrilaterals
-which are dual to bipolar grid edges.
+which are dual to active grid edges.
 The isosurface vertices are located within the grid cubes,
 not on grid edges.
 Gibson~\cite{gh-ssqem-97,g-cesng-98} gave the first dual contouring algorithm

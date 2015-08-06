@@ -2,13 +2,10 @@
 \section{Definitions}
 \label{section:definitions}
 
-A grid edge is {\em bipolar} if one of its endpoints has scalar value
-less the isovalue while another has scalar values greater than
-or equal to the isovalue.
-A grid cube is {\em active} if one of its edges is bipolar.
+A grid edge, facet or cube is {\em active} if it contains at least one vertex 
+with scalar value greater than or equal to the isovalue
+and at least one vertex with scalar value less than the isovalue.
 
 A fold in a mesh is a mesh edge $\eb$ with dihedral angle near zero,
 so that the two mesh triangles incident on $\eb$ are almost positioned
-on top of one another.
-
-
+on top of one another. (See Figure~\ref{fig:problems}(d).)

@@ -1,9 +1,5 @@
 
-\section{Definitions}
-
-A grid edge, facet or cube is {\em active} if it contains at least one vertex 
-with scalar value greater than or equal to the isovalue
-and at least one vertex with scalar value less than the isovalue.
+\section{More Definitions}
 
 For each active grid edge $\eb$,
 let $w_\eb = (1-\alpha) v_a + \alpha v_b$
@@ -37,8 +33,9 @@ of 125 grid cubes centered at $\cb$.
 \begin{equation*}
 \xymatrix{
 \action{Compute isosurface vertex locations} \ar[d] \\
-\action{Select well-spaced subset of vertices on sharp features} \ar[d] \\
-\action{Merge isosurface vertices around selected vertices}
+\action{Select well-spaced subset of cubes on or near sharp features} \ar[d] \\
+\action{Merge grid cubes around selected cubes} \ar[d] \\
+\action{Extract isosurface mesh}
 }
 \end{equation*}
 \caption{Algorithm SHREC.}
@@ -93,14 +90,15 @@ The curve is far away from any uncovered square.
 \section{MergeSharp}
 \label{section:mergesharp}
 
-Algorithm SHREC has three parts:
+Algorithm SHREC has four parts:
 computation of isosurface vertex locations, 
-selection of a well-spaced subset of vertices on sharp features
-and merging of vertices around selected vertices
+selection of a well-spaced subset of grid cubes on or near sharp features,
+merging of grid cubes around selected cubes
+and extraction of the isosurface
 (Figure~\ref{alg:shrec}).
 Algorithm MergeSharp from~\cite{bw-cisec-13} 
-has a similar three parts,
-but each part is substantially different in SHREC.
+has a similar four parts,
+but the first three parts are substantially different in SHREC.
 To motivate the description of Algorithm SHREC,
 we briefly describe each part in MergeSharp and the associated problems.
 
@@ -115,14 +113,15 @@ MergeSharp also identifies whether the feature
 is 0-dimensional or 1-dimensional
 or if the vertex lies on a smooth region of the isosurface.
 
-In the second part, MergeSharp selects a subset of the isosurface vertices
-lying on 0 or 1-dimensional features.
-These vertices will form the sharp feature in the isosurface mesh.
+Let $C_0$ and $C_1$ be the set of grid cubes whose isosurface vertices
+lie on 0-dimensional features or 1-dimensional features, respectively.
+In the second part, MergeSharp selects a well-spaced subset 
+of $C_0 \cup C_1$.
 Cubes which generate such vertices are called {\em selected} cubes.
+The vertices in selected cubes will form the sharp features
+in the isosurface mesh.
 MergeSharp chooses selected cubes as follows.
 
-Let $C_0$ and $C_1$ be the set of cubes whose isosurface vertices
-lie on 0-dimensional features or 1-dimensional features, respectively.
 Mark all the cubes as ``uncovered''.
 Sort $C_0$ and $C_1$ by increasing distance
 of $\cb.\isov$ from $\cb.\centroid$.
@@ -144,7 +143,7 @@ but the outcome of the algorithm is exactly the same.
 There are problems with every one of the three steps of MergeSharp.
 First, MergeSharp uses gradients from $\cb$ or its immediate neighbors
 to compute the location of $\cb.\isov$.
-As discussed in~\cite{bw-isifsd-15},
+As discussed in~\cite{bw-crgsd-15}
 computing correct gradients near sharp features is difficult,
 if not impossible.
 Thus, the gradients in $\cb$ and its neighbors may not be known.
@@ -1352,10 +1351,10 @@ When gradients are not provided in the input,
 they must be computed from the scalar data.
 If an isosurface has sharp features,
 then the gradient field is discontinuous around those sharp features.
-As discussed in~\cite{bw-isifsd-15}, 
+As discussed in~\cite{bw-crgsd-15}
 computing correct gradients near gradient field discontinuities
 is extremely difficult.
-In~\cite{bw-isifsd-15},
+In~\cite{bw-crgsd-15}
 Bhattaca and Wenger give an algorithm for computing correct gradients
 in the presence of gradient discontinuities, but the algorithm does
 not compute correct gradients at all the grid vertices.
@@ -1366,7 +1365,7 @@ Under suitable conditions,
 the algorithm returns the correct gradient at any vertex
 which is at least three edge lengths from any gradient discontinuity.
 
-Because the algorithm in~\cite{bw-isifsd-15} 
+Because the algorithm in~\cite{bw-crgsd-15}
 does not return gradients near gradient discontinuities,
 no gradient information may be available for the vertices 
 of cubes which contain those discontinuities
@@ -1376,7 +1375,7 @@ Thus, we must use gradients from a $\gDim{7}$ region around each cube $\cb$.
 When scalar data is provided by computer tomography (CT),
 then the scalar values near gradient discontinuities
 may also be incorrect.
-As discussed in~\cite{bw-isifsd-15},
+As discussed in~\cite{bw-crgsd-15},
 we must go out even further to a $\gDim{9}$ region 
 around each cube $\cb$ to get gradient information.
 
@@ -1454,10 +1453,10 @@ The size of $k$ depends upon the input data.
 If correct gradients are provided at each grid vertex,
 then $k$ should equal 3 for a $\gDim{3}$ region around each cube.
 If gradients are computed from correct scalar values 
-using the algorithm in~\cite{bw-isifsd-15},
+using the algorithm in~\cite{bw-crgsd-15},
 then $k$ should equal 7 for a $\gDim{7}$ region around each cube.
 If gradients are computed from CT data 
-using the algorithm in~\cite{bw-isifsd-15},
+using the algorithm in~\cite{bw-crgsd-15},
 then $k$ should equal 9 for a $\gDim{9}$ region around each cube.
 
 SHREC uses three other constants:
