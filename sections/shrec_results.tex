@@ -473,32 +473,49 @@ when SHREC used exact gradients.
 \end{figure}
 
 \begin{figure}[t]
-	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon.eps}\label{fig:cannon:b}}
-	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone.eps}\label{fig:cone:b}}
-	\caption{Summary result of algorithm SHREC on Cannon and Cone Datasets. (a) CountDegree Errors on 15 Cannon datasets using RELIGRAD gradients. SHREC with synthetic gradients had no errors and is not shown. (b) CountDegree errors on 14 Cone datasets using RELIGRAD and synthetic gradients.}
-	\label{fig:cannon_cone_summary}
-\end{figure}
-
-\begin{figure}[t]
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon2.eps}\label{fig:cannon:a}}
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone2.eps}\label{fig:cone:a}}
 	\caption{Result of algorithm SHREC with RELIGRAD gradients on Cannon and Cone datasets}
 	\label{fig:cannon_cone}
 \end{figure}
 
-Results of running SHREC with RELIGRAD on 15 Cannon datasets with
-different orientations are shown in
-Figures~\protect\subref*{fig:cannon:b} and~\protect\subref*{fig:cannon:a}. 
-Figure~\protect\subref*{fig:cannon:b}
-shows the CountDegree errors generated for the 15 cannon sets using
-gradients computed from RELIGRAD, the maximum error generated was
-2. SHREC using synthetic gradients generated no
-errors. Figure~\protect\subref*{fig:cannon:a} shows one representative
-result on a Cannon dataset using SHREC and RELIGRAD gradients. The
-magnified region shows a portion of the sharp edge.
+\begin{figure}[t]
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon.eps}\label{fig:cannon:b}}
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone.eps}\label{fig:cone:b}}
+	\caption{Summary result of algorithm SHREC on Cannon and Cone Datasets. (a) CountDegree Errors on 15 Cannon datasets using RELIGRAD gradients. SHREC with synthetic gradients had no errors and is not shown. (b) CountDegree errors on 14 Cone datasets using RELIGRAD and synthetic gradients.}
+	\label{fig:cannon_cone_summary}
+\end{figure}
 
-Similarly, Figure ~\protect\subref*{fig:cone:b},~\protect\subref*{fig:cone:a} show our results of running SHREC with RELIGRAD and synthetic gradient on the 14 Cone datasets.
-SHREC with synthetic gradients generates errors in only two cases with a  maximum of 4 countDegree errors. SHREC with RELIGRAD also produces a maximum of 4 errors. Figure~\protect\subref*{fig:cone:a} shows the result on a representative element. The sharp edge is reconstructed accurately.
+To measure the dihedral angles other than $90^\circ$,
+we ran SHREC on 15 Cannon data sets with 15 different orientations
+and 14 Smooth Tip Cone data sets with 14 different orientations.
+The 1-dimensional features in the Cannon level sets
+had dihedral angles of $60^\circ$.
+The 1-dimensional features in the Smooth Tip Cone level sets
+had dihedral angles of $120^\circ$.
+As expected, SHREC produced more errors than on the Flange or TwoCube
+data sets, although it still did quite well.
+
+Figure~\ref{fig:cannon_cone} shows Cannon and Smooth Tip Cone isosurfaces
+produced by SHREC using Religrad gradients.
+In each, the 1-dimensional is represented by a sequence 
+of isosurface mesh edges with the appropriate dihedral angles.
+
+Figure~\ref{fig:cannon_cone_summary} gives the number of degree errors
+in the 1-skeleton of sharp edges
+for Cannon and Smooth Tip Cone isosurfaces.
+SHREC using exact gradients produced no degree errors 
+on the 15 Cannon data sets.
+SHREC using Religrad produced degree errors on only four Cannon data sets.
+For each data set, there were exactly two degree errors.
+SHREC using exact gradients produced degree errors in only two 
+of the Smooth Tip Cone data sets,
+one with two errors and one with four.
+SHREC using Religrad gradients produced degree errors on 7 out of the 14
+Smooth Tip Cone data sets.
+The maximum number of degree errors in any Smooth Tip Cone isosurface
+was 4.
+
 
 \section{Experimental Results on CT Data}
 We applied the SHREC algorithm on X-ray computed tomography scans of a number of real industrial datasets. Here we show the results on three of the them. 
