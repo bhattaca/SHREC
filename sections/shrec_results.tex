@@ -22,12 +22,17 @@
 \label{fig:synthetic_data}
 \end{figure*}
 
-\newcommand{\fCYL}  {\emath{f^{Cyl}}}
-\newcommand{\fCII}  {\emath{f^{Cyl \times 2}}}
-\newcommand{\fPII}  {\emath{f^{P \times 2}}}
-\newcommand{\fCN}   {\emath{f^{Cone}}}
-\newcommand{\fSCN}  {\emath{f^{SCn}}}
-\newcommand{\fCAN}  {\emath{f^{Can}}}
+\newcommand{\fCYL}   {\emath{f^{Cyl}}}
+\newcommand{\fCII}   {\emath{f^{Cyl \times 2}}}
+\newcommand{\fPL}    {\emath{f^{Pl}}}
+\newcommand{\fPLII}  {\emath{f^{Pl \times 2}}}
+\newcommand{\fANN}   {\emath{f^{Ann}}}
+\newcommand{\fCN}    {\emath{f^{Cone}}}
+\newcommand{\fSCN}   {\emath{f^{SCone}}}
+\newcommand{\fTCN}   {\emath{f^{TCone}}}
+\newcommand{\fFR}    {\emath{f^{Fr}}}
+\newcommand{\fX}     {\emath{f^{X}}}
+\newcommand{\fCAN}   {\emath{f^{Can}}}
 \newcommand{\NneqII} {\emath{N_{\neq 2}}}
 
 
@@ -71,32 +76,32 @@ The level sets of $\fCYL_{\ell}(q)$ are infinite cylinders around $\ell$.
 Let $\fCII_{\ell,r}(q)$ equal $|\fCYL_{\ell}(q) - r|$.
 The level sets of $\fCII_{\ell,r}(q)$  are pairs of infinite cylinders
 at equal distances from the cylinder of radius $r$ around $\ell$.
-Let $\fPII_{p,\ell}(q)$ be the (unsigned) distance from $q$ to the plane 
-that contains point $p$ and is orthogonal to $\ell$.
-Let $f^A_{p,\ell,r}(q)$ be the maximum 
-of $\fCII_{\ell,r}(q)$ and of $\fPII_{p,\ell}(q)$.
+Let $\fPLII_{p,\ell}(q)$ be the (unsigned) distance from $q$ to the plane
+that contains point $p$ and is orthogonal to line $\ell$.
+Let $\fANN_{p,\ell,r}(q)$ be the maximum 
+of $\fCII_{\ell,r}(q)$ and of $\fPLII_{p,\ell}(q)$.
 The level sets are the boundaries of thickened annuli.
 (See Figure~\ref{fig:synthetic_data}(b).)
 
-The width of the thickened annuli defined by $f^A_{p,\ell,r}$
+The width of the thickened annuli defined by $\fANN_{p,\ell,r}$
 equals their height.
 We can adjust change the difference between the width and height
-by adding constants to $\fCII_{\ell,r}$ or $\fPII_{p,\ell}(q)$.
-Let $f^A_{p,\ell,r,c_1,c_2}(q)$ be the maximum 
-of $\fCII_{\ell,r}(q)+c_1$ and of $\fPII_{p,\ell}(q)+c_2$.
+by adding constants to $\fCII_{\ell,r}$ or $\fPLII_{p,\ell}(q)$.
+Let $\fANN_{p,\ell,r,c_1,c_2}(q)$ be the maximum 
+of $\fCII_{\ell,r}(q)+c_1$ and of $\fPLII_{p,\ell}(q)+c_2$.
 If $c_1$ is greater than $c_2$, 
 then the height is $c_1-c_2$ units greater than the width.
 If $c_2$ is greater than $c_1$, 
 then the width is $c_2-c_1$ units greater than the height.
 
-Define $f^F_{p,\ell,r,c}(q)$ as the minimum
-of $f^A_{p,\ell,r,c,0}(q)$ and $f^A_{p,\ell,r,0,c}(q)$.
-The level sets of $f^F_{p,\ell,r,c}(q)$ are the boundaries
+Define $\fFR_{p,\ell,r,c}(q)$ as the minimum
+of $\fANN_{p,\ell,r,c,0}(q)$ and $\fANN_{p,\ell,r,0,c}(q)$.
+The level sets of $\fFR_{p,\ell,r,c}(q)$ are the boundaries
 of the unions of two thickened annuli.
 (See Figure~\ref{fig:synthetic_data}(c).)
 One annuli has height $c$ units greater than its width
 while the other has width $c$ units greater than its height.
-A {\em Flange} data set is a regular grid sampling of $f^F_{p,\ell,r,c}(q)$
+A {\em Flange} data set is a regular grid sampling of $\fFR_{p,\ell,r,c}(q)$
 and its gradients.
 The Flange data set has no 0-dimensional features.
 We use the Flange data sets as test sets
@@ -124,62 +129,76 @@ The level sets of $\fCN_{p,\zeta,\alpha}(q)$ are cones
 with axis $\ell$.
 
 We truncate the cone by defining a plane orthogonal to $\ell$.
-Let $p'$ be a point on ray $p+t\zeta$.
-Let $\fPII_{p',\ell}(q)$ be the (unsigned) distance from $q$ 
-to the plane containing $p'$ orthogonal to $\ell$.
-Let $f^F_{p,\zeta,\alpha,p'}(q)$ be the maximum 
-of $\fCN_{p,\zeta,\alpha}(q)$ and $\fPII_{p',\ell}(q)$.
-The level sets of $f^F_{p,\zeta,\alpha,p'}(q)$ are frustra.
+Let $p'$ be a point on ray $p+t\zeta$
+where $\zeta$ is a unit vector.
+Let $\fPL_{p',\zeta}(q)$ equal $(q-p') \cdot \zeta$,
+the (unsigned) distance from $q$ 
+to the plane containing $p'$ orthogonal to $\zeta$.
+Define
+\begin{equation*}
+\fFR_{p,\zeta,\alpha,p'}(q) = 
+\max \left ( \fCN_{p,\zeta,\alpha}(q), \fPL_{p',\zeta}(q), \fPL_{p',-\zeta}(q)
+\right ) .
+\end{equation*}
+The level sets of $\fFR_{p,\zeta,\alpha,p'}(q)$ are frustra.
 (See Figure~\ref{fig:synthetic_data}(d).)
 
-The level sets of $f^F_{p,\zeta,\alpha,p'}(q)$
+The level sets of $\fFR_{p,\zeta,\alpha,p'}(q)$
 have two closed curves forming 1-dimensional features.
 The dihedral angle on one of these curves is $90^\circ + \alpha$
 while the dihedral angle on the other is $90^\circ - \alpha$.
 To generate a field with dihedral angles of $90^\circ + \alpha$
 or $90^\circ - \alpha$, but not both,
-we modify $f^F_{p,\zeta,\alpha,p'}(q)$ so that the level sets
+we modify $\fFR_{p,\zeta,\alpha,p'}(q)$ so that the level sets
 are capped by spheres at one end.
 
 Define
-\begin{equation*}
-\fSCN_{p,\zeta,\alpha,p'}(q) =
+\begin{align*}
+\fSCN_{p,\zeta,\alpha,p'}(q) & =
 \left \{
 \begin{array}{ll}
 |q-p'| & \mbox{ if } \angle(q,p',p) \le 90^\circ - \alpha,\\
 \fCN_{p,\zeta,\alpha}(q) & \mbox{ if } 
-  90^\circ - \alpha < \angle(q,p',p) \le 90^\circ, \\
-f^F_{p,\zeta,\alpha,p'}(q) & \mbox{ if } 
-  90^\circ < \angle(q,p',p).
+  \angle(q,p',p) > 90^\circ - \alpha,
 \end{array}
 \right .
-\end{equation*}
+\\
+\fTCN_{p,\zeta,\alpha}(q) & = 
+\max \left ( \fSCN_{p,\zeta,\alpha,p'}(q), \fPL_{p',\zeta} \right ).
+\end{align*}
 
-A level set of $\fSCN_{p,\zeta,\alpha,p'}(q)$ is a truncated cone,
-but with its tip smoothed.
-The level set has a single closed curve forming a 1 dimensional feature
+A level set of $\fSCN_{p,\zeta,\alpha,p'}(q)$ is a cone
+with its tip smoothed.
+A level set of $\fSCN_{p,\zeta,\alpha,p'}(q)$ is a truncated cone
+with its tip smoothed.
+The level set has a single closed curve forming a 1-dimensional feature
 with dihedral angle $90^\circ - \alpha$.
 The {\em Smooth Tip Cone} data set is a regular sampling
-of $\fSCN_{p,\zeta,\alpha,p'}(q)$ and its gradients.
+of $\fTCN_{p,\zeta,\alpha,p'}(q)$ and its gradients.
 We use Smooth Tip Cone data sets to evaluate reconstruction
 of dihedral angles less than $90^\circ$.
 
+Let $p'$ and $p''$ be points on the ray $p + t \zeta$ where
+$|p-p'|$ is less than $(1-\sin(\alpha)) |p-p''|$.
 Define
-\begin{equation*}
-\fCAN_{p,\zeta,\alpha,p'}(q) =
+\begin{align*}
+\fX_{p,\zeta,\alpha,p''}(q) & =
 \left \{
 \begin{array}{ll}
-|q-p'| & \mbox{ if } \angle(q,p',p) > 90^\circ - \alpha,\\
-f^F_{p,\zeta,\alpha,p'}(q) & \mbox{ if } \angle(q,p',p) \le 90^\circ - \alpha.
+|q-p''| & \mbox{ if } \angle(q,p',p) > 90^\circ - \alpha,\\
+\fCN_{p,\zeta,\alpha}(q) & \mbox{ if } \angle(q,p',p) \le 90^\circ - \alpha.
 \end{array}
 \right .
-\end{equation*}
+\\
+\fCAN_{p,\zeta,\alpha,p',p''}(q) & =
+\max \left ( \fX_{p,\zeta,\alpha,p''}(q), \fPL_{p',-\zeta} \right ) .
+\end{align*}
 
-A level set of $\fCAN{p,\zeta,\alpha,p'}(q)$ has the shape of a cannon.
-The level set has a single closed curve forming a 1 dimensional feature
+A level set of $\fCAN_{p,\zeta,\alpha,p'}(q)$ has the shape of a cannon.
+The level set has a single closed curve forming a 1-dimensional feature
 with dihedral angle $90^\circ + \alpha$.
 The {\em Cannon} data set is a regular sampling
-of $\fCAN{p,\zeta,\alpha,p'}(q)$ and its gradients.
+of $\fCAN_{p,\zeta,\alpha,p'}(q)$ and its gradients.
 We use Cannon data sets to evaluate reconstruction
 of dihedral angles greater than $90^\circ$.
 
@@ -199,6 +218,51 @@ of dihedral angles greater than $90^\circ$.
 \label{fig:mesh}
 \end{figure*}
 
+
+\begin{table*}[t]
+\centering
+\begin{tabular}{|l||r|c|c|r|r|r|r|}
+\hline
+              & \centercol{Num} &          & & \centercol{Avg Num} 
+                                     & \centercol{Avg Num} 
+                                         & \centercol{Avg Num} & \\
+Data Set Type & Data Sets & Grid Size & Isovalue & \centercol{Active Cubes} 
+                                    & \centercol{Iso Vert} 
+                                        & \centercol{Iso Tri} 
+                                             & \centercol{Avg Time} \\
+\hline
+\hline
+TwoCubes & 34 & \gDim{150} & 20.1 & 25K & 22K & 45K & 0.8 sec \\
+\hline
+Flange & 40 & \gDim{200} & 10.1 & & & & \\
+\hline
+Smooth Tip Cone & 15 & \gDim{100} & 10.2 & & & & \\
+\hline
+Cannon & 15 & \gDim{100} & 0.0 & & & & \\
+\hline
+Honda Engine & 1 & $411 \times 431 \times 61$ & & & & & \\
+\hline
+Volt & 1 & $101 \times 111 \times 61$ & & & & & \\
+\hline
+CMM & 1 & $500 \times 500 \times 196$ & & & & & \\
+\hline
+\end{tabular}
+
+\caption{Test data set sizes, isovalues, and average statistics
+on isosurfaces produced by SHREC.
+Average number of active cubes, 
+average number of isosurface vertices,
+average number of isosurface triangles,
+and average SHREC running time.
+All isosurface quadrilaterals are triangulated
+before counting the number of isosurface triangles.
+Because SHREC merges isosurface vertices, the average number of isosurface
+vertices is less than the average number of active cubes.
+}
+
+\label{table:datasets}
+
+\end{table*}
 
 \subsection{Gradients}
 
@@ -249,92 +313,193 @@ Isosurfaces from the TwoCubes data sets should have had exactly
 twenty vertices with degrees other than two.
 The number of degree errors for these isosurfaces is $|\NneqII(\Sigma)-20|$.
 
-
-\subsection{Isosurface Reconstruction on Synthetic Data}
-
-We tested SHREC on 40 Flange data sets with 40 different orientations
-and 34 TwoCubes data sets with 34 different orientations.
-We tested SHREC both on gradients produced by exact formulas 
-and on gradients produced by ReliGrad.
-We measured the angle distance between the SHREC isosurfaces
-and the polygonal meshes representing the level sets.
-We also counted the number of isosurface triangles whose normal differences
-were above $30^\circ$, $40^\circ$ and $50^\circ$.
-Finally, we measured the number of degree errors in the 1-skeleton of sharp isosurface edges.
-
-Figure~\ref{fig:flangeAngle} shows results of applying SHREC to the Flange data sets.
-Figure~\protect\subref*{fig:flangeAngle3} shows the countDegree errors for SHREC with synthetic gradients and with RELIGRAD gradients computed directly from scalar data. With synthetic gradients, SHREC produced no degree errors on the 40 test cases.
-With RELIGRAD gradients 32 cases (80$\%$) produced no degree errors. The maximum number of error was only 8.
-Figure~\protect\subref*{fig:flangeAngle1} shows the number of simplices with angle difference greater than 30$^\circ$, 40$^\circ$ and 50$^\circ$ from the original mesh for the 40 test cases. Figure~\protect\subref*{fig:flangeAngle2} shows  the number of simplices versus the angle difference for one particular dataset (id 17) with SHREC and RELIGRAD. This particular dataset has no CountDegree errors, it has three simplices with surface angle difference equals or greater than 30 degrees from the original and one simplex above 40 degrees. The mesh itself has approximately 133 thousand simplices. 
-Figure~\ref{fig:flange1} shows the result on a single dataset. The magnified region shows edges with dihedral angle less than $140^\circ$ in red blended with a subset of the ``non-sharp" edges. 
-\begin{figure}[htb]
+\begin{figure}[tb]
 \includegraphics[width=\linewidth]{images/shrecFlangeCombine2.eps}
 \caption{Result of SHREC on a Flange dataset. ``Sharp" edges (with dihedral angle less than $140^\circ$) are marked in red. 
 ``Smooth" edges are in dark grey. The magnified region shows a blend of the ``sharp" edges with a subset of the ``smooth" edges.}
 \label{fig:flange1}
 \end{figure}
-\begin{figure*}[htb]
-	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle3b.eps}\label{fig:flangeAngle3}}
+
+
+\begin{figure*}[tp]
+\centering	
+
 	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle1b.eps}\label{fig:flangeAngle1}}
 	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle2.eps}\label{fig:flangeAngle2}}
-	\caption{SHREC with synthetic and  RELIGRAD gradients on 40  FLANGE datasets. (a) Number of CountDegree errors. (b) Number of simplices with angle difference to synthetic mesh above 30, 40 and 50 degrees. (c) Shows the angle distribution of one particular case (16) which has three simplices over 30 degrees and 1 above 40 degrees. Total number of simplices is ~133k.}\label{fig:flangeAngle}
+	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle3b.eps}\label{fig:flangeAngle3}}
+
+\caption{Results of SHREC using Religrad gradients on 40 Flange datasets. 
+(a) Number of triangles with angle difference 
+to polygonal mesh above 30, 40 and 50 degrees. 
+(b) Angle distribution of test case 16.
+which has three triangles over 30 degrees and one above 40
+degrees. (Isosurface has approximately $133K$ triangles.)
+(c) Number of degree errors in 1-skeleton of sharp edges.
+}
+
+\label{fig:flangeAngle}
+
+\vspace{4em}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.45\linewidth]{images/tw1.eps} &
+\includegraphics[width=0.45\linewidth]{images/tw2.eps} \\
+(a) SHREC using exact gradients & (b) SHREC using Religrad gradients \\
+\\
+\includegraphics[height=0.25\linewidth]{images/tw3.eps} &
+\includegraphics[height=0.25\linewidth]{images/twoCube35_test_1.eps} \\
+(c) Shrec using Religrad gradients & (d) SHREC using Religrad Gradients
+\end{tabular}
+
+\caption{Results of SHREC using exact and Religrad gradients 
+on 40 TwoCubes datasets. 
+(a) Unoriented angle distance between isosurface (exact gradients)
+and polygonal mesh.
+(Note that the $y$-scale is from 0 to $10^\circ$.)
+(b) Unoriented angle distance between isosurface (Religrad gradients)
+and polygonal mesh.
+(c)~Number of isosurface triangles (Religrad gradients)
+with angle difference to polygonal mesh above 30, 40, 50 degrees.
+(d)~Number of degree errors in the 1-skeleton of sharp edges
+(Religrad gradients).
+(SHREC using exact gradients produces no degree errors.)}
+\label{fig:shrecTwoCube}
+
 \end{figure*}
-%\begin{figure*}[p] 
-%	\centering
-%	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol1.eps}\label{fig:shrecTwoCube:a}}
-%	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol3.eps}\label{fig:shrecTwoCube:b}}\\
-%	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol2.eps}\label{fig:shrecTwoCube:c}}
-%	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/shrecResCol4.eps}\label{fig:shrecTwoCube:d}}
-%	\caption{SHREC with perfect gradients and with RELIGRAD gradients(computed directly from scalar data.).~\protect\subref{fig:shrecTwoCube:a} shows the number of CountDegree errors when using SHREC along with the correct gradients.~\protect\subref{fig:shrecTwoCube:c} The same result when using gradients computed directly from scalar data (RELIGRAD). ~\protect\subref{fig:shrecTwoCube:b} shows the maximum angle difference from the ``perfect mesh" when using correct gradients.~\protect\subref{fig:shrecTwoCube:d} The same result when using RELIGRAD gradients. }
-%	\label{fig:shrecTwoCube}
-%	\vskip-0.2cm
-%\end{figure*}
-\begin{figure*}
-	\centering	
-	\subfloat[SHREC+ synthetic Gradients]{\includegraphics[width=0.45\linewidth]{images/tw1.eps}
-		\label{fig:summ_tw:a}}\quad
-	\subfloat[SHREC+ RELIGRAD Gradients]{\includegraphics[width=0.45\linewidth]{images/tw2.eps}
-		\label{fig:summ_tw:b}}\\
-	\subfloat[SHREC+ RELIGRAD Gradients]{\includegraphics[width=0.45\linewidth]{images/tw3.eps}
-		\label{fig:summ_tw:c}}\quad
-	\subfloat[SHREC+ RELIGRAD Gradients]{\includegraphics[height=0.25\linewidth]{images/twoCube35_test_1.eps}
-		\label{fig:summ_tw:d}}
-	\caption{SHREC summary results on 34 TwoCube datasets.~\protect\subref{fig:summ_tw:a} shows the maximum surface angle difference from the synthetic meshes when using SHREC with synthetic gradients.~\protect\subref{fig:summ_tw:b} shows the maximum surface angle difference for the same test cases when using SHREC with RELIGRAD gradients.~\protect\subref{fig:summ_tw:c} shows the countDegree errors when using SHREC with RELIGRAD gradients. 
-	~\protect\subref{fig:summ_tw:d} shows the number of simplices with surface angle difference more than 30, 40, 50$^{\circ}$ for SHREC running with RELIGRAD. 
-	 Note: SHREC with synthetic gradients produces "NO" countDegree errors and the maximum surface angle error (Fig.~\protect\subref{fig:summ_tw:a}) is less than 1.8$^{\circ}$, to small to show angle distribution. }
-	\label{fig:shrecTwoCube}
-\end{figure*}
-Next we ran SHREC on 34 TwoCube datasets each with different orientations.
-Figure~\ref{fig:shrecTwoCube} shows the summary results. As with Flange we first tested SHREC with synthetic gradients and then with gradients computed from the scalar data using RELIGRAD.
 
-On the 34 twoCube datasets, SHREC with synthetic gradients generated no countDegree errors. 
-Figure~\protect\subref*{fig:summ_tw:a} shows the results for maximum surface angle difference from the synthetic mesh, using the SHREC algorithm along with synthetic gradients as input. The reconstructions are very accurate, the maximum angle difference was less than 2$^{\circ}$. 
 
-Next we describe the results of SHREC using gradients generated using RELIGRAD;
-Figure~\protect\subref*{fig:summ_tw:b}, shows the maximum angle difference from the synthetic mesh was less than 50$^\circ$ (id 16). CountDegree summary (Figure~\protect\subref*{fig:summ_tw:c}) shows that only 5 out of 34 datasets, had degree errors with a maximum of 4. Figure~\protect\subref*{fig:summ_tw:d} shows that dataset (id 16) which had the maximum surface angle difference error had only 5 simplices with angle difference more than 30$^\circ$ and a single simplex over 40$^\circ$.
-Figure~\ref{fig:shrecPerfect1} shows the mesh and the edges generated on a particular TwoCube dataset.
+\subsection{Isosurface Reconstruction on Synthetic Data}
 
-Results of running SHREC with RELIGRAD on 15 Cannon datasets  with different orientations are shown in Figure~\protect\subref*{fig:cannon:b},~\protect\subref*{fig:cannon:a}. Figure~\protect\subref*{fig:cannon:b} shows the CountDegree errors generated for the 15 cannon sets using gradients computed from RELIGRAD, the maximum error generated was 2. SHREC using synthetic gradients generated no errors. Figure~\protect\subref*{fig:cannon:a} shows one representative result on a Cannon dataset using SHREC and RELIGRAD gradients. The magnified region shows a portion of the sharp edge. 
+We tested SHREC on 40 Flange data sets with 40 different orientations
+and 34 TwoCubes data sets with 34 different orientations.
+Table~\ref{table:datasets} presents data set sizes, isovalues,
+and average isosurface sizes.
+We tested SHREC both on gradients produced by exact formulas 
+and on gradients produced by ReliGrad.
+We measured the unoriented angle distance between the SHREC isosurfaces
+and the polygonal meshes representing the level sets.
+We also counted the number of isosurface triangles whose normal differences
+were above $30^\circ$, $40^\circ$ and $50^\circ$.
+Finally, we measured the number of degree errors 
+in the 1-skeleton of sharp isosurface edges.
 
-Similarly, Figure ~\protect\subref*{fig:cone:b},~\protect\subref*{fig:cone:a} show our results of running SHREC with RELIGRAD and synthetic gradient on the 14 Cone datasets.
-SHREC with synthetic gradients generates errors in only two cases with a  maximum of 4 countDegree errors. SHREC with RELIGRAD also produces a maximum of 4 errors. Figure~\protect\subref*{fig:cone:a} shows the result on a representative element. The sharp edge is reconstructed accurately.
-\begin{figure}[tb]
+Figure~\ref{fig:flange1} shows a Flange isosurface produced by SHREC
+using exact gradients.
+The magnified region shows edges with dihedral angle
+less than $140^\circ$ in red blended with a subset of the ``non-sharp"
+edges.
+
+With exact gradients,
+all the Flange isosurfaces had unoriented angle distance
+under ??? from the polygonal meshes.
+They also had no degree errors in the 1-skeletons
+of sharp isosurface edges,
+i.e. all the vertices in the 1-skeletons had degree two.
+
+Figure~\ref{fig:flangeAngle} displays angle distance and degree error
+information for the 40 Flange isosurfaces
+when gradients were produced using Religrad.
+As shown in Figure~\subref*{fig:flangeAngle1},
+only one isosurface had triangles with angle distance greater than $50^\circ$
+and less than half had no triangles with angle distance greater than $40^\circ$.
+No isosurfaces had more than 5 triangles with angle distance
+greater than $40^\circ$
+and no isosurfaces had more than 15 triangles with angle distance greater
+than $30^\circ$.
+
+Figure~\subref*{fig:flangeAngle2} displays a histogram of angle distances
+for a single Flange isosurface (id 17) 
+whose gradients were produced using Religrad.
+(Note the logarithmic scale.)
+As can be seen,
+there are very few triangles with angle distance
+greater than $20^\circ$, $30^\circ$ or $40^\circ$.
+The isosurface mesh has approximately 133
+thousand triangles. 
+
+Figure~\protect\subref*{fig:flangeAngle3} shows the 1-skeleton degree errors
+for the 40 Flange isosurfaces when gradients were produced using Religrad.
+Thirty two isosurfaces (80$\%$) had no degree errors.
+No isosurface had more than eight degree errors.
+
+Figure~\ref{fig:shrecPerfect1} shows a TwoCubes isosurface
+and isosurface edges constructed by SHREC.
+SHREC reproduces the 0-dimensional features with single mesh vertices
+and the 1-dimensional features with a sequence of mesh edges
+with dihedral angle $90^\circ$.
+
+Figure~\ref{fig:shrecTwoCube} displays angle distance and degree error
+information for the 34 TwoCube isosurfaces produced by SHREC.
+Figure~\ref{fig:shrecTwoCube}(a) shows the unoriented angle distance
+using exact gradients.
+As with the exact gradients in the Flange data sets,
+the angle distance is very low (less than $2^\circ$)
+for all the isosurfaces.)
+With exact gradients, the 34 TwoCubes isosurfaces 
+had no 1-skeleton degree errors, 
+i.e. they all had exactly 20 vertices with degree three 
+in the 1-skeleton of their sharp edges.
+
+Figure~\ref{fig:shrecTwoCube}(b) shows the unoriented angle distances
+using gradients produced by Religrad.
+For most isosurfaces, the angle distance is still low (under $10^\circ$),
+although six isosurfaces have angle distances of between $30^\circ$
+and $50^\circ$.
+The high angle distances indicate errors in the SHREC reconstruction 
+of sharp features.
+
+For the isosurfaces constructed using Religrad gradients,
+Figure~\ref{fig:shrecTwoCube}(c) gives
+the number of isosurface triangles whose normal differences
+are above $30^\circ$, $40^\circ$ and $50^\circ$.
+Dataset 16, which had the largest angle distance over all 34 isosurfaces,
+has only 5 triangles with normal difference more than 30$^\circ$ 
+and a single triangle with normal distance over 40$^\circ$.  
+
+Figure~\ref{fig:shrecTwoCube}(d) shows
+the degree errors in the 1-skeleton of sharp edges
+when gradients were produced using Religrad.
+29 out of the 34 TwoCubes isosurfaces had no degree errors.
+Of the 5 isosurfaces with degree errors,
+the maximum number of degree errors was four.
+As previously noted,
+there were no degree errors for any of the 34 TwoCubes isosurfaces
+when SHREC used exact gradients.
+
+\begin{figure}[t]
 	\includegraphics[width=\linewidth]{images/shrecPerfect.eps}
 	\caption{Result of SHREC on a twoCube dataset. ``sharp" edges are marked in red. Smooth edges are shown in cyan. The magnified region shows the output mesh edges around a corner.}
 	\label{fig:shrecPerfect1}
 \end{figure}
-\begin{figure}[htb]
+
+\begin{figure}[t]
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon.eps}\label{fig:cannon:b}}
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone.eps}\label{fig:cone:b}}
 	\caption{Summary result of algorithm SHREC on Cannon and Cone Datasets. (a) CountDegree Errors on 15 Cannon datasets using RELIGRAD gradients. SHREC with synthetic gradients had no errors and is not shown. (b) CountDegree errors on 14 Cone datasets using RELIGRAD and synthetic gradients.}
 	\label{fig:cannon_cone_summary}
 \end{figure}
-\begin{figure}[tb]
+
+\begin{figure}[t]
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon2.eps}\label{fig:cannon:a}}
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone2.eps}\label{fig:cone:a}}
 	\caption{Result of algorithm SHREC with RELIGRAD gradients on Cannon and Cone datasets}
 	\label{fig:cannon_cone}
 \end{figure}
+
+Results of running SHREC with RELIGRAD on 15 Cannon datasets with
+different orientations are shown in
+Figures~\protect\subref*{fig:cannon:b} and~\protect\subref*{fig:cannon:a}. 
+Figure~\protect\subref*{fig:cannon:b}
+shows the CountDegree errors generated for the 15 cannon sets using
+gradients computed from RELIGRAD, the maximum error generated was
+2. SHREC using synthetic gradients generated no
+errors. Figure~\protect\subref*{fig:cannon:a} shows one representative
+result on a Cannon dataset using SHREC and RELIGRAD gradients. The
+magnified region shows a portion of the sharp edge.
+
+Similarly, Figure ~\protect\subref*{fig:cone:b},~\protect\subref*{fig:cone:a} show our results of running SHREC with RELIGRAD and synthetic gradient on the 14 Cone datasets.
+SHREC with synthetic gradients generates errors in only two cases with a  maximum of 4 countDegree errors. SHREC with RELIGRAD also produces a maximum of 4 errors. Figure~\protect\subref*{fig:cone:a} shows the result on a representative element. The sharp edge is reconstructed accurately.
+
 \section{Experimental Results on CT Data}
 We applied the SHREC algorithm on X-ray computed tomography scans of a number of real industrial datasets. Here we show the results on three of the them. 
 Figure~\ref{fig:ict:hondaEng} shows the result of reconstruction on a subset of a Honda Engine data set using SHREC and RELIGRAD. The Honda engine data is $411*431*61$ in dimension. The magnified regions (with black border) show that the sharp edges are well reconstructed. In yellow border boxes, we see magnified parts of the  reconstructed mesh along with the sharp and non-sharp edges generated by SHREC. In red we see an image of the original part which is reconstructed. 
@@ -343,6 +508,7 @@ Figure~\ref{fig:ict:hondaEng} shows the result of reconstruction on a subset of 
 Figure~\ref{fig:ict:volt} shows the result on our Volt dataset; The dimension of the data set is $101*111*61$. Volt is a scan of a generic 440 voltage electrical connector. Once again we see that SHREC along with RELIGRAD is able to reconstruct the sharp (flange-like) curves accurately. Finally, Figure~\ref{fig:ict:CMM} shows a part of our coordinate measuring machine (CMM) data (size $500*500*196$), Figure~\protect\subref*{fig:ict:CMM:a} shows the reconstruction result. Figure~\protect\subref*{fig:ict:CMM:b} shows a single slice of the CT scan, mapped to the ``heat" color map. 
 
 Through these reconstructions and others we have confirmed that SHREC performs well on real industrial CT data sets. 
+
 \begin{figure}\centering
 	\includegraphics[width=\linewidth]{images/ictsetA_2.eps}
 	\caption{SHREC with RELIGRAD gradients computed from part of industrial CT data (Honda Engine). Magnified regions show ``sharp" edges reconstructed. In red, picture from the original item.}
@@ -359,6 +525,7 @@ Through these reconstructions and others we have confirmed that SHREC performs w
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/CMM.singleSliceXY.eps}\label{fig:ict:CMM:b}}
 	\caption{(a) SHREC with RELIGRAD gradients computed from part of the CMM dataset. Magnified regions show ``sharp" reconstructed edges. (b) Single slice of the CT scan, mapped to the ``heat" color map.}\label{fig:ict:CMM}
 \end{figure}
+
 \section{Comparison with Other Algorithms}
 \label{section:comparison}
 \paragraph{Comparison with MergeSharp}
@@ -409,7 +576,7 @@ Figure~\protect\subref*{fig:cocone:a} shows countDegree error comparison between
 In contrast, WeightCocone generates a large number of errors on all the testcases; with an average of 330 errors. Figure~\protect\subref*{fig:cocone:b} shows the maximum surface angle difference from the synthetic mesh for SHREC with RELIGRAD and WeighCocone;
 The maximum angle difference is 43$^\circ$ for SHREC, with the mean error of 8$^\circ$ for the 15 tests. In comparison maximum angle difference was 87$^\circ$ for WeightCocone, with a mean of 79$^\circ$.
 Figure~\protect\subref*{fig:cocone:c} shows the angle distribution for WeightCocone construction on the 15 testcases. 
-On all the test cases there are large number of simplices with angle difference more than 40$^\circ$ and 50$^\circ$.
+On all the test cases there are large number of triangles with angle difference more than 40$^\circ$ and 50$^\circ$.
 
 Above discussion quantitatively shows what we previously observed from  in Figure~\protect\subref*{fig:cocone_img:a},~\protect\subref*{fig:cocone_img:b} and compared to Figure~\ref{fig:flange1},~\ref{fig:shrecPerfect1} i.e sharp edges generated by WeightCocone is in general far worse than those generated by SHREC with synthetic as well as RELIGRAD gradients. 
 
@@ -420,7 +587,7 @@ Dey et al.~\cite{Dey2012,Dey2013} report better results on their datasets, Which
 		\subfloat[]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_twoCube.eps}\label{fig:cocone:b}}	
 		\subfloat[]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
 		%\subfloat[]{\includegraphics[width=0.6\linewidth]{images/twoCubeQuant.eps}\label{table:cocone_compare_with_mc_table_1}}
-		\caption{Cocone comparison Dey et al.~\cite{Dey2012,Dey2013}.(a) CountDegree errors on 15 datasets using SHREC with synthetic gradients, RELIGRAD and WeightCocone. (b)Max. surface angle difference for the 15 testcases using WeightCocone and SHREC with RELIGRAD(c) Number of simplices with angle difference of 30$^\circ$, 40$^\circ$ and 50$^\circ$ from the original mesh on a subset of 15 datasets using WeightCocone with  input points sampled from the synthetic mesh.}
+		\caption{Cocone comparison Dey et al.~\cite{Dey2012,Dey2013}.(a) CountDegree errors on 15 datasets using SHREC with synthetic gradients, RELIGRAD and WeightCocone. (b)Max. surface angle difference for the 15 testcases using WeightCocone and SHREC with RELIGRAD(c) Number of triangles with angle difference of 30$^\circ$, 40$^\circ$ and 50$^\circ$ from the original mesh on a subset of 15 datasets using WeightCocone with  input points sampled from the synthetic mesh.}
 		\label{fig:cocone:compare}
 \end{figure*}
 \paragraph{Polymender comparison;}
@@ -430,7 +597,7 @@ We ran the same 34 twocube datasets and the 34 flange dataset using Polymender.
 Figure~\ref{fig:polymenderA} shows the summary results of running Polymender both using CountDegree and surface angle differences.
 Figure~\ref{fig:polymenderB} shows qualitative comparison between Polymender and SHREC. 
 Figure~\protect\subref*{fig:polymender:a},~\protect\subref*{fig:polymender:b} and ~\protect\subref*{fig:polymender:f} shows the countDegree errors, the maximum surface angle difference from the synthetic mesh and the angle distribution for 34 twoCube datasets respectively. Similarly, 
-Figure~\protect\subref*{fig:polymender:c},~\protect\subref*{fig:polymender:d} and ~\protect\subref*{fig:polymender:e} shows the results for the 34 flange datasets. Polymender produces numerous degree errors both in flange and twoCube datasets. The maximum degree error for twoCube datasets, is ~170. At least 3 flange dataset produce over 350 errors. Both Flange and twoCube produce large maximum angle difference errors from the synthetic mesh. The angle distributions show the angle errors are not isolated instead large number of simplices in both the flange and the twoCube datasets have large (over 50$^\circ$) angle difference from the synthetic mesh.    
+Figure~\protect\subref*{fig:polymender:c},~\protect\subref*{fig:polymender:d} and ~\protect\subref*{fig:polymender:e} shows the results for the 34 flange datasets. Polymender produces numerous degree errors both in flange and twoCube datasets. The maximum degree error for twoCube datasets, is ~170. At least 3 flange dataset produce over 350 errors. Both Flange and twoCube produce large maximum angle difference errors from the synthetic mesh. The angle distributions show the angle errors are not isolated instead large number of triangles in both the flange and the twoCube datasets have large (over 50$^\circ$) angle difference from the synthetic mesh.    
 
 Figure~\protect\subref*{fig:polymenderB:a} shows part of a flange dataset reconstructed using SHREC and RELIGRAD. Figure~\protect\subref*{fig:polymenderB:b} shows the same region reconstructed using Polymender; note the ``flipped" triangle and distorted ``sharp" line. Figure~\protect\subref*{fig:polymenderB:c} shows the surface angle  difference distribution for the meshes shown in Figure~\protect\subref*{fig:polymenderB:a} and Figure~\protect\subref*{fig:polymenderB:b}; as expected SHREC produces far few large angle difference than Polymender.
 
@@ -451,8 +618,8 @@ Figure~\protect\subref*{fig:polymender:cone:a} shows a Cone dataset reconstructe
 			~\protect\subref{fig:polymender:c} CountDegree errors for 40 Flange datasets. 
 			~\protect\subref{fig:polymender:b} Maximum surface angle difference between Polymender results and perfect mesh for TwoCube data sets.
 			~\protect\subref{fig:polymender:d} Maximum surface angle difference between Polymender results and perfect mesh for Flange data sets.
-			~\protect\subref{fig:polymender:f} Number of simplices with angle difference above 30, 40, 50$^\circ$ for the twoCube datasets.
-			~\protect\subref{fig:polymender:e} Number of simplices with angle difference above 30, 40, 50$^\circ$ for the Flange datasets.}	
+			~\protect\subref{fig:polymender:f} Number of triangles with angle difference above 30, 40, 50$^\circ$ for the twoCube datasets.
+			~\protect\subref{fig:polymender:e} Number of triangles with angle difference above 30, 40, 50$^\circ$ for the Flange datasets.}	
 		\label{fig:polymenderA}
 \end{figure*}
 \begin{figure*}
@@ -463,7 +630,7 @@ Figure~\protect\subref*{fig:polymender:cone:a} shows a Cone dataset reconstructe
 			\subfloat[]{\includegraphics[width=0.2\linewidth]{images/polymender_cone_merge_1.eps}\label{fig:polymender:cone:a}}\quad
 			\subfloat[]{\includegraphics[width=0.2\linewidth]{images/polymender_cone_merge_2.eps}\label{fig:polymender:cone:b}}\quad
 			\subfloat[]{\includegraphics[width=0.4\linewidth]{images/polymender_cone_merge_3.eps}\label{fig:polymender:cone:c}}
-			\caption{Polymender and SHREC comparison.~\protect\subref{fig:polymenderB:a} shows SHREC on a part of the flange dataset. ~\protect\subref{fig:polymenderB:b} shows Polymender results on the same. Figure~\protect\subref{fig:polymenderB:c} shows the number of simplices with angle comparison between SHREC and Polymender for this dataset. Figure~\protect\subref{fig:polymender:cone:a} Cone dataset using SHREC. Figure~\protect\subref{fig:polymender:cone:b} Cone data set using Polymender. ~\protect\subref{fig:polymender:cone:c} magnified region showing an edge in both. }
+			\caption{Polymender and SHREC comparison.~\protect\subref{fig:polymenderB:a} shows SHREC on a part of the flange dataset. ~\protect\subref{fig:polymenderB:b} shows Polymender results on the same. Figure~\protect\subref{fig:polymenderB:c} shows the number of triangles with angle comparison between SHREC and Polymender for this dataset. Figure~\protect\subref{fig:polymender:cone:a} Cone dataset using SHREC. Figure~\protect\subref{fig:polymender:cone:b} Cone data set using Polymender. ~\protect\subref{fig:polymender:cone:c} magnified region showing an edge in both. }
 					\label{fig:polymenderB}
 \end{figure*}
 \paragraph{Extended Marching Cubes comparison;}
@@ -485,7 +652,7 @@ Figure~\protect\subref*{fig:polymender:cone:a} shows a Cone dataset reconstructe
 We also compare our algorithm to Extended Marching Cubes by Kobbelt et al.~\cite{kbsh-fssev-01}. For this we extended the implementation available at \url{https://www.graphics.rwth-aachen.de/software/} \href{https://www.graphics.rwth-aachen.de/software/}{}, to include twoCube and Flange data types. We ran extended marching cubes on 4 randomly selected twoCube dataset and 4 randomly selected flange dataset. Figure~\protect\subref*{fig:isoEx_summ:a} shows the countDegree results on the test cases using both extended marching cubes and SHREC. SHREC generates no countdegree errors in these testcases, in comparison all test cases using extended marching cubes generate degree errors; with two out of four flange datasets generating more than 50 errors.
 Example errors for flange and twoCube are shown in Figure~\protect\subref*{fig:isoEx:a} and Figure~\protect\subref*{fig:isoEx:b} respectively. 
 
-Figure~\protect\subref{fig:isoEx_summ:b} shows the maximum surface angle difference comparison between SHREC and extended marching cubes. The maximum surface angle difference to the synthetic mesh is less than 20$^\circ$ when using SHREC on the Flange datasets, but is around 180$^\circ$ for extended marching cubes due to triangle flipping. Finally, Figure~\protect\subref*{fig:isoEx_summ:c} shows the angle distribution for extended marching cubes on the 15 datasets, the reconstruction generates numerous simpices which are at angles greater than 50 $^\circ$ from the synthetic mesh; all the flange datasets have at least 22 simplices which have more than 50  $^\circ$ difference from the synthetic mesh, with the highest total of 45 simplices above 30 $^\circ$ for flange testcase 1.
+Figure~\protect\subref{fig:isoEx_summ:b} shows the maximum surface angle difference comparison between SHREC and extended marching cubes. The maximum surface angle difference to the synthetic mesh is less than 20$^\circ$ when using SHREC on the Flange datasets, but is around 180$^\circ$ for extended marching cubes due to triangle flipping. Finally, Figure~\protect\subref*{fig:isoEx_summ:c} shows the angle distribution for extended marching cubes on the 15 datasets, the reconstruction generates numerous simpices which are at angles greater than 50 $^\circ$ from the synthetic mesh; all the flange datasets have at least 22 triangles which have more than 50  $^\circ$ difference from the synthetic mesh, with the highest total of 45 triangles above 30 $^\circ$ for flange testcase 1.
 
 
 Extensive comparison with the state of the art algorithms show that SHREC with both synthetic gradients and gradients computed from RELIGRAD can out-perform these algorithms and reconstruct sharp features effectively. 

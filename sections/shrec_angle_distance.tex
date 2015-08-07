@@ -154,6 +154,15 @@ nor $\dApe(\Sigma_p, \Sigma_q)$ obey the triangle inequality.
 Nevertheless, we think that the angle distance is a useful way
 of measuring the difference in surface normals between two surfaces.
 
+The angle distance depends upon a consistent orientation of the two surfaces.
+If the surface is not oriented or if it is represented by a set
+of polygons without a consistent orientation,
+then we can still measure an ``unoriented'' angle distance
+by using $\min(\angle(n_p,n_q),\angle(n_p,-n_q))$
+in place of $\angle(n_p,n_q)$.
+We call the two versions of the angle distance,
+the oriented angle distance and the unoriented angle distance.
+
 The angle distance, both in the absolute and extended neighborhoods,
 can be modified to give a variety of measurements of surface normal differences.
 Instead of measuring the maximum angle difference between normals,
