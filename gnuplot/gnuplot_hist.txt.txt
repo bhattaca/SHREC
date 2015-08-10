@@ -300,3 +300,25 @@ set yrange[:900]
 set style fill solid 0.5 noborder 
 set ylabel "Number of simplices"
 plot 'E:\Google\SHREC\tables\cocone_twoCube_dey.dat'  using 2:xtic(1) title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+
+/// twoCube mergesharo euro 
+
+set term png truecolor
+set output "ms_euro_twoCube_distribution.png"
+set boxwidth 0.9
+set yrange[:10]
+set style fill solid 0.5 noborder 
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\mergesharp_euro\twoCube_angleDistribution.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+
+/// flange mergesharo euro 
+
+set term png truecolor
+set output "ms_euro_flange_distribution.png"
+set boxwidth 0.9
+set yrange[:20]
+set style fill solid 0.5 noborder 
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\mergesharp_euro\flange_angleDistribution.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 

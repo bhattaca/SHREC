@@ -241,12 +241,26 @@ Smooth Tip Cone & 15 & \gDim{100} & 10.2 & 4K & 3.5K & 7K & 0.2 sec \\
 \hline
 Cannon & 15 & \gDim{100} & 0.0 & 7K & 7K & 14K & 0.2 sec \\
 \hline
-Motorcyle Engine & 1 & $411 \times 431 \times 61$ 
-   & & & & & \\
+%setA.nhdr
+%1599600 grid cubes.
+%Isovalue 22000.  26049 isosurface vertices.  51170 isosurface simplices.
+%25584 (1%) non-empty cubes.
+%Wrote output to file: setA.isov=22000.off
+Motorcyle Engine & 1 & $200 \times 129 \times 62$ 
+   & 22000 & 25k& 26k& 51k& 1.9\\
 \hline
-Volt & 1 & $101 \times 111 \times 61$ & & & & & \\
+%160uCT.crop1
+%10578000 grid cubes.
+%Isovalue 4000.  527574 isosurface vertices.  1039534 isosurface simplices.
+%519308 (4%) non-empty cubes.
+%Wrote output to file: 160uCT.crop1.aniso.isov=4000.off
+Volt & 1 & $411 \times 431 \times 61$ & 4000& 519k& 527k& 1039k& 39.01\\
 \hline
-CMM & 1 & $500 \times 500 \times 196$ & & & & & \\
+%%% CMM.setA.nhdr in folder industrial CT
+%48555195 grid cubes.
+%Isovalue 20000.  863987 isosurface vertices.  1726046 isosurface simplices.
+%861673 (1%) non-empty cubes.
+CMM & 1 & $500 \times 500 \times 196$ & 20000& 861k& 863k& 1726k& 60.075\\
 \hline
 \end{tabular}
 
@@ -530,14 +544,30 @@ was 4.
 \label{section:comparison}
 \paragraph{Comparison with MergeSharp}
 %#150
-\begin{figure}[htb]
+%mergesharp_euro =['E:\\Programs\\Win\\stdAlone\\ijk\\bin\\mergesharpbin\\Release\\mergesharp.exe', '-position', 'gradNS', '-trimesh']
+%def compare_with_euro(n, iso):
+
+\begin{figure*}[htb]
 	\centering
-	\subfloat[]{\includegraphics[width=0.8\linewidth]{images/mergeSharpvsShrec.eps}\label{fig:mergesharp:a}}\\
-	\subfloat[]{\includegraphics[width=0.6\linewidth]{images/mergeSharpvsShrec2.eps}\label{fig:mergesharp:b}}\\
-	\subfloat[]{\includegraphics[width=0.6\linewidth]{images/cone_mergesharp.eps}\label{fig:mergesharp:c}}
-	\caption{Result of  MERGESHARP and SHREC with synthetic gradients. (a) Summary results of  CountDegree errors of 40 Flange datasets. SHREC does not produce an errors. (b) Result on one particular data set using MERGESHARP, magnified region shows one of the ``notches" created. (c) Apart from ``Notches", MERGESHARP produces gentle dimples which decays the visual quality. Magnified region shows a portion of a Cone dataset (Left) MERGESHARP (Right) SHREC. }
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/ms_euro_flange_countDegree.eps}\label{fig:mergesharp:flange:a}}
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/ms_euro_flange_maxAngle.eps}\label{fig:mergesharp:flange:b}}\\	
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/ms_euro_twoCube_countDegree.eps}\label{fig:mergesharp:tc:a}}
+	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/ms_euro_twoCube_maxAngle.eps}\label{fig:mergesharp:tc:b}}\\
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ms_euro_twoCube_distribution.eps}\label{fig:mergesharp:tc:c}}
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ms_euro_flange_distribution.eps}\label{fig:mergesharp:flange:c}}\\
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/mergeSharpvsShrec2.eps}\label{fig:mergesharp:b}}
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/cone_mergesharp.eps}\label{fig:mergesharp:c}}\\
+	\caption{Result of  MERGESHARP with synthetic gradients. 
+	\protect\subref{fig:mergesharp:flange:a} CountDegree errors on Flange dataset, 
+	\protect\subref{fig:mergesharp:flange:b} Maximum Surf. angle diff.on Flange dataset,
+	\protect\subref{fig:mergesharp:tc:a} CountDegree errors on TwoCube dataset,
+	\protect\subref{fig:mergesharp:tc:b}  Surf. angle diff. distribution TwoCube dataset,
+	\protect\subref{fig:mergesharp:tc:c}  Surf. angle diff. distribution TwoCube dataset,
+	\protect\subref{fig:mergesharp:flange:c} Surf. angle diff. distribution flange dataset,
+	 \protect\subref{fig:mergesharp:b}  Result on one particular data set using MERGESHARP, magnified region shows one of the ``notches" created.
+	 \protect\subref{fig:mergesharp:c}  Apart from ``Notches", MERGESHARP produces gentle dimples which decays the visual quality. Magnified region shows a portion of a Cone dataset (Left) MERGESHARP (Right) SHREC. }
 	\label{fig:mergeSharpVShrec}
-\end{figure}	
+\end{figure*}	
 We first compare our algorithm with MERGESHARP~\cite{bw-cisec-13}. MERGESHARP takes as input a scalar volume and the corresponding synthetic gradients at the grid vertices. Figure~\protect\subref*{fig:mergesharp:a} shows the summary of CountDegree results of running MERGESHARP on 40 Flange datasets using synthetic gradients. SHREC as discussed above does not generate any errors with synthetic gradients. Figure~\protect\subref*{fig:mergesharp:b} shows the result on one of the Flange data sets  reconstructed from MERGESHARP. MERGESHARP produces ``notches" such as the one shown in Figure~\protect\subref*{fig:mergesharp:b}.
 
 MERGESHARP also produces gentle dimples such as the ones in the edge of a Cone data set shown in Figure~\protect\subref*{fig:mergesharp:c}, SHREC does not produce them. 	
@@ -702,9 +732,17 @@ the CT scan, mapped to the ``heat" color map.
 
 Through these reconstructions and others,
 we have confirmed that SHREC performs well on industrial CT data sets. 
-
+\begin{figure}[tb]
+	\centering
+	\subfloat[Single image slice, original machine part]{\includegraphics[width=0.5\linewidth ]{images/cly_sleeve.1.eps}\label{fig:setA.crop1.1}}
+	\subfloat[Sharp Isosurface]{\includegraphics[width=0.5\linewidth]
+		{images/setA.rendering.eps}\label{fig:setA.crop1.2}}
+	\caption{Motorcycle engine dataset.~\protect\subref{fig:setA.crop1.1} a slice of the original CT image, note the streaking artifacts introduced during the scanning process.
+		The inset shows the original machine part. Figure \protect\subref{fig:setA.crop1.2} shows the sharp mesh.}
+	\label{fig:setA.crop1}
+\end{figure}
 \begin{figure}\centering
-	\includegraphics[width=\linewidth]{images/ictsetA_2.eps}
+	\includegraphics[width=\linewidth]{images/ictsetA_3.eps}
 	\caption{SHREC with RELIGRAD gradients computed from part of industrial CT data (Motorcycle Engine). Magnified regions show ``sharp" edges reconstructed. In red, picture from the original item.}
 	\label{fig:ict:hondaEng}
 \end{figure}
