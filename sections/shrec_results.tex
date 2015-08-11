@@ -540,14 +540,7 @@ The maximum number of degree errors in any Smooth Tip Cone isosurface
 was 4.
 
 
-\section{Comparison with Other Algorithms}
-\label{section:comparison}
-\paragraph{Comparison with MergeSharp}
-%#150
-%mergesharp_euro =['E:\\Programs\\Win\\stdAlone\\ijk\\bin\\mergesharpbin\\Release\\mergesharp.exe', '-position', 'gradNS', '-trimesh']
-%def compare_with_euro(n, iso):
-
-\begin{figure*}[htb]
+\begin{figure*}[p]
 	\centering
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/ms_euro_flange_countDegree.eps}\label{fig:mergesharp:flange:a}}
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/ms_euro_flange_maxAngle.eps}\label{fig:mergesharp:flange:b}}\\	
@@ -568,7 +561,25 @@ was 4.
 	 \protect\subref{fig:mergesharp:c}  Apart from ``Notches", MERGESHARP produces gentle dimples which decays the visual quality. Magnified region shows a portion of a Cone dataset (Left) MERGESHARP (Right) SHREC. }
 	\label{fig:mergeSharpVShrec}
 \end{figure*}	
-We first compare our algorithm with MERGESHARP~\cite{bw-cisec-13}. MERGESHARP takes as input a scalar volume and the corresponding synthetic gradients at the grid vertices. Figure~\protect\subref*{fig:mergesharp:a} shows the summary of CountDegree results of running MERGESHARP on 40 Flange datasets using synthetic gradients. SHREC as discussed above does not generate any errors with synthetic gradients. Figure~\protect\subref*{fig:mergesharp:b} shows the result on one of the Flange data sets  reconstructed from MERGESHARP. MERGESHARP produces ``notches" such as the one shown in Figure~\protect\subref*{fig:mergesharp:b}.
+
+\section{Comparison with Other Algorithms}
+\label{section:comparison}
+\paragraph{Comparison with MergeSharp}
+%#150
+%mergesharp_euro =['E:\\Programs\\Win\\stdAlone\\ijk\\bin\\mergesharpbin\\Release\\mergesharp.exe', '-position', 'gradNS', '-trimesh']
+%def compare_with_euro(n, iso):
+
+We first compare our algorithm with
+MERGESHARP~\cite{bw-cisec-13}. MERGESHARP takes as input a scalar
+volume and the corresponding synthetic gradients at the grid
+vertices. Figure~\protect\subref*{fig:mergesharp:flange:a} shows the summary
+of CountDegree results of running MERGESHARP on 40 Flange datasets
+using synthetic gradients. SHREC as discussed above does not generate
+any errors with synthetic
+gradients. Figure~\protect\subref*{fig:mergesharp:b} shows the result
+on one of the Flange data sets reconstructed from
+MERGESHARP. MERGESHARP produces ``notches" such as the one shown in
+Figure~\protect\subref*{fig:mergesharp:b}.
 
 MERGESHARP also produces gentle dimples such as the ones in the edge of a Cone data set shown in Figure~\protect\subref*{fig:mergesharp:c}, SHREC does not produce them. 	
 \paragraph{Comparison with Cocone}
