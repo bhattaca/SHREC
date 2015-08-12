@@ -331,7 +331,7 @@ The number of degree errors for these isosurfaces is $|\NneqII(\Sigma)-20|$.
 
 \begin{figure}[tb]
 \includegraphics[width=\linewidth]{images/shrecFlangeCombine2.eps}
-\caption{Result of SHREC on a Flange dataset. ``Sharp" edges (with dihedral angle less than $140^\circ$) are marked in red. 
+\caption{SHREC Flange isosurface. ``Sharp" edges (with dihedral angle less than $140^\circ$) are marked in red. 
 ``Smooth" edges are in dark grey. The magnified region shows a blend of the ``sharp" edges with a subset of the ``smooth" edges.}
 \label{fig:flange1}
 \end{figure}
@@ -384,6 +384,7 @@ with angle difference to polygonal mesh above 30, 40, 50 degrees.
 
 
 \subsection{Isosurface Reconstruction on Synthetic Data}
+\label{section:synthetic_tests}
 
 We tested SHREC on 40 Flange data sets with 40 different orientations
 and 34 TwoCubes data sets with 34 different orientations.
@@ -483,22 +484,27 @@ when SHREC used exact gradients.
 
 \begin{figure}[t]
 	\includegraphics[width=\linewidth]{images/shrecPerfect.eps}
-	\caption{Result of SHREC on a twoCube dataset. ``sharp" edges are marked in red. Smooth edges are shown in cyan. The magnified region shows the output mesh edges around a corner.}
+	\caption{SHREC TwoCubes isosurface. 
+``Sharp" edges (dihedral angle less than $140^\circ$) are marked in red. 
+Smooth edges are shown in cyan. The magnified region shows the output mesh edges around a corner.}
 	\label{fig:shrecPerfect1}
 \end{figure}
 
 \begin{figure}[t]
-	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon2.eps}\label{fig:cannon:a}}
-	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone2.eps}\label{fig:cone:a}}
-	\caption{Result of algorithm SHREC with RELIGRAD gradients on Cannon and Cone datasets}
-	\label{fig:cannon_cone}
+\subfloat[Cannon]{\includegraphics[width=0.5\linewidth]{images/cannon2.eps}\label{fig:cannon:a}}
+\subfloat[Smooth Tip Cone]{\includegraphics[width=0.5\linewidth]{images/cone2.eps}\label{fig:cone:a}}
+\caption{SHREC Cannon and Smooth Tip Cone isosurfaces (Religrad gradients.) 
+(a)~Cannon isosurface.
+\mbox{1-dimensional} feature has dihedral angle $120^\circ$.
+(b)~Smooth Tip Cone isosurface.  1-dimensional feature has dihedral angle $60^\circ$.}
+\label{fig:cannon_cone}
 \end{figure}
 
 \begin{figure}[t]
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cannon.eps}\label{fig:cannon:b}}
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/cone.eps}\label{fig:cone:b}}
 
-\caption{Result of SHREC on 15 Cannon and 14 Smooth Tip Cone data sets.
+\caption{Results of SHREC on 15 Cannon and 14 Smooth Tip Cone data sets.
 (a) Number of degree errors on 1-skeleton of Cannon isosurfaces
 constructed using Religrad gradients.
 (Cannon isosurfaces constructed using exact gradients had no degree errors.)
@@ -540,27 +546,27 @@ was 4.
 
 \begin{table*}[t]
 \centering
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|l|c|}
 \hline
-Software & Algorithm & URL \\
+Software & Algorithm & URL & References \\
 \hline
 EMC (IsoEx) & Extended Marching Cubes &
-\href{https://www.graphics.rwth-aachen.de/software}{www.graphics.rwth-aachen.de/software} \\
+\href{https://www.graphics.rwth-aachen.de/software}{www.graphics.rwth-aachen.de/software} & \cite{kbsh-fssev-01} \\
 \hline
 EMCpoly & Extended Marching Cubes &
-\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} \\
+\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} & \\
 \hline
 PolyMender & Dual Contouring &
-\href{http://www.cse.wustl.edu/~taoju/code/polymender.htm}{www.cse.wustl.edu/~taoju/code/polymender.htm} \\
+\href{http://www.cse.wustl.edu/~taoju/code/polymender.htm}{www.cse.wustl.edu/~taoju/code/polymender.htm} & \cite{j-rrpm-04,jlsw-dchd-02,sw-dcss-02} \\
 \hline
 SingularCocone & &
-\href{http://web.cse.ohio-state.edu/~tamaldey/cocone.html}{web.cse.ohio-state.edu/~tamaldey/cocone.html} \\
+\href{http://web.cse.ohio-state.edu/~tamaldey/cocone.html}{web.cse.ohio-state.edu/~tamaldey/cocone.html} & \cite{cdr-drpsc-07,Dey2012} \\
 \hline
 MergeSharp & &
-\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} \\
+\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} & \cite{bw-cisec-13,bw-erm-13}\\
 \hline
 SHREC & &
-\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} \\
+\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} & \\
 \hline
 \end{tabular}
 
@@ -582,28 +588,33 @@ SHREC is an implementation of the algorithm in this paper.}
 \centering
 
 \begin{tabular}{cc}
-	\subfloat[Flange: Angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_maxAngle.eps}\label{fig:mergesharp:flange:b}} &
-	\subfloat[Flange: Degree errors]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_countDegree.eps}\label{fig:mergesharp:flange:a}} \\
-	\subfloat[TwoCubes: Angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_maxAngle.eps}\label{fig:mergesharp:tc:b}} &
-	\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_countDegree.eps}\label{fig:mergesharp:tc:a}} \\
-	\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/ms_euro_flange_distribution.eps}\label{fig:mergesharp:flange:c}} &
-	\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/ms_euro_twoCube_distribution.eps}\label{fig:mergesharp:tc:c}} \\
-	\subfloat[Notch in flange]{\includegraphics[width=0.3\linewidth]{images/mergeSharpvsShrec2.eps}\label{fig:mergesharp:b}} &
-	\subfloat[Dimples in cone]{\includegraphics[width=0.3\linewidth]{images/cone_mergesharp.eps}\label{fig:mergesharp:c}}
+	\subfloat[Flange: Angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_maxAngle.eps}\label{fig:msharp:flange:A}} &
+	\subfloat[Flange: Degree errors]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_countDegree.eps}\label{fig:msharp:flange:D}} \\
+	\subfloat[TwoCubes: Angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_maxAngle.eps}\label{fig:msharp:tc:A}} &
+	\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_countDegree.eps}\label{fig:msharp:tc:D}} \\
+	\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/ms_euro_flange_distribution.eps}\label{fig:msharp:flange:c}} &
+	\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/ms_euro_twoCube_distribution.eps}\label{fig:msharp:tc:c}} \\
+	\subfloat[Notch in MergeSharp Flange isosurface]{\includegraphics[width=0.3\linewidth]{images/mergeSharpvsShrec2.eps}\label{fig:msharp:b}} &
+	\subfloat[Dimpled MergeSharp isosurface (left) and smooth SHREC isosurface (right)]{\includegraphics[width=0.3\linewidth]{images/cone_mergesharp.eps}\label{fig:msharp:c}}
 \end{tabular}
-	\caption{Result of  MergeSharp on 40 Flange and 34 TwoCubes data sets
+	\caption{Results of  MergeSharp on 40 Flange and 34 TwoCubes data sets
 (exact gradients).
-	\protect\subref{fig:mergesharp:flange:b}~Angle distance to polygonal Flange meshes,
-	\protect\subref{fig:mergesharp:flange:a}~Degree errors in 1-skeleton 
+	\protect\subref{fig:msharp:flange:A}~Angle distance to polygonal Flange meshes.
+	\protect\subref{fig:msharp:flange:D}~Degree errors in 1-skeleton 
 of sharp edges of Flange datasets.
-	\protect\subref{fig:mergesharp:tc:b}~Angle distance to polygonal TwoCubes meshes,
-	\protect\subref{fig:mergesharp:tc:a}~Degree errors in 1-skeleton 
+	\protect\subref{fig:msharp:tc:A}~Angle distance to polygonal TwoCubes meshes.
+	\protect\subref{fig:msharp:tc:D}~Degree errors in 1-skeleton 
 of sharp edges of TwoCubes datasets.
-	\protect\subref{fig:mergesharp:tc:c}~Number of triangles with angle Surf. angle diff. distribution TwoCube dataset,
-	\protect\subref{fig:mergesharp:flange:c} Surf. angle diff. distribution flange dataset,
-	 \protect\subref{fig:mergesharp:b}  Result on one particular data set using MERGESHARP, magnified region shows one of the ``notches" created.
-	 \protect\subref{fig:mergesharp:c}  Apart from ``Notches", MERGESHARP produces gentle dimples which decays the visual quality. Magnified region shows a portion of a Cone dataset (Left) MERGESHARP (Right) SHREC. }
-	\label{fig:mergeSharpVShrec}
+	\protect\subref{fig:msharp:tc:c}~Number of triangles 
+with angle difference to polygonal Flange mesh above 30, 40 and 50 degrees.
+(No Flange isosurface triangles have angle difference above $50^\circ$.)
+	\protect\subref{fig:msharp:flange:c}~Number of triangles 
+with angle difference to polygonal TwoCubes mesh above 30, 40 and 50 degrees.
+	 \protect\subref{fig:msharp:b}~Notch in a MergeSharp Flange isosurface.
+	 \protect\subref{fig:msharp:c}~Dimples 
+in a MergeSharp Cone isosurface (left).
+Compare with smooth SHREC isosurface (right).}
+\label{fig:msharp}
 \end{figure*}	
 
 \section{Comparison with Other Algorithms}
@@ -624,116 +635,265 @@ so one should be extremely careful in make comparisons
 between these algorithms based on the results presented here.
 For instance, on average,
 EMC has fewer degree errors
-than PolyMender or Weighted Cocone,
+than PolyMender or SingularCocone,
 but EMC computes scalar, 
 distance and normal values from formulas hard wired into the software.
-PolyMender and Weighted Cocone (and SHREC and MergeSharp)
+PolyMender and SingularCocone (and SHREC and MergeSharp)
 would certainly do much better if their input came
 from formulas hard wired into their software.
 
-Weighted Cocone has the most degree errors,
-but Weighted Cocone is designed for reconstruction 
+SingularCocone has the most degree errors,
+but SingularCocone is designed for reconstruction 
 from point samples of a (possibly non-manifold) surface,
 not for reconstruction from sampling of a scalar field.
-Input to Weighted Cocone is point samples of a surface,
+Input to SingularCocone is point samples of a surface,
 not scalar grid or gradient information.
 
 
-\paragraph{Comparison with MergeSharp}
+\begin{figure*}[t]
+	\centering
+			\subfloat[]{\includegraphics[width=0.33\linewidth]{images/polymender4.eps}\label{fig:polymenderB:b}}\quad
+			\subfloat[]{\includegraphics[width=0.33\linewidth]{images/polymender3.eps}\label{fig:polymenderB:a}}
+			\subfloat[]{\includegraphics[width=0.3\linewidth]{images/polymenderHistogram_1.eps}\label{fig:polymenderB:c}}\\
+			\subfloat[]{\includegraphics[width=0.2\linewidth]{images/polymender_cone_merge_2.eps}\label{fig:polymender:cone:b}}\quad
+			\subfloat[]{\includegraphics[width=0.2\linewidth]{images/polymender_cone_merge_1.eps}\label{fig:polymender:cone:a}}\quad
+			\subfloat[]{\includegraphics[width=0.4\linewidth]{images/polymender_cone_merge_3.eps}\label{fig:polymender:cone:c}}
+
+\caption{PolyMender and SHREC comparison.
+Mesh edges with dihedral angle below $140^\circ$ are colored red.
+\protect\subref{fig:polymenderB:b}~PolyMender Flange isosurface.
+\protect\subref{fig:polymenderB:a}~Corresponding SHREC Flange isosurface.
+\protect\subref{fig:polymenderB:c} Distribution of differences of triangle normals
+between PolyMender isosurface and polyhedral mesh (red)
+and between SHREC isosurface and polyhedral mesh (green).
+\protect\subref{fig:polymender:cone:b} PolyMender Cone isosurface.
+\protect\subref{fig:polymender:cone:a} Corresponding SHREC Cone isosurface.
+\protect\subref{fig:polymender:cone:c} Magnified view of Polymender isosurface (left)
+and corresponding SHREC isosurface (right).
+} 
+\label{fig:polymenderB}
+\end{figure*}
+
+
+\paragraph{Comparison with MergeSharp.}
 
 %mergesharp_euro =['E:\\Programs\\Win\\stdAlone\\ijk\\bin\\mergesharpbin\\Release\\mergesharp.exe', '-position', 'gradNS', '-trimesh']
 %def compare_with_euro(n, iso):
 
-We first compare our algorithm with
-MergeSharp~\cite{bw-cisec-13}. MergeSharp takes as input a scalar
-volume and the corresponding synthetic gradients at the grid
-vertices. Figure~\protect\subref*{fig:mergesharp:flange:a} shows the summary
-of CountDegree results of running MergeSharp on 40 Flange datasets
-using synthetic gradients. SHREC as discussed above does not generate
-any errors with synthetic
-gradients. Figure~\protect\subref*{fig:mergesharp:b} shows the result
-on one of the Flange data sets reconstructed from
-MergeSharp. MergeSharp produces ``notches" such as the one shown in
-Figure~\protect\subref*{fig:mergesharp:b}.
+Input to MergeSharp is a regular grid sampling of a scalar field
+and the gradients at the grid vertices.
+We ran MergeSharp on the same 40 Flange and 34 TwoCube synthetic datasets
+that we applied to SHREC in Section~\ref{section:synthetic_tests}.
+We used the exact gradients on MergeSharp, not the Religrad gradients.
+Figures~\subref*{fig:msharp:flange:A} and~\subref*{fig:msharp:tc:c}
+shows the oriented angle distance between the MergeSharp isosurfaces 
+and the polyhedral mesh isosurfaces.
+Five of the MergeSharp TwoCubes isosurfaces have angle distance 
+near $180^\circ$ indicating ``flipped'' triangles produced by folds
+in the mesh.
+Figures~\ref{fig:msharp:flange:c} and~\ref{fig:msharp:tc:c} 
+present the number of triangles with angle difference greater
+than $30$, $40$ and $50$ degrees 
+in the MergeSharp Flange and TwoCubes isosurfaces.
+24 out of 40 of the Flange isosurfaces and 18 out of 34 
+of the TwoCube isosurface have angle distance above $30^\circ$
+indicating significant problems in the reconstruction of sharp features.
 
-MergeSharp also produces gentle dimples such as the ones in the edge of a Cone data set shown in Figure~\protect\subref*{fig:mergesharp:c}, SHREC does not produce them. 	
+Figures~\subref*{fig:msharp:flange:D} and~\subref*{fig:msharp:tc:D}
+gives the number of degree errors in the 1-skeleton's of the sharp edges.
+8 out of 40 of the Flange isosurfaces and 15 out of 34 of the TwoCube
+isosurfaces have degree errors.
+The maximum number of degree errors is eight.
 
+Note that all the results in Figure~\ref{fig:msharp} are
+for MergeSharp isosurfaces produced from EXACT gradients.
+Thus, they should not be compared with the SHREC results
+in Figure~\ref{fig:flangeAngle} for Flange isosurfaces
+produced using Religrad gradients.
+The 40 SHREC Flange isosurfaces produced using exact gradients
+all have angle distance under ???
+compared with angle distances above $30^\circ$
+for 24 of the corresponding MergeSharp isosurfaces.
+None of the SHREC Flange isosurfaces produced using exact gradients
+have degree errors
+compared with 8 MergeSharp isosurfaces with 4 to 8 degree errors.
+
+As shown in Figure~\ref{fig:shrecTwoCube}(a),
+the 40 SHREC TwoCube isosurfaces produced using exact gradients
+all have angle distance under $2^\circ$.
+(Note the y-scale in Figure~\ref{fig:shrecTwoCube}(a)
+is from 0 to $10^\circ$.)
+18 of the corresponding MergeSharp TwoCube isosurfaces have
+angle distance above $30^\circ$.
+None of the SHREC TwoCubes isosurfaces produced using exact gradients
+have degree errors
+compared with 15 of the TwoCube isosurfaces with 2 to 5 degree errors.
+
+Figure~\protect\subref*{fig:msharp:b} shows ``notches''
+in a MergeSharp Flange isosurface.
+Figure~\protect\subref*{fig:msharp:c} shows gentle dimples
+in a MergeSharp Cone isosurface (left image).
+The corresponding SHREC isosurface is smooth and does not have these dimples.
 
 \begin{figure*}[p]
 	\centering
-		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_2.eps}\label{fig:polymender:a}}\quad
+		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/max_surface_angle_Flange.eps}\label{fig:polymender:d}}
 				\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/countDegree_Flange.eps}\label{fig:polymender:c}}\\
 		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_1.eps}\label{fig:polymender:b}}\quad
-		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/max_surface_angle_Flange.eps}\label{fig:polymender:d}}\\
-			\subfloat[]{\includegraphics[ width=0.49\linewidth]{images/twocube-35-polymender.eps}\label{fig:polymender:f}}\quad
-		\subfloat[]{\includegraphics[ width=0.49\linewidth]{images/flange-35-polymender.eps}\label{fig:polymender:e}}\\
-		%\subfloat[]{\includegraphics[width=0.3\linewidth]{images/polymender_angle_histogram.eps}\label{fig:polymender:a}}\quad
-		%\subfloat[]{\includegraphics[width=0.3\linewidth]{images/polymender_shrec_compare_1.eps}\label{fig:polymender:b}}\quad		
-		\caption{Summary results of PolyMender.
-			~\protect\subref{fig:polymender:a} CountDegree errors for 34 TwoCube datasets.
-			~\protect\subref{fig:polymender:c} CountDegree errors for 40 Flange datasets. 
-			~\protect\subref{fig:polymender:b} Maximum surface angle difference between PolyMender results and perfect mesh for TwoCube data sets.
-			~\protect\subref{fig:polymender:d} Maximum surface angle difference between PolyMender results and perfect mesh for Flange data sets.
-			~\protect\subref{fig:polymender:f} Number of triangles with angle difference above 30, 40, 50$^\circ$ for the twoCube datasets.
-			~\protect\subref{fig:polymender:e} Number of triangles with angle difference above 30, 40, 50$^\circ$ for the Flange datasets.}	
-		\label{fig:polymenderA}
+		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_2.eps}\label{fig:polymender:a}}\\
+		\subfloat[]{\includegraphics[ width=0.49\linewidth]{images/flange-35-polymender.eps}\label{fig:polymender:e}}
+\quad
+			\subfloat[]{\includegraphics[ width=0.49\linewidth]{images/twocube-35-polymender.eps}\label{fig:polymender:f}}
+\\
+\caption{Results of PolyMender on 40 Flange and 34 TwoCubes data sets.
+\protect\subref{fig:polymender:d}~Oriented angle distance to polygonal Flange meshes.
+\protect\subref{fig:polymender:b}~Oriented angle distance to polygonal TwoCubes meshes.
+\protect\subref{fig:polymender:c}~Degree errors in 1-skeleton of sharp edges of Flange data sets.
+\protect\subref{fig:polymender:a}~Degree errors in 1-skeleton of sharp edges of TwoCubes data sets.
+(Note: Y-scale is 0 to 200 compared with y-scale 0 to 450 in (b).)
+\protect\subref{fig:polymender:e}~Number of triangles with oriented angle difference to Flange mesh 
+above $30$, $40$ and $50$ degrees.
+\protect\subref{fig:polymender:f}~Number of triangles with oriented angle difference to TwoCubes mesh
+above $30$, $40$ and $50$ degrees.
+(Note: Y-scale is 0 to 200 compared with y-scale 0 to 400 in (e).)
+}
+\label{fig:polymenderA}
 \end{figure*}
 
-\begin{figure*}[t]
-	\centering
-			\subfloat[]{\includegraphics[width=0.33\linewidth]{images/polymender3.eps}\label{fig:polymenderB:a}}\quad
-			\subfloat[]{\includegraphics[width=0.33\linewidth]{images/polymender4.eps}\label{fig:polymenderB:b}}
-			\subfloat[]{\includegraphics[width=0.3\linewidth]{images/polymenderHistogram_1.eps}\label{fig:polymenderB:c}}\\
-			\subfloat[]{\includegraphics[width=0.2\linewidth]{images/polymender_cone_merge_1.eps}\label{fig:polymender:cone:a}}\quad
-			\subfloat[]{\includegraphics[width=0.2\linewidth]{images/polymender_cone_merge_2.eps}\label{fig:polymender:cone:b}}\quad
-			\subfloat[]{\includegraphics[width=0.4\linewidth]{images/polymender_cone_merge_3.eps}\label{fig:polymender:cone:c}}
-			\caption{PolyMender and SHREC comparison.~\protect\subref{fig:polymenderB:a} shows SHREC on a part of the flange dataset. ~\protect\subref{fig:polymenderB:b} shows PolyMender results on the same. Figure~\protect\subref{fig:polymenderB:c} shows the number of triangles with angle comparison between SHREC and PolyMender for this dataset. Figure~\protect\subref{fig:polymender:cone:a} Cone dataset using SHREC. Figure~\protect\subref{fig:polymender:cone:b} Cone data set using PolyMender. ~\protect\subref{fig:polymender:cone:c} magnified region showing an edge in both. }
-					\label{fig:polymenderB}
-\end{figure*}
+\paragraph{Comparison with PolyMender.}
+
+PolyMender is an implementation of mesh repairing algorithm from Ju~\cite{j-rrpm-04}.
+Input to PolyMender is a set of triangles representing a surface,
+but not necessarily properly connected in a polygonal mesh.
+PolyMender uses the triangles to build a regular scalar grid
+representing the signed distance to the surface.
+It also uses the triangles to determine surface normals
+on the surface.
+It extracts an isosurface mesh using the dual contouring algorithm 
+described in~\cite{jlsw-dchd-02,sw-dcss-02}.
+The extracted isosurface mesh is the ``mended'' polygonal mesh.
+
+Because PolyMender contains an implementation of the dual contouring algorithm
+from~\cite{jlsw-dchd-02,sw-dcss-02},
+we used it to compare SHREC and the algorithm from~\cite{jlsw-dchd-02,sw-dcss-02}.
+Our inputs to PolyMender were the polygonal meshes
+(Figure~\ref{fig:mesh})
+designed specifically for each surface to accurately represent the 0-dimensional
+and 1-dimensional features on the surface.
+
+PolyMender builds a multiresolution isosurface
+using an octree instead of a fixed regular grid.
+The highest resolution is determined by the depth of the octree.
+For all tests, we ran PolyMender with octree depth set of 7.
+At the highest resolution,
+this octree sampled data from a regular grid with dimensions $\gDim{2^7}$ or $\gDim{128}$.
+We set the scale set to 0.9 and used defaults for all other parameters.
+
+Figures~\protect\subref*{fig:polymenderB:b} and~\protect\subref*{fig:polymenderB:a} 
+show part of a Flange isosurface reconstructed by PolyMender
+and a corresponding isosurface produced by SHREC (Religrad gradients).
+Note the flipped triangles and distorted ``sharp'' curve (red) in the PolyMender isosurface.
+Figure~\protect\subref*{fig:polymenderB:c} shows the distribution of differences 
+of triangle normals between the PolyMender isosurface and the polyhedral mesh
+and between the SHREC isosurface and the polyhedral mesh.
+All SHREC triangle normals are within $25^\circ$ of the polyhedral mesh normals,
+while PolyMender has numerous triangles with normals greater than $30^\circ$
+of the polyhedral mesh normals.
+
+Figures~\subref*{fig:polymender:cone:b}, \subref*{fig:polymender:cone:a}
+and~\subref*{fig:polymender:cone:c}
+show a PolyMender Smooth Tip Cone isosurface and 
+the corresponding SHREC isosurface (Religrad gradients).
+The 1-dimensonal feature around the base of the cone has a $60^\circ$ dihedral angle.
+In the PolyMender isosurface,
+there are numerous ``notches'' along the 1-dimensional feature.
+
+We ran PolyMender on the same 40 Flange and 34 TwoCube meshes
+that we applied to SHREC in Section~\ref{section:synthetic_tests}.
+Figure~\ref{fig:polymenderA} shows the oriented angle distances from the polygonal meshes
+and the degree errors in the 1-skeletons of sharp edges.
+Most of the PolyMender Flange and TwoCubes isosurfaces had an oriented angle distance greater than $90^\circ$
+from the corresponding polygonal meshes.
+24 out of 40 of the PolyMender Flange isosurfaces had over 150 triangles
+whose normals were more than $50^\circ$ from the normals of the corresponding polygonal meshes.
+In comparison, only one SHREC Flange isosurface (Religrad gradients) had triangles
+whose normals were more than $50^\circ$ from the normals of the corresponding polygonal meshes
+(Figure~\ref{fig:flangeAngle}).
+No SHREC Flange isosurface (Religrad gradients) had more than 15 triangles
+whose normals were more than $30^\circ$ from the normals of the corresponding polygonal meshes
+Almost all of the PolyMender Flange isosurfaces had degree errors
+and 25 out of 40 had over 200 degree errors.
+Only 8 out of 40 SHREC Flange isosurfaces (Religrad gradients) had degree errors
+and the maximum number of degree errors was eight.
+
+PolyMender did a bit better on the TwoCubes isosurfaces,
+probably because the 1-dimensional features in the TwoCubes level sets are line segments.
+Only one of the 34 PolyMender TwoCubes isosurfaces had over 150 triangles
+whose normals were more than $50^\circ$ from the normals of the corresponding polygonal meshes.
+18 out of 34 PolyMender TwoCubes isosurfaces had over 50 triangles
+whose normals were more than $50^\circ$ from the normals of the corresponding polygonal meshes.
+Most of the PolyMender TwoCubes isosurfaces had degree errors,
+but none had more than 180 degree errors.
+8 out of 34 had more than 100 degree errors
+and 22 out of 34 had more than 40 degree errors.
+5 out of 34 SHREC TwoCubes isosurfaces (Religrad gradients)
+had angle distance greater than $40^\circ$ to the corresponding polygonal meshes.
+The same five SHREC isosurfaces had degree errors,
+but no SHREC isosurface had more than four such errors.
 
 \begin{figure*}
 	\centering
-	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/countDegree_isoex_2.eps}\label{fig:isoEx_summ:a}}
 	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/max_angle_isoex_2.eps}\label{fig:isoEx_summ:b}}
-	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/isoex_surf_angle_dist.eps}\label{fig:isoEx_summ:c}}\\
+	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/isoex_surf_angle_dist.eps}\label{fig:isoEx_summ:c}}
+	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/countDegree_isoex_2.eps}\label{fig:isoEx_summ:a}}\\
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/isoExFlange.eps}\label{fig:isoEx:a}}
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/isoExTwoCube.eps}\label{fig:isoEx:b}}\\
 	%\subfloat[]{\includegraphics[width=0.45\linewidth]{images/isoex_compare1.eps}\label{fig:isoEx:a}}\quad
 	%\subfloat[]{\includegraphics[width=0.45\linewidth]{images/isoEx_compare2.eps}\label{fig:isoEx:b}}
-	\caption{Extended Marching Cubes and SHREC comparison.~\protect\subref{fig:isoEx_summ:a} CountDegree comparison for SHREC and extended marching cubes, 
-		~\protect\subref{fig:isoEx_summ:b} Maximum surface angle difference for SHREC and extended marching cubes, 
-		~\protect\subref{fig:isoEx_summ:c} angle distribution  using extended marching cubes, 
-		~\protect\subref{fig:isoEx:a} extended marching cubes on a Flange dataset, ~\protect\subref{fig:isoEx:b} on a TwoCube dataset. The magnified regions shows the errors generated by extended marching cubes.}	
+	\caption{EMCpoly (Extended Marching Cubes) and SHREC comparison.~\protect\subref{fig:isoEx_summ:a} CountDegree comparison for SHREC and extended marching cubes, 
+		~\protect\subref{fig:isoEx_summ:b} Maximum angle distance for SHREC and EMCpoly,
+		~\protect\subref{fig:isoEx_summ:c} angle distribution using EMCpoly, 
+		~\protect\subref{fig:isoEx:a} EMCpoly on a Flange dataset, ~\protect\subref{fig:isoEx:b} on a TwoCube dataset. 
+The magnified regions shows the errors generated by extended marching cubes.}	
 \end{figure*}
 
-\paragraph{PolyMender comparison;}
-We next compared SHREC to PolyMender. PolyMender is an implementation of mesh repairing algorithm from Ju~\cite{j-rrpm-04} available at
-\href{http://www.cse.wustl.edu/~taoju/code/polymender.htm}{www.cse.wustl.edu/~taoju/code/polymender.htm}.
-We ran the same 34 twocube datasets and the 34 flange dataset using PolyMender. 
+\paragraph{Comparison with EMC (Extended Marching Cubes):}
 
-Figure~\ref{fig:polymenderA} shows the summary results of running PolyMender both using CountDegree and surface angle differences.
-Figure~\ref{fig:polymenderB} shows qualitative comparison between PolyMender and SHREC. 
-Figure~\protect\subref*{fig:polymender:a},~\protect\subref*{fig:polymender:b} and ~\protect\subref*{fig:polymender:f} shows the countDegree errors, the maximum surface angle difference from the synthetic mesh and the angle distribution for 34 twoCube datasets respectively. Similarly, 
-Figure~\protect\subref*{fig:polymender:c},~\protect\subref*{fig:polymender:d} and ~\protect\subref*{fig:polymender:e} shows the results for the 34 flange datasets. PolyMender produces numerous degree errors both in flange and twoCube datasets. The maximum degree error for twoCube datasets, is ~170. At least 3 flange dataset produce over 350 errors. Both Flange and twoCube produce large maximum angle difference errors from the synthetic mesh. The angle distributions show the angle errors are not isolated instead large number of triangles in both the flange and the twoCube datasets have large (over 50$^\circ$) angle difference from the synthetic mesh.    
+EMC is a sample implementation of the Extended Marching Cubes algorithm by Kobbelt et al.~\cite{kbsh-fssev-01}.
+The program has a function which provides the scalar value of a point cloud data set,
+the directed distances along the $x$, $y$ and $z$ axes to some level set of the point cloud (a sphere),
+and the gradients at query points near the level set.
+Isosurfaces with sharp features are constructed by combining the functions
+to represent the union, intersection or difference of balls 
+defined by the point cloud data sets.
 
-Figure~\protect\subref*{fig:polymenderB:a} shows part of a flange dataset reconstructed using SHREC and RELIGRAD. Figure~\protect\subref*{fig:polymenderB:b} shows the same region reconstructed using PolyMender; note the ``flipped" triangle and distorted ``sharp" line. Figure~\protect\subref*{fig:polymenderB:c} shows the surface angle  difference distribution for the meshes shown in Figure~\protect\subref*{fig:polymenderB:a} and Figure~\protect\subref*{fig:polymenderB:b}; as expected SHREC produces far few large angle difference than PolyMender.
+The union, intersection and difference of balls produces visually interesting surfaces
+but such surfaces do not seem a realistic approximation to the surfaces found in industrial products.
+To compare EMC with SHREC, we implemented functions which produce scalar values, directed distances,
+and gradients, for Cube and Annulus scalar fields.
+By combining these functions,
+we the corresponding values for the TwoCubes and Flange scalar fields.
+We added only functions to provide the relevant scalar field measurements,
+but did not change the EMC code which generates the isosurface.
+Our modification of EMC is called EMCpoly.
 
-Figure~\protect\subref*{fig:polymender:cone:a} shows a Cone dataset reconstructed using SHREC and RELIGRAD. Figure~\protect\subref*{fig:polymender:cone:b} shows the same dataset reconstructed using PolyMender. The curved edges are not reconstructed accurately in PolyMender. Figure~\protect\subref*{fig:polymender:cone:c} shows a close up comparison of the sharp edge reconstructed from SHREC(right) and PolyMender(left). The sharp edge is not preserved when using PolyMender.  We used the following parameters to run PolyMender; ``octree depth" was set to 7 and ``scale" was set to 0.9 for all tests. Everything else was set to default values. 
-
-
-\paragraph{Extended Marching Cubes comparison;}
-
-We also compare our algorithm to Extended Marching Cubes by Kobbelt et al.~\cite{kbsh-fssev-01}. For this we extended the implementation available at 
-\href{https://www.graphics.rwth-aachen.de/software/}{www.graphics.rwth-aachen.de/software/},
-to include twoCube and Flange data types. We ran extended marching cubes on 4 randomly selected twoCube dataset and 4 randomly selected flange dataset. Figure~\protect\subref*{fig:isoEx_summ:a} shows the countDegree results on the test cases using both extended marching cubes and SHREC. SHREC generates no countdegree errors in these testcases, in comparison all test cases using extended marching cubes generate degree errors; with two out of four flange datasets generating more than 50 errors.
-Example errors for flange and twoCube are shown in
+We ran EMCpoly on four Flange scalar fields with four randomly generated axes directions
+and four TwoCube scalar fields with four randomly generated orientations.
+We ran SHREC on eight corresponding data sets representing the same scalar fields.
+Figure~\protect\subref*{fig:isoEx_summ:a} shows the countDegree
+results on the test cases using both extended marching cubes and
+SHREC. 
+SHREC generates no countdegree errors in these testcases, in
+comparison all test cases using extended marching cubes generate
+degree errors; with two out of four flange datasets generating more
+than 50 errors.  Example errors for flange and twoCube are shown in
 Figure~\protect\subref*{fig:isoEx:a} and
 Figure~\protect\subref*{fig:isoEx:b} respectively.
 
 Figure~\protect\subref{fig:isoEx_summ:b} shows the maximum surface angle difference comparison between SHREC and extended marching cubes. The maximum surface angle difference to the synthetic mesh is less than 20$^\circ$ when using SHREC on the Flange datasets, but is around 180$^\circ$ for extended marching cubes due to triangle flipping. Finally, Figure~\protect\subref*{fig:isoEx_summ:c} shows the angle distribution for extended marching cubes on the 15 datasets, the reconstruction generates numerous simpices which are at angles greater than 50 $^\circ$ from the synthetic mesh; all the flange datasets have at least 22 triangles which have more than 50  $^\circ$ difference from the synthetic mesh, with the highest total of 45 triangles above 30 $^\circ$ for flange testcase 1.
 
 
-Extensive comparison with the state of the art algorithms show that SHREC with both synthetic gradients and gradients computed from RELIGRAD can out-perform these algorithms and reconstruct sharp features effectively. 
+Extensive comparison with the state of the art algorithms show that SHREC with both synthetic gradients and gradients computed from Religrad can out-perform these algorithms and reconstruct sharp features effectively. 
 
 
 \begin{figure}[t] 
@@ -742,7 +902,7 @@ Extensive comparison with the state of the art algorithms show that SHREC with b
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/compare_cocone_perfect_mc_a.eps}\label{fig:cocone_img:a}}
 		\subfloat[]{\includegraphics[width=0.5\linewidth]{images/compare_cocone_perfect_mc_b.eps}\label{fig:cocone_img:b}}
 	%\includegraphics[width=\linewidth]{images/compare_cocone_perfect_mc.eps}
-	\caption{Result of WeightCocone reconstruction on a TwoCube dataset. \protect\subref{fig:cocone_img:a} Input cloud is the super-sampled synthetic mesh. \protect\subref{fig:cocone_img:b} Input cloud is the super-sampled Marching Cube mesh. The magnified regions show some of the errors. The reconstruction from point cloud generated from the Marching Cube input is worse than the  point cloud from synthetic mesh input. }
+	\caption{Result of SingularCocone reconstruction on a TwoCube dataset. \protect\subref{fig:cocone_img:a} Input cloud is the super-sampled synthetic mesh. \protect\subref{fig:cocone_img:b} Input cloud is the super-sampled Marching Cube mesh. The magnified regions show some of the errors. The reconstruction from point cloud generated from the Marching Cube input is worse than the  point cloud from synthetic mesh input. }
 	\label{fig:cocone_compare_from_perfect_1}
 	\vskip-0.2cm
 \end{figure} 
@@ -753,14 +913,15 @@ Extensive comparison with the state of the art algorithms show that SHREC with b
 		\subfloat[]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_twoCube.eps}\label{fig:cocone:b}}	
 		\subfloat[]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
 		%\subfloat[]{\includegraphics[width=0.6\linewidth]{images/twoCubeQuant.eps}\label{table:cocone_compare_with_mc_table_1}}
-		\caption{Cocone comparison Dey et al.~\cite{Dey2012,Dey2013}.(a) CountDegree errors on 15 datasets using SHREC with synthetic gradients, RELIGRAD and WeightCocone. (b)Max. surface angle difference for the 15 testcases using WeightCocone and SHREC with RELIGRAD(c) Number of triangles with angle difference of 30$^\circ$, 40$^\circ$ and 50$^\circ$ from the original mesh on a subset of 15 datasets using WeightCocone with  input points sampled from the synthetic mesh.}
+		\caption{Cocone comparison Dey et al.~\cite{Dey2012,Dey2013}.(a) CountDegree errors on 15 datasets using SHREC with synthetic gradients, Religrad and SingularCocone. (b)Max. surface angle difference for the 15 testcases using SingularCocone and SHREC with Religrad(c) Number of triangles with angle difference of 30$^\circ$, 40$^\circ$ and 50$^\circ$ from the original mesh on a subset of 15 datasets using SingularCocone with  input points sampled from the synthetic mesh.}
 		\label{fig:cocone:compare}
 \end{figure*}
 
-\paragraph{Comparison with Cocone}
-We compare our algorithm to the algorithm WeightCocone by Dey et al.~\cite{Dey2012}. WeightCocone reconstructs a surface with sharp edges and corners from a sampled point cloud. WeightCocone takes two inputs; one contains the point cloud, another is a weighted sampling of feature curves. Weight of the sampling will be used as weight of the protecting balls. WeightCocone generates as output a feature sensitive mesh. 
+\paragraph{Comparison with SingularCocone.}
 
-The feature curve (second input to WeightCocone) is constructed using the algorithm FeatureRecon by Dey et al.~\cite{Dey2013}. FeatureRecon extracts feature curves of a surface. The input is a point cloud sampled on the surface. FeatureRecon has two steps, feature point detection and feature curves reconstruction. 
+We compare our algorithm to the algorithm SingularCocone by Dey et al.~\cite{Dey2012}. SingularCocone reconstructs a surface with sharp edges and corners from a sampled point cloud. SingularCocone takes two inputs; one contains the point cloud, another is a weighted sampling of feature curves. Weight of the sampling will be used as weight of the protecting balls. SingularCocone generates as output a feature sensitive mesh. 
+
+The feature curve (second input to SingularCocone) is constructed using the algorithm FeatureRecon by Dey et al.~\cite{Dey2013}. FeatureRecon extracts feature curves of a surface. The input is a point cloud sampled on the surface. FeatureRecon has two steps, feature point detection and feature curves reconstruction. 
 \paragraph{Experimental details:} The input to FeatureRecon is a point cloud. We tested two different input point cloud;
 \begin{enumerate}
 	\item We applied Marching Cubes~\cite{lc-mchr3-87} on our datasets Sec.\ref{sec:synData}. The vertices of the mesh generated by the Marching Cubes algorithm are then super-sampled using the Monte Carlo point sampling, to generate a point cloud with approximately sixty-five thousand points.
@@ -770,21 +931,21 @@ The two different point clouds are used as input to FeatureRecon to extract the 
 FeatureRecon has nine separate parameters. Experimentally and also noted by the authors Dey et al.~\cite{Dey2013}, we found FeatureRecon to be heavily reliant on parameter fine tuning. We used the following parameter values for our TwoCube datasets, (as suggest by the authors Dey et al.~\cite{Dey2013}). 
 $-t = 25,-fl = 0.04, -cl = 0.06, -dc = 0, -\rho3 = 0.32, -\rho1 = 0.0, -rc = 3$.
 
-The feature curves generated using FeatureRecon along with the super-sampled point cloud is used as input to WeighCocone. For comparison test, we compare the known synthetic mesh with the output of WeightCocone.
+The feature curves generated using FeatureRecon along with the super-sampled point cloud is used as input to WeighCocone. For comparison test, we compare the known synthetic mesh with the output of SingularCocone.
 
-Figure~\ref{fig:cocone_compare_from_perfect_1} shows the reconstructed mesh for one of our twoCube dataset. The associated ``sharp" edges are also shown. Figure~\ref{fig:cocone_compare_from_perfect_1}(a) shows the reconstruction from the point cloud generated from the synthetic mesh. The overlay-ed ``sharp" edges (in red) show that the reconstruction has many errors. The magnified regions show some of the errors along the sharp edges and corners. Figure~\ref{fig:cocone_compare_from_perfect_1}(b) shows the reconstruction from the point cloud generated from running Marching Cubes. The magnified regions show the same regions as Figure~\ref{fig:cocone_compare_from_perfect_1}(a). The reconstruction is worse than WeightCocone using input from synthetic mesh. 
+Figure~\ref{fig:cocone_compare_from_perfect_1} shows the reconstructed mesh for one of our twoCube dataset. The associated ``sharp" edges are also shown. Figure~\ref{fig:cocone_compare_from_perfect_1}(a) shows the reconstruction from the point cloud generated from the synthetic mesh. The overlay-ed ``sharp" edges (in red) show that the reconstruction has many errors. The magnified regions show some of the errors along the sharp edges and corners. Figure~\ref{fig:cocone_compare_from_perfect_1}(b) shows the reconstruction from the point cloud generated from running Marching Cubes. The magnified regions show the same regions as Figure~\ref{fig:cocone_compare_from_perfect_1}(a). The reconstruction is worse than SingularCocone using input from synthetic mesh. 
 
 Figure~\ref{fig:cocone:compare} shows the summary results of running weightCocone and SHREC on 15 different datasets. 
 The input to weightCocone  for these tests are generated from synthetic mesh. The results from Marching Cubes input are worse and not shown.
 \paragraph{}
-On the same 15 datasets, we run SHREC with both synthetic gradients and using RELIGRAD.
-Figure~\protect\subref*{fig:cocone:a} shows countDegree error comparison between WeightCocone, SHREC with synthetic gradient and SHREC with gradient computed using RELIGRAD.  SHREC with RELIGRAD generates very few errors; only two testcases (t6 and t13 generate degree errors with a maximum of 4) , while with synthetic gradient no errors are generated. 
-In contrast, WeightCocone generates a large number of errors on all the testcases; with an average of 330 errors. Figure~\protect\subref*{fig:cocone:b} shows the maximum surface angle difference from the synthetic mesh for SHREC with RELIGRAD and WeighCocone;
-The maximum angle difference is 43$^\circ$ for SHREC, with the mean error of 8$^\circ$ for the 15 tests. In comparison maximum angle difference was 87$^\circ$ for WeightCocone, with a mean of 79$^\circ$.
-Figure~\protect\subref*{fig:cocone:c} shows the angle distribution for WeightCocone construction on the 15 testcases. 
+On the same 15 datasets, we run SHREC with both synthetic gradients and using Religrad.
+Figure~\protect\subref*{fig:cocone:a} shows countDegree error comparison between SingularCocone, SHREC with synthetic gradient and SHREC with gradient computed using Religrad.  SHREC with Religrad generates very few errors; only two testcases (t6 and t13 generate degree errors with a maximum of 4) , while with synthetic gradient no errors are generated. 
+In contrast, SingularCocone generates a large number of errors on all the testcases; with an average of 330 errors. Figure~\protect\subref*{fig:cocone:b} shows the maximum surface angle difference from the synthetic mesh for SHREC with Religrad and WeighCocone;
+The maximum angle difference is 43$^\circ$ for SHREC, with the mean error of 8$^\circ$ for the 15 tests. In comparison maximum angle difference was 87$^\circ$ for SingularCocone, with a mean of 79$^\circ$.
+Figure~\protect\subref*{fig:cocone:c} shows the angle distribution for SingularCocone construction on the 15 testcases. 
 On all the test cases there are large number of triangles with angle difference more than 40$^\circ$ and 50$^\circ$.
 
-Above discussion quantitatively shows what we previously observed from  in Figure~\protect\subref*{fig:cocone_img:a},~\protect\subref*{fig:cocone_img:b} and compared to Figure~\ref{fig:flange1},~\ref{fig:shrecPerfect1} i.e sharp edges generated by WeightCocone is in general far worse than those generated by SHREC with synthetic as well as RELIGRAD gradients. 
+Above discussion quantitatively shows what we previously observed from  in Figure~\protect\subref*{fig:cocone_img:a},~\protect\subref*{fig:cocone_img:b} and compared to Figure~\ref{fig:flange1},~\ref{fig:shrecPerfect1} i.e sharp edges generated by SingularCocone is in general far worse than those generated by SHREC with synthetic as well as Religrad gradients. 
 
 Dey et al.~\cite{Dey2012,Dey2013} report better results on their datasets, Which might possibly be because of parameter tuning. They themselves acknowledged as such in their work.
 
@@ -803,14 +964,14 @@ Dey et al.~\cite{Dey2012,Dey2013} report better results on their datasets, Which
 \begin{figure}[t]
 \centering
 	\includegraphics[width=\linewidth]{images/ictsetA_3.eps}
-	\caption{SHREC with RELIGRAD gradients computed from part of industrial CT data (Motorcycle Engine). Magnified regions show ``sharp" edges reconstructed. In red, picture from the original item.}
+	\caption{SHREC with Religrad gradients computed from part of industrial CT data (Motorcycle Engine). Magnified regions show ``sharp" edges reconstructed. In red, picture from the original item.}
 	\label{fig:ict:hondaEng}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 	\includegraphics[width=\linewidth]{images/volt.eps}
-	\caption{SHREC with RELIGRAD gradients computed from part of the VOLT data. Magnified regions show ``sharp" reconstructed edges. In red picture of the original item.}
+	\caption{SHREC with Religrad gradients computed from part of the VOLT data. Magnified regions show ``sharp" reconstructed edges. In red picture of the original item.}
 	\label{fig:ict:volt}
 \end{figure}
 
@@ -818,7 +979,7 @@ Dey et al.~\cite{Dey2012,Dey2013} report better results on their datasets, Which
 	\centering
 	\subfloat[]{\includegraphics[width=\linewidth]{images/cmm.eps}\label{fig:ict:CMM:a}}\\
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/CMM.singleSliceXY.eps}\label{fig:ict:CMM:b}}
-	\caption{(a) SHREC with RELIGRAD gradients computed from part of the CMM dataset. Magnified regions show ``sharp" reconstructed edges. (b) Single slice of the CT scan, mapped to the ``heat" color map.}\label{fig:ict:CMM}
+	\caption{(a) SHREC with Religrad gradients computed from part of the CMM dataset. Magnified regions show ``sharp" reconstructed edges. (b) Single slice of the CT scan, mapped to the ``heat" color map.}\label{fig:ict:CMM}
 \end{figure}
 
 \section{Experimental Results on CT Data}
