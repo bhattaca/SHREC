@@ -20,3 +20,9 @@ EMCpoly -cube -dir 1 2 4 -side_dir 0 4 1 -width 1.05
 degen.EMC.off was produced by
 
 EMCpoly -ann -dir 1 2 3 -width 0.3 -height 0.3
+
+----------------------------
+
+cubeA_notch.ppm was created by
+meshview -geometry 1204x987
+(giving cubeA_notch.ppm dimensions 1200x950).

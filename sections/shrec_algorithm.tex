@@ -23,9 +23,10 @@ is $\max(|x_0-x'_0|, |x_1-x'_1|, |x_2-x'_2|)$.
 The {\em distance vector} between the cubes is
 $(|x_0-x'_0|, |x_1-x'_1|, |x_2-x'_2|)$.
 
-For a grid cube $\cb$, region $\RIII_\cb$ is the $3 \times 3 \times 3$ region
+For a grid cube $\cb$, 
+subgrid $\RIII_\cb$ is the $3 \times 3 \times 3$ subgrid
 of 27 grid cubes centered at $\cb$.
-Region $\RV_\cb$ is the $5 \times 5 \times 5$ region
+Subgrid $\RV_\cb$ is the $5 \times 5 \times 5$ subgrid
 of 125 grid cubes centered at $\cb$.
 
 
@@ -35,7 +36,7 @@ of 125 grid cubes centered at $\cb$.
 \action{Compute isosurface vertex locations} \ar[d] \\
 \action{Select well-spaced subset of cubes on or near sharp features} \ar[d] \\
 \action{Merge grid cubes around selected cubes} \ar[d] \\
-\action{Extract isosurface mesh}
+\action{Construct isosurface triangles and quadrilaterals}
 }
 \end{equation*}
 \caption{Algorithm SHREC.}
@@ -94,13 +95,14 @@ Algorithm SHREC has four parts:
 computation of isosurface vertex locations, 
 selection of a well-spaced subset of grid cubes on or near sharp features,
 merging of grid cubes around selected cubes
-and extraction of the isosurface
+and construction of isosurface triangles and quadrilaterals
 (Figure~\ref{alg:shrec}).
 Algorithm MergeSharp from~\cite{bw-cisec-13} 
 has a similar four parts,
 but the first three parts are substantially different in SHREC.
 To motivate the description of Algorithm SHREC,
-we briefly describe each part in MergeSharp and the associated problems.
+we briefly describe the first three parts 
+of MergeSharp and the associated problems.
 
 In the first part, 
 MergeSharp computes the location of an isosurface vertex, $\cb.\isov$,
@@ -140,7 +142,7 @@ the selection and merging steps are combined
 so that a cube is merged as soon as it is covered,
 but the outcome of the algorithm is exactly the same.
 
-There are problems with every one of the three steps of MergeSharp.
+There are problems with every one of the first three parts of MergeSharp.
 First, MergeSharp uses gradients from $\cb$ or its immediate neighbors
 to compute the location of $\cb.\isov$.
 As discussed in~\cite{bw-crgsd-15}
@@ -612,19 +614,19 @@ $\cb''$ will contain $\cb''.\isovLoc$.
 \includegraphics[width=1.2in]{images/config2D_2_0.eps} \qquad &
 \qquad
 \includegraphics[width=1.2in]{images/config2D_3_0.eps} \\
-(a) Configuration (2,0). & (b) Configuration (3,0). \\
+(a) Configuration (2,0) & (b) Configuration (3,0) \\
 \\
 \includegraphics[width=1.2in]{images/config2D_2_1.eps}
 \qquad &
 \qquad
 \includegraphics[width=1.2in]{images/config2D_3_1.eps} \\
-(c) Configuration (2,1). & (d) Configuration (3,1).
+(c) Configuration (2,1) & (d) Configuration (3,1)
 \end{tabular}
 \caption{Tightly packed 2D configurations of selected squares.
-Selected squares and $3 \times 3$ region around each square.
+Selected squares and $3 \times 3$ subgrid around each square.
 Line segments with endpoints on the two selected squares 
 (e.g., the green line segments) are contained
-within the union of the two $3 \times 3$ regions.}
+within the union of the two $3 \times 3$ subgrids.}
 \label{fig:packed2D}
 \end{figure}
 
@@ -634,14 +636,14 @@ within the union of the two $3 \times 3$ regions.}
 \includegraphics[width=1.2in]{images/config2D_3_2.eps} \qquad &
 \qquad
 \includegraphics[width=1.2in]{images/config2D_2_2.eps} \\
-(a) Configuration (3,2). & (b) Configuration (2,2).
+(a) Configuration (3,2) & (b) Configuration (2,2)
 \end{tabular}
 \caption{Problematic 2D configurations of selected squares.
-Selected squares and $3 \times 3$ region around each square.
+Selected squares and $3 \times 3$ subgrid around each square.
 (a) The green line segment is not contained within the union
-of the two $3 \times 3$ regions.
+of the two $3 \times 3$ subgrids.
 (b)~The green line segment intersects the boundary
-of the union of the two $3 \times 3$ regions.}
+of the union of the two $3 \times 3$ subgrids.}
 \label{fig:loose2D}
 \end{figure}
 
@@ -651,10 +653,10 @@ of the union of the two $3 \times 3$ regions.}
 \includegraphics[width=1.2in]{images/config2D_4_2.eps} \qquad &
 \qquad
 \includegraphics[width=1.2in]{images/config2D_4_2_B.eps} \\
-(a) Configuration (4,2). & (b) Additional cube.
+(a) Configuration (4,2) & (b) Additional cube
 \end{tabular}
 \caption{(a) Configuration (4,2) has space between the $3 \times 3$
-regions around each selected square.
+subgrids around each selected square.
 (b) Additional cube (magenta) which packs tightly with two other squares.}
 \label{fig:config2D_4_2}
 \end{figure}
@@ -671,8 +673,8 @@ regions around each selected square.
 \qquad &
 \qquad
 \includegraphics[width=1.2in]{images/config3D_3_1_0.eps} \\
-(a) Configuration (2,0,0). & (b) Configuration (3,0,0). 
-  & (c) Configuration (2,1,0). & (d) Configuration (3,1,0).\\
+(a) Configuration (2,0,0) & (b) Configuration (3,0,0) 
+  & (c) Configuration (2,1,0) & (d) Configuration (3,1,0) \\
 \\
 \includegraphics[width=1.2in]{images/config3D_2_0_0_3x3x3.eps} \qquad &
 \qquad
@@ -685,8 +687,8 @@ regions around each selected square.
 \includegraphics[width=1.2in]{images/config3D_3_1_0_3x3x3.eps} \\
 (e) $\gDim{3}$ regions. & (f) $\gDim{3}$ regions. 
   & (g) $\gDim{3}$ regions. & (h) $\gDim{3}$ regions.\\
-Configuration (2,0,0). & Configuration (3,0,0). 
-  & Configuration (2,1,0). & Configuration (3,1,0).
+Configuration (2,0,0) & Configuration (3,0,0) 
+  & Configuration (2,1,0) & Configuration (3,1,0)
 \end{tabular}
 \caption{Tightly packed 3D configurations of selected cubes.}
 \label{fig:packed3D}
@@ -736,28 +738,28 @@ We can get some insight into 3D configurations of grid cubes
 by considering the 2D configurations of grid squares.
 Figure~\ref{fig:packed2D} contains configurations $(2,0)$, $(3,0)$,
 $(2,1)$ and $(3,1)$ of grid squares.
-The $3 \times 3$ regions around the selected squares are ``tightly packed''
+The $3 \times 3$ subgrids around the selected squares are ``tightly packed''
 so that any line segment with endpoints in the selected squares
-is contained within the union of the two $3 \times 3$ regions.
+is contained within the union of the two $3 \times 3$ subgrids.
 
 Figure~\ref{fig:loose2D} contains configurations $(3,2)$ and $(2,2)$
 of grid squares.
 With configuration $(3,2)$, some line segments with endpoints
 in the selected squares are not contained within the union
-of the $3 \times 3$ regions.
+of the $3 \times 3$ subgrids.
 Configuration $(2,2)$ is somewhat better,
 since all line segments with endpoints in the selected squares
-are contained within the union of the $3 \times 3$ regions.
+are contained within the union of the $3 \times 3$ subgrids.
 Unfortunately, they are only barely contained.
 The green line segment in Figure~\ref{fig:loose2D}(b) intersects
-the boundary of the $3 \times 3$ region.
+the boundary of the $3 \times 3$ subgrid.
 Slightly curving the segment could mean that it no longer was contained
 in the union.
 
 Note that if selected squares are suitably far apart,
 then additional squares can be selected between them.
 For instance, a magenta square can be selected between the two colored squares
-in Figure~\ref{fig:config2D_4_2}(a) and the $3 \times 3$ regions
+in Figure~\ref{fig:config2D_4_2}(a) and the $3 \times 3$ subgrids
 will fit together tightly.
 
 \begin{figure*}
@@ -770,8 +772,8 @@ will fit together tightly.
 \qquad &
 \qquad
 \includegraphics[width=1.2in]{images/config3D_3_2_2.eps} \\
-(a) Configuration (3,2,0). & (b) Configuration (3,2,1). 
-  & (c) Configuration (3,2,2).\\
+(a) Configuration (3,2,0) & (b) Configuration (3,2,1) 
+  & (c) Configuration (3,2,2) \\
 \\
 \includegraphics[width=1.2in]{images/config3D_3_2_0_3x3x3.eps} \qquad &
 \qquad
@@ -781,8 +783,8 @@ will fit together tightly.
 \includegraphics[width=1.2in]{images/config3D_3_2_2_3x3x3.eps} \\
 (d) $\gDim{3}$ regions. & (e) $\gDim{3}$ regions.
   & (f) $\gDim{3}$ regions.\\
-Configuration (3,2,0). & Configuration (3,2,1). 
-  & Configuration (3,2,2).
+Configuration (3,2,0) & Configuration (3,2,1) 
+  & Configuration (3,2,2)
 \end{tabular}
 \caption{Problematic 3D configurations of selected cubes.}
 \label{fig:loose3D}
@@ -802,7 +804,7 @@ Some examples of tightly packed 3D configurations of cubes are given
 in Figure~\ref{fig:packed3D}.
 Any line segment with endpoints in the two selected cubes $\cb$ and $\cb'$
 will be well contained within the union 
-of the two $3 \times 3 \times 3$ regions, 
+of the two $3 \times 3 \times 3$ subgrids, 
 $\RIII_\cb$ and $\RIII_{\cb'}$, around $\cb$ and $\cb'$.
 
 Figure~\ref{fig:loose3D} contains three problematic configurations,
@@ -845,7 +847,7 @@ and no already selected cube separates $\cb$ from $\cb''$.
 \begin{equation*}
 \xymatrix{
 \action{Select 0D feature cubes} \ar[d] \\
-\action{Select 1D features cubes in $7 \times 7 \times 7$ regions \\
+\action{Select 1D features cubes in $7 \times 7 \times 7$ subgrids \\
 around selected 0D feature cubes} \ar[d] \\
 \action{Select 1D feature cubes whose indices are congruent \\
 to $(0,0,0) \bmod 6$.} \ar[d] \\
@@ -873,7 +875,7 @@ to the feature point.
 
 SHREC next selects 1D feature cubes which are ``near'' 
 the selected 0D feature cubes,
-i.e., they are contained in an $7 \times 7 \times 7$ region
+i.e., they are contained in an $7 \times 7 \times 7$ subgrid
 around each selected 0D feature cube.
 Selecting 1D feature cubes near 0D feature cubes poses special challenges
 since there are multiple 1-dimensional features ending 
@@ -884,7 +886,7 @@ can obscure one of the edges.
 Let $\cb$ be a selected 0D feature cube and let $\cb'$ be a 1D feature cube
 which is in a $(2,0,0)$, $(2,1,0)$ or $(2,1,1)$ configuration with $\cb$.
 Let $\cb''$ be any cube sharing an edge or facet with $\cb'$
-which is contained in the $5 \times 5 \times 5$ region
+which is contained in the $5 \times 5 \times 5$ subgrid
 but is not covered by $\cb$.
 If $\cb''$ is active and a 1D feature cube,
 then SHREC attempts to avoid selecting cube $\cb'$.
@@ -939,8 +941,9 @@ Sequentially extending the set of selected cubes would totally destroy
 that aspect of the algorithms.
 Instead of selecting cubes using the sequential algorithm given above,
 SHREC divides the regular grid 
-into overlapping $6 \times 6 \times 6$ regions,
-selects cubes from the boundaries of those regions and then from their interior.
+into overlapping $6 \times 6 \times 6$ subgrids,
+selects cubes from the boundaries of those subgrids 
+and then from their interior.
 The algorithm is completely local and easily distributed and parallelizable.
 
 Each grid cube has an index $(x_0, x_1, x_2)$.
@@ -997,7 +1000,7 @@ with $\cb$ when $\cb$ is selected.
 This merging step sometimes created extremely thin triangles and 
 sometimes flips triangle orientations.
 SHREC is much more careful about its cube merging.
-SHREC also extends the merging to some cubes in a $5 \times 5 \times 5$ region 
+SHREC also extends the merging to some cubes in a $5 \times 5 \times 5$ subgrid 
 around each selected cube.
 Note that SHREC actually merges the isosurface vertices generated by the cubes,
 not the cubes themselves.
@@ -1232,7 +1235,7 @@ and in this section to any remaining covered, unmerged cubes.
 \subsection{Extended Merging}
 \label{section:extended_merging}
 
-The merging of cubes in $3 \times 3 \times 3$ region
+The merging of cubes in $3 \times 3 \times 3$ subgrid
 around each selected cube will clear most but not all of the vertices 
 around sharp features.
 There are multiple reasons that some vertices 
@@ -1251,8 +1254,8 @@ then a 1-dimensional feature passing through $\cb$ and $\cb'$
 may contain points outside of $\RIII_\cb \cup \RIII_{\cb'}$.
 
 To handle such problems, SHREC extends the merging to cubes
-in a $5 \times 5 \times 5$ region around each selected cube.
-Merging cubes in a $5 \times 5 \times 5$ region $\RV_\cb$
+in a $5 \times 5 \times 5$ subgrid around each selected cube.
+Merging cubes in a $5 \times 5 \times 5$ subgrid $\RV_\cb$
 around a selected cube $\cb$ can create its own problems 
 of thin or flipped triangles.
 Thus, SHREC only attempts to merge cubes in $\RV_\cb$
@@ -1283,7 +1286,7 @@ described in Section~\ref{section:pair_merging} and is omitted.
 
 Next, SHREC tries to merge cubes which lie 
 at the intersection $\partial \RIII_\cb \cap \RIII_{\cb'}$
-of two $\gDim{3}$ regions around two selected cubes $\cb$ and $\cb'$.
+of two $\gDim{3}$ subgrids around two selected cubes $\cb$ and $\cb'$.
 More specifically, SHREC attempts to merge a cube $\tcb$ 
 with a selected cube $\cb$ if some facet of $\tcb$ lies 
 on the boundary of $\RIII_\cb$ 
@@ -1328,6 +1331,7 @@ which are ``close'' to $\cb$.
 \label{fig:grad_select}
 \end{figure}
 
+
 \section{Selecting Gradients}
 \label{section:gradients}
 
@@ -1370,26 +1374,26 @@ does not return gradients near gradient discontinuities,
 no gradient information may be available for the vertices 
 of cubes which contain those discontinuities
 or for neighbors of such cubes.
-Thus, we must use gradients from a $\gDim{7}$ region around each cube $\cb$.
+Thus, we must use gradients from a $\gDim{7}$ subgrid around each cube $\cb$.
 
 When scalar data is provided by computer tomography (CT),
 then the scalar values near gradient discontinuities
 may also be incorrect.
 As discussed in~\cite{bw-crgsd-15},
-we must go out even further to a $\gDim{9}$ region 
+we must go out even further to a $\gDim{9}$ subgrid 
 around each cube $\cb$ to get gradient information.
 
 Only gradients which determine isosurface tangent planes near $\cb$
 should be used in $\cb.\isovLoc$.
 We use three tests on the vertices in a $\gDim{7}$ or $\gDim{9}$
-region around $\cb$ to determine such gradients.
+subgrid around $\cb$ to determine such gradients.
 First, we are only interested in vertices which are near the isosurface.
 Thus, we only choose vertices from edges
 where one endpoint has scalar value below
 the isovalue and one endpoint has scalar value at or above the isovalue.
 Second, we are only interested in vertices whose gradients generate planes
 which are close to $\cb$.
-We construct a cube $\cb'$ of size $1.5 \times 1.5 \times 1.5$ centered at $\cb$
+We construct a cube $\cb'$ of size $\gDim{2}$ centered at $\cb$
 and only choose a vertex $v$ 
 if the plane $h_v$ given by Equation~\ref{eqn:isoplane}
 intersects $\cb'$.
@@ -1428,12 +1432,154 @@ We use those vertices and their gradients to compute $p_\cb$
 as described in Section~\ref{section:loc}.
 
 
+\section{Constructing isosurface triangles and quadrilaterals}
+\label{section:isoPoly}
+
+The last step in SHREC is the construction of isosurface triangles
+and quadrilaterals.
+SHREC first applies the Manifold Dual Marching Cubes algorithm
+described in~\cite{Wenger:2013:Isosurfaces}
+to the full resolution grid (no merged grid cubes)
+to construct a set of isosurface quadrilaterals.
+The algorithm is essentially the same 
+as the Nielson's Dual Marching Cubes algorithm~\cite{n-dmc-04}
+but with some small changes to the isosurface
+in certain ambiguous cases.
+We briefly describe Manifold Dual Marching Cubes.
+
+Each grid vertex with scalar value below the isovalue 
+receives a negative (``$-$'') label.
+Each grid vertex with scalar value equal to or above the isovalue 
+receives a positive (``$+$'') label.
+A grid edge is active if
+it has one positive endpoint and one negative endpoint.
+
+The eight labels on the eight vertices of a cube $\cb$
+determine the configuration of the cube.
+There are $2^8 = 256$ possible configurations.
+A lookup table stores the number of isosurface vertices 
+for each configuration $\kappa$.
+Cubes with configuration $\kappa$ 
+contain the corresponding number of isosurface vertices.
+For each configuration $\kappa$,
+the lookup table also stores an assignment of active edges
+to isosurface vertices.
+If a cube has configuration $\kappa$,
+then the isosurface quadrilateral dual to active edge $\eb$
+is incident on the isosurface vertex assigned to edge $\eb$.
+
+As with all dual contouring algorithms,
+Manifold Dual Marching Cubes constructs one isosurface quadrilateral
+dual to each active grid edge.
+The four vertices of the isosurface quadrilateral $q$
+lie in the four grid cubes containing the active edge $\eb$.
+Using the lookup table, we determine the four isosurface vertices
+in the four grid cube which form the vertices of $q$
+and store $q$ by its four vertices.
+
+When two cubes, $\cb$ and $\cb'$, 
+share an ambiguous facet and each has only one
+isosurface vertex, the procedure in the previous paragraph
+will generate a non-manifold edge contained in four quadrilaterals.
+In this case, we replace the configurations of $\cb$ and $\cb'$
+with complementary configurations where all the positive and negative
+vertex labels are flipped.
+The complementary configurations generate two isosurface vertices
+in each cube, avoiding the non-manifold edge.
+Because the initial configuration for each cube
+generates only one isosurface vertex,
+each cube has only one ambiguous facet,
+the facet shared by $\cb$ and $\cb'$.
+Thus, using the complementary configurations for $\cb$ and $\cb'$
+does not create any ``cracks'' in the connection of $\cb$ and $\cb'$
+to other cubes.
+If the isovalue does not equal the scalar value of any grid vertex,
+
+After constructing a full resolution isosurface mesh,
+SHREC collapses mesh quadrilaterals
+using the previously constructed grid cube merging.
+For each selected cube $\cb$,
+let $w_\cb$ be the isosurface vertex generated by $\cb$.
+If $\cb$ generates more than one isosurface vertex,
+arbitrarily choose one to be $w_\cb$.
+
+For each isosurface vertex of a non-selected cube $\cb'$,
+if $\cb'$ merges a selected cube $\cb$
+let $M(w)$ equal $w_\cb$.
+For each isosurface vertex $w$ of a selected cube $\cb$, 
+let $M(w)$ equal $w_\cb$.
+For every other isosurface vertex $w$, let $M(w)$ equal $w$.
+
+Replace each quadrilateral $(w,w',w'',w''')$
+by $(M(w), M(w'), M(w''), M(w''')$.
+Replacing the vertices of these quadrilaterals
+will map some of the quadrilaterals to triangles
+and collapse others to edges, vertices or pairs of edges.
+Remove the quadrilaterals which are mapped 
+to vertices or edges.
+
+For each selected cube $\cb$,
+assign $w_\cb$ the isosurface vertex location computed for $\cb$
+as described in Section~\ref{section:generation}.
+For each unselected, unmerged cube containing a single isosurface vertex $w$,
+also assign $w$ the location computed for $\cb$
+as described in Section~\ref{section:generation}.
+The remaining isosurface vertices are in unselected, unmerged cubes
+which contain multiple isosurface vertices.
+For each such isosurface vertex $w$,
+let $E_w$ be the cube edges dual to the quadrilaterals incident on $w$.
+Using linear interpolation,
+compute the intersection point of the isosurface and each edge $\eb \in E_w$.
+Locate $w$ at the centroid of the intersection points.
+
+Manifold Dual Marching Cubes generates as isosurface 
+which is always a manifold.
+However, the merging of isosurface vertices can create non-manifold edges.
+In the experiments described in Section~\ref{section:results},
+SHREC almost always produced a manifold isosurface.
+If a manifold isosurface is required,
+then tests such as in~\cite{degn-tpec-98} or~\cite{sjw-mdc-07}
+can be added to the merging step
+to ensure that the resulting surface is a manifold.
+
+
+\subsection{Grid Spacing}
+\label{section:spacing}
+
+The distortion tests for cube merging (Section~\ref{section:distortion_tests})
+depend upon two angle parameters,
+one for testing triangle angles and one for testing changes in normals.
+If the grid is not spaced by the same length 
+in the $x$, $y$ and $z$ directions,
+these tests will be biased in certain directions.
+To avoid this bias,
+we map the isosurface vertex locations
+to locations in a grid with uniform $1 \times 1 \times 1$ spacing
+before applying these tests.
+
+In gradient selection (Section~\ref{section:gradients}),
+we use a $\gDim{2}$ region around cube $\cb$ to determine
+the selected gradients.
+Of course, this region size is only for a grid 
+with uniform $\gDim{1}$ spacing.
+If the grid spacing is $\delta_x \times \delta_y \times \delta_z$,
+we use a region of size $(2/\delta_x, 2/\delta_y, 2/\delta_z)$
+around cube $\cb$.
+
+In sharp cube selection (Section~\ref{section:selection}),
+we use an angle test to avoid selecting a cube 
+whose isosurface vertex may create a thin triangle 
+with vertices in other selected cubes.
+For that test,
+we use the vertex locations in the original grid.
+
+
 \section{Parameters}
 \label{section:parameters}
 
 Algorithm SHREC has two major parameters,
 one determining the number of large singular values in matrix $A$
-and the second determining the size of the $\gDim{k}$ region 
+and the second determining the size of the $\gDim{k}$ subgrid 
 from which gradients are selected around each cube
 (Section~\ref{section:gradients}).
 The first parameter is a value $\epsilon$ between 0 and 1.
@@ -1441,23 +1587,23 @@ As noted in Section~\ref{section:loc},
 a singular value $\sigma_i$ of matrix $A$ 
 is large if $\sigma_i/\sigma_1$ is greater than or equal to $\epsilon$.
 The number of large singular values determines whether a vertex
-is on a sharp feature or a smooth region of the isosurface.
+is on a sharp feature or a smooth subgrid of the isosurface.
 To the best of our knowledge, all algorithms which reconstruct surfaces 
 with sharp features require some parameter
 to distinguish the sharp features from the smooth regions of the surface.
 
 The second parameter is an odd integer $k \ge 3$.
-Each cube $\cb$ uses gradients from a $\gDim{k}$ around the cube
+Each cube $\cb$ uses gradients from a $\gDim{k}$ subgrid around the cube
 in selecting gradients for computing $\cb.\isovLoc$.
 The size of $k$ depends upon the input data.
 If correct gradients are provided at each grid vertex,
-then $k$ should equal 3 for a $\gDim{3}$ region around each cube.
+then $k$ should equal 3 for a $\gDim{3}$ subgrid around each cube.
 If gradients are computed from correct scalar values 
 using the algorithm in~\cite{bw-crgsd-15},
-then $k$ should equal 7 for a $\gDim{7}$ region around each cube.
+then $k$ should equal 7 for a $\gDim{7}$ subgrid around each cube.
 If gradients are computed from CT data 
 using the algorithm in~\cite{bw-crgsd-15},
-then $k$ should equal 9 for a $\gDim{9}$ region around each cube.
+then $k$ should equal 9 for a $\gDim{9}$ subgrid around each cube.
 
 SHREC uses three other constants:
 one for the triangle test in selecting vertices,
