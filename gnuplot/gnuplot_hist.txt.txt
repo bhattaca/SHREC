@@ -322,3 +322,21 @@ set yrange[:20]
 set style fill solid 0.5 noborder 
 set ylabel "Number of simplices"
 plot 'E:\Google\SHREC\mergesharp_euro\flange_angleDistribution.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+set term png truecolor
+set output "flangeShrecAngleDistribution.png"
+set boxwidth 0.9
+set yrange[:20]
+set style fill solid 0.5 noborder 
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\tables\flangeShrecAngleDist_religrad.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
+
+set term png truecolor
+set output "flangeCoconeAngleDistribution.png"
+set boxwidth 0.9
+set yrange[:2000]
+set style fill solid 0.5 noborder 
+set ylabel "Number of simplices"
+plot 'E:\Google\SHREC\tables\cocone_flange_angle_dist.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
+
