@@ -300,48 +300,37 @@ The number of degree errors for these isosurfaces is $|\NneqII(\Sigma)-20|$.
 \begin{figure*}[tp]
 \centering	
 
-%	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle1b.eps}\label{fig:flangeAngle1}}
-%	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle2.eps}\label{fig:flangeAngle2}}
-%	\subfloat[]{\includegraphics[width=0.33\linewidth]{images/flangeAngle3b.eps}\label{fig:flangeAngle3}}
-\subfloat[]{\includegraphics[width=0.3\linewidth]{images/flange_countDegree_shrec.eps}\label{fig:flangeAngle1}}
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/flange_maxAngle_shrec.eps}\label{fig:flangeAngle2}}\\
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/flange_shrec_distribution.eps}\label{fig:flangeAngle3}}
-\caption{Results of SHREC using exact gradients and Religrad gradients on 39 Flange datasets. 
-(a) Number of triangles with angle difference 
+\begin{tabular}{cc}
+	\subfloat[Flange: Angle distance]{\includegraphics[width=0.45\linewidth]{images/flange_maxAngle_shrec.eps}\label{fig:flangeAngle2}} 
+\qquad & \qquad
+\subfloat[Flange: Degree errors]{\includegraphics[width=0.45\linewidth]{images/flange_countDegree_shrec.eps}\label{fig:flangeAngle1}} \\
+\\
+	\subfloat[TwoCubes: Angle distance]{\includegraphics[width=0.45\linewidth]{images/twoCube_maxAngle_shrec.eps}} 
+\qquad & \qquad
+	\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.45\linewidth]{images/twoCube_countDegree_shrec.eps}} \\
+\\
+	\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.4\linewidth]{images/flange_shrec_distribution.eps}\label{fig:flangeAngle3}}
+\qquad & \qquad
+	\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.4\linewidth]{images/twoCube_shrec_distribution.eps}}
+\end{tabular}
+
+\caption{Results of SHREC using exact gradients and Religrad gradients on 39 Flange datasets and 34 TwoCube datasets.
+(a) Oriented angle distances between Flange isosurfaces
+(exact and Religrad gradients) and polygonal mesh.
+(b) Number of degree errors in the Flange 1-skeletons of sharp edges
+(Religrad gradients).
+(SHREC using exact gradients produces no degree errors.)
+(c) Oriented angle distances between TwoCubes isosurfaces
+(exact and Religrad gradients) and polygonal mesh.
+(d) Number of degree errors in the TwoCubes 1-skeletons of sharp edges
+(Religrad gradients).
+(SHREC using exact gradients produces no degree errors.)
+(e) Number of Flange isosurface triangles with angle difference 
 to polygonal mesh above 30, 40 and 50 degrees. 
-(b) Distribution of triangle normal differences for test case 16.
-(Isosurface has approximately $133K$ triangles.)
-(c) Number of degree errors in 1-skeleton of sharp edges.
+(f) Number of TwoCubes isosurface triangles with angle difference.
 }
 
 \label{fig:flangeAngle}
-
-\vspace{4em}
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/twoCube_countDegree_shrec.eps}}
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/twoCube_maxAngle_shrec.eps}}\\
-	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/twoCube_shrec_distribution.eps}}
-%\begin{tabular}{cc}
-%\includegraphics[width=0.45\linewidth]{images/tw1.eps} &
-%\includegraphics[width=0.45\linewidth]{images/tw2.eps} \\
-%(a) SHREC using exact gradients & (b) SHREC using Religrad gradients \\
-%\\
-%\includegraphics[height=0.25\linewidth]{images/tw3.eps} &
-%\includegraphics[height=0.25\linewidth]{images/twoCube35_test_1.eps} \\
-%(c) Shrec using Religrad gradients & (d) SHREC using Religrad Gradients
-%\end{tabular}
-
-\caption{Results of SHREC using exact and Religrad gradients 
-on 34 TwoCubes datasets. 
-(a) Unoriented angle distance between isosurface (exact gradients)
-and polygonal mesh.
-(Note that the $y$-scale is from 0 to $10^\circ$.)
-(b) Unoriented angle distance between isosurface (Religrad gradients)
-and polygonal mesh.
-(c)~Number of isosurface triangles (Religrad gradients)
-with angle difference to polygonal mesh above 30, 40 and 50 degrees.
-(d)~Number of degree errors in the 1-skeleton of sharp edges
-(Religrad gradients).
-(SHREC using exact gradients produces no degree errors.)}
 \label{fig:shrecTwoCube}
 
 \end{figure*}
