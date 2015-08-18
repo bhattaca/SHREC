@@ -1,9 +1,52 @@
 
 \appendix
 
-\section{Computing Isosurface Vertex Locations}
-\label{appendix:loc}
-
-\section{Closest Point under the $L_\infty$ Metric}
+\section{Closest Point under the $\Linf$ Distance}
 \label{appendix:Linf}
 
+Let $p = (p_x, p_y, p_z)$ be a point and let $L$ be a line in $\Rthree$.
+We wish to find the point on $L$ closest to $p$ under the $\Linf$ distance.
+
+Parameterize line $L$ by $t u + q$
+where $u = (u_x, u_y, u_z)$ and $q = (q_x, q_y, q_z)$.
+Let $q^*$ be the point of $L$ closest to $p$ under the $\Linf$ distance.
+Let $\delta$ be the $\Linf$ distance from $q^*$ to $p$
+and let $\cb$ be a $\gDim{2\delta}$ cube centered at $p$.
+Line $L$ is tangent to $\cb$ at point $q^*$.
+
+Let $\pi_i(p)$, $\pi_i(L)$, $\pi_i(q^*)$ and $\pi_i(\cb)$
+be the projection of $p$, $L$, $q^*$ and $\cb$
+onto a plane orthogonal to axis $i$.
+For some axis $i$,
+projected line $\pi_i(L)$ is tangent to square $\pi(\cb)$
+at point $\pi_i(q^*)$.
+For this axis, $\pi_i(q^*)$ is the point of $\pi_i(L)$
+closest to $\pi_i(p)$ under the $\Linf$ distance.
+Therefore, if $tu+q$ is the point on $L$ closest to $p$ under $\Linf$,
+then $t \pi_i(u) + \pi_i(q)$ is the point 
+on $\pi_i(L)$ closest to $\pi_i(p)$ under $\Linf$ for some axis $i$.
+Thus, we project $p$ and $L$ onto the three planes orthogonal 
+to the three axes and find $t_i$ such that $t_i \pi_i(u) + \pi_i(q)$
+is closest to $\pi_i(p)$.
+
+Consider a projection, $\pi_{xy}$, 
+of point $p$ and line $L$ onto the $xy$ plane.
+The projected point $\pi_{xy}(p)$ has coordinates $(p_x,p_y)$
+and the projected line $\pi_{xy}(L)$ is parameterized 
+by $t(u_x,u_y) + (q_x,q_y)$.
+The point on $\pi_{xy}(L)$ which is closest to $\pi_{xy}(p)$
+under the $\Linf$ distance satisfies the equation:
+\begin{equation*}
+|t u_x + q_x - p_x| = |t u_y + q_y - p_y|.
+\end{equation*}
+Equivalently,
+\begin{align*}
+t & = \frac{(q_y-p_y)-(q_x-p_x)}{u_x-u_y}, \mbox{ or} \\
+t & = \frac{(q_y-p_y)+(q_x-p_x)}{u_x+u_y}.
+\end{align*}
+
+Solving for $t$ in each direction,
+computing the $\Linf$ distance from $t u + q$ to $p$,
+and taking the minimum,
+identifies the point $t u + q$ which is closest to $p$
+under the $\Linf$ distance.
