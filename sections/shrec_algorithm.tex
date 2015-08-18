@@ -543,7 +543,7 @@ In that case, we simply set $\cb'.\isovLoc$ to $\cb.\isovLoc$.
 
 The setting of isosurface vertex locations from adjacent cubes
 increases the number of cubes $\cb$ containing 
-their associated vertext locations $\cb.\isovLoc$.
+their associated vertex locations $\cb.\isovLoc$.
 Note that if the initial location $\cb.\isovLoc$ lies in $\cb$,
 then we never change $\cb.\isovLoc$.
 
@@ -556,7 +556,7 @@ which intersect in an edge $\eb$ but not in any facet.
 Two other grid cubes, $\tcb$ and $\tcb'$ share edge $\eb$.
 A 1-dimensional feature which passes through $\cb$ and $\cb'$ must intersect
 either $\tcb$ or $\tcb'$.
-(In the exceptional case, the 1-dimensional featuer passes through $\eb$,
+(In the exceptional case, the 1-dimensional feature passes through $\eb$,
 in which case it intersects both $\tcb$ and $\tcb'$.)
 Since the 1D feature intersects either $\tcb$ and $\tcb'$,
 either $\tcb.\isovLoc$ should be in $\tcb$ 
@@ -936,7 +936,7 @@ then 3, 4 and 5.
 The algorithm outlined in the previous paragraph would produce
 a good set of selected cubes but it is highly sequential.
 One of the best aspects of the Marching Cubes and dual contouring algorithms
-is their local, distributed, paralellizable nature.
+is their local, distributed, parallelizable nature.
 Sequentially extending the set of selected cubes would totally destroy
 that aspect of the algorithms.
 Instead of selecting cubes using the sequential algorithm given above,
@@ -1323,7 +1323,7 @@ to allow the pair $(\tcb,\tcb')$ to merge with $\cb$.
 (a)~Set $Q$ of red vertices with undefined gradients.
 (b)~Graph $G_\cb$ formed from $Q \cup Q_\cb$ and the grid edges.
 $Q_\cb$ is the set of four blue vertices of square~$\cb$.
-(c) Connnected component $G'$ of $G_\cb$.
+(c) Connected component $G'$ of $G_\cb$.
 (d) Green vertices which are connected to the vertices of $G'$.
 The green vertices are the vertices with defined gradients
 which are ``close'' to $\cb$.
@@ -1359,7 +1359,7 @@ As discussed in~\cite{bw-crgsd-15}
 computing correct gradients near gradient field discontinuities
 is extremely difficult.
 In~\cite{bw-crgsd-15}
-Bhattaca and Wenger give an algorithm for computing correct gradients
+Bhattacharya and Wenger give an algorithm for computing correct gradients
 in the presence of gradient discontinuities, but the algorithm does
 not compute correct gradients at all the grid vertices.
 Instead, the algorithm returns a set of correct gradients
