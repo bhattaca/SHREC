@@ -835,12 +835,12 @@ but no SHREC isosurface had more than four such errors.
 
 \begin{figure*}[t]
 	\centering
-		\subfloat[Flange: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_flange.eps}\label{fig:cocone:flange:b}}	
-		\subfloat[Flange: Degree errors]{\includegraphics[width=0.3\linewidth]{images/cocone_cd_flange.eps}\label{fig:cocone:flange:a}}
+		\subfloat[Flange: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/flange_wc_max_angle.eps}\label{fig:cocone:flange:b}}	
+		\subfloat[Flange: Degree errors]{\includegraphics[width=0.3\linewidth]{images/flange_wc_cd.eps}\label{fig:cocone:flange:a}}
 		\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_flange.eps}\label{fig:cocone::c}}		
 
-		\subfloat[TwoCubes: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_twoCube.eps}\label{fig:cocone:b}}	
-		\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.3\linewidth]{images/cocone_cd_twoCube.eps}\label{fig:cocone:a}}
+		\subfloat[TwoCubes: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/twocube_wc_max_angle.eps}\label{fig:cocone:b}}	
+		\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.3\linewidth]{images/twocube_wc_cd.eps}\label{fig:cocone:a}}
 		\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
 
 		
@@ -1270,9 +1270,9 @@ and in producing meshes which accurately reflect those features.
 		MergeSharp & 35K & 0.6 sec \\
 		SHREC grad3 & 34K & 1.0 sec \\
 		SHREC grad9 & 34K &  1.4 sec \\
-		Religrad & 34K & ?? sec \\
-		SingularCocone & 125K & 1.1 sec  \\
-		FeatureRecon & 125K & 343 sec  \\
+		Religrad & 34K & 30 sec \\
+		SingularCocone & 125K & 1.8 sec  \\
+		FeatureRecon & 125K & 344 sec  \\
 \hline
 	\end{tabular}
 \caption{Timings.}
@@ -1284,7 +1284,7 @@ and in producing meshes which accurately reflect those features.
 Table~\ref{table:timings} gives the running time
 of the various algorithms on a TwoCubes dataset.
 The running time was measured on a Windows PC 
-with a ??? Intel Pentium chip and ??? GB RAM.
+with an Intel Core i7-4770 processor (3.4 GHz) and 16 GB RAM.
 
 Inputs to Marching Cubes, EMCPoly, 
 MergeSharp and SHREC were grids of size $\gDim{150}$.  
@@ -1317,3 +1317,33 @@ around each cube.
 The time for merging cubes in MergeSharp and SHREC is
 a small part of the total, since merging is only performed
 around selected grid cubes covering sharp features.
+
+If a gradient grid file is not available,
+then it must be constructed from the scalar grid.
+The Religrad time (30 second) to construct the gradient grid
+should be added to the SHREC time.
+Note that EMCpoly, Polymender and MergeSharp would also require
+Religrad or some similar program to construct a gradient grid
+or set of surface normals,
+so the programs still take comparable times.
+FeatureRecon takes considerably longer than Religrad
+but input to FeatureRecon is  set of surface sample points,
+not a scalar grid.
+
+
+\section{Software}
+
+Software used in this paper can be downloaded from:\\
+\href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable}.
+
+In particular, the web site contains source code
+for SHREC, Religrad, MergeSharp and EMCpoly.
+The web site also contains programs 
+to generate regular grid samplings of scalar and gradient fields
+(ijkgenscalar),
+generate polygonal meshes of annuli, flanges, two cubes,
+cones, frustra, smooth tip cones and cannons (ijkgenmesh),
+compute angle distances (angle\_dist),
+find sharp edges (findsharp) 
+and count the vertex degree in the graph formed by the sharp edges
+(countdegree).
