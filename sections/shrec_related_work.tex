@@ -129,7 +129,7 @@ using oct-trees or kd-trees.
 The isosurface mesh is constructed
 by first constructing polygonal curves representing the intersection
 of the isosurface and oct-tree or kd-tree cells,
-and then connecting an isosurface vertex with those polgyonal curves.
+and then connecting an isosurface vertex with those polygonal curves.
 As in~\cite{jlsw-dchd-02},
 isosurface locations are computed from input surface normals
 using Lindstrom's algorithm.
@@ -198,14 +198,14 @@ As noted in~\cite{sw-dcss-02}
 placing vertices in inactive grid cubes also introduces a new problem
 of folds in the mesh (Figure~\ref{fig:problems}(d)).
 
-The MergeSharp algorithm by Bhattaca and Wenger~\cite{bw-cisec-13,bw-erm-13}
+The MergeSharp algorithm by Bhattacharya and Wenger~\cite{bw-cisec-13,bw-erm-13}
 attacks the problem of sliver triangles, notches, and folds
 by merging grid cubes around features
 so that isosurface vertices on features are well-separated 
 from each other and from non-feature vertices.
 Isosurface vertices are permitted to be placed in inactive grid cubes.
 
-Bhattaca and Wenger analyzed their algorithm by extracting all 
+Bhattacharya and Wenger analyzed their algorithm by extracting all 
 ``sharp'' mesh edges with dihedral angle below a threshold ($140^\circ$),
 forming a graph (1-skeleton) from those edges
 and counting the number of vertices with degrees other than two.
@@ -215,7 +215,7 @@ and no vertices with degrees other than two or three.
 The 1-skeleton from the sharp mesh edges in the reconstruction
 of a thickened annulus should have no vertices with degree other than two.
 By counting the difference between the expected and the actual degree counts,
-Bhattaca and Wenger gave a quantitative measure of the performance
+Bhattacharya and Wenger gave a quantitative measure of the performance
 of their algorithm.
 
 We mention only a few papers from the large literature
