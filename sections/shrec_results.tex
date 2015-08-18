@@ -215,7 +215,7 @@ Dataset Type & Datasets & Grid Size & Isovalue
 \hline
 TwoCubes & 34 & \gDim{150} & 20.1 & 25K & 22K & 45K & 0.8 sec \\
 \hline
-Flange & 40 & \gDim{200} & 10.1 & 90K & 75K & 150K & 1.8 sec \\
+Flange & 39 & \gDim{200} & 10.1 & 90K & 75K & 150K & 1.8 sec \\
 \hline
 Smooth Tip Cone & 15 & \gDim{100} & 10.2 & 4K & 3.5K & 7K & 0.2 sec \\
 \hline
@@ -268,9 +268,12 @@ we rescaled every isosurface and polygonal mesh to lie in the unit cube.
 Our isosurfaces were computed from grids 
 of $150 \times 150 \times 150$ or $200 \times 200 \times 200$
 so this rescaled the cube size to about $0.005$ units.
-We computed the angular distance in the extended neighborhood $\epsilon$
+We computed the angular distance in the extended $\epsilon$-neighborhood
 as defined in Section~\ref{section:angular_distance}
 between each isosurface and the corresponding polygonal mesh.
+We also computed the number of triangles whose normals differed
+by more than $30$, $40$ or $50$ degrees from polyhedral triangles
+in the extended $\epsilon$-neighborhood around each triangle.
 We set $\epsilon$ equal to $0.01$ or about twice the cube size
 for the extended neighborhood.
 
@@ -289,29 +292,38 @@ Isosurfaces from the TwoCubes datasets should have had exactly
 twenty vertices with degrees other than two.
 The number of degree errors for these isosurfaces is $|\NneqII(\Sigma)-20|$.
 
-\begin{figure}[tb]
+\begin{figure}[t]
 \includegraphics[width=\linewidth]{images/shrecFlangeCombine2.eps}
 \caption{SHREC Flange isosurface. ``Sharp" edges (with dihedral angle less than $140^\circ$) are marked in red. 
 ``Smooth" edges are in dark grey. The magnified region shows a blend of the ``sharp" edges with a subset of the ``smooth" edges.}
 \label{fig:flange1}
 \end{figure}
 
+\suppressfloats
 
-\begin{figure*}[tp]
+\begin{figure}[t]
+	\includegraphics[width=\linewidth]{images/shrecPerfect.eps}
+	\caption{SHREC TwoCubes isosurface. 
+``Sharp" edges (dihedral angle less than $140^\circ$) are marked in red. 
+Smooth edges are shown in cyan. The magnified region shows the output mesh edges around a corner.}
+	\label{fig:shrecPerfect1}
+\end{figure}
+
+\begin{figure*}[p]
 \centering	
 
 \begin{tabular}{cc}
-	\subfloat[Flange: Angle distance]{\includegraphics[width=0.45\linewidth]{images/flange_maxAngle_shrec.eps}\label{fig:flangeAngle2}} 
+	\subfloat[Flange: Oriented angle distance]{\includegraphics[width=0.45\linewidth]{images/flange_maxAngle_shrec.eps}\label{fig:shrec:flange:A}} 
 \qquad & \qquad
-\subfloat[Flange: Degree errors]{\includegraphics[width=0.45\linewidth]{images/flange_countDegree_shrec.eps}\label{fig:flangeAngle1}} \\
+\subfloat[Flange: Degree errors]{\includegraphics[width=0.45\linewidth]{images/flange_countDegree_shrec.eps}\label{fig:shrec:flange:D}} \\
 \\
-	\subfloat[TwoCubes: Angle distance]{\includegraphics[width=0.45\linewidth]{images/twoCube_maxAngle_shrec.eps}} 
+	\subfloat[TwoCubes: Oriented angle distance]{\includegraphics[width=0.45\linewidth]{images/twoCube_maxAngle_shrec.eps}\label{fig:shrec:twocubes:A}}
 \qquad & \qquad
-	\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.45\linewidth]{images/twoCube_countDegree_shrec.eps}} \\
+	\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.45\linewidth]{images/twoCube_countDegree_shrec.eps}\label{fig:shrec:twocubes:D}} \\
 \\
-	\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.4\linewidth]{images/flange_shrec_distribution.eps}\label{fig:flangeAngle3}}
+	\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.4\linewidth]{images/flange_shrec_distribution.eps}\label{fig:shrec:flange:N}}
 \qquad & \qquad
-	\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.4\linewidth]{images/twoCube_shrec_distribution.eps}}
+	\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.4\linewidth]{images/twoCube_shrec_distribution.eps}\label{fig:shrec:twocubes:N}}
 \end{tabular}
 
 \caption{Results of SHREC using exact gradients and Religrad gradients on 39 Flange datasets and 34 TwoCube datasets.
@@ -325,13 +337,12 @@ The number of degree errors for these isosurfaces is $|\NneqII(\Sigma)-20|$.
 (d) Number of degree errors in the TwoCubes 1-skeletons of sharp edges
 (Religrad gradients).
 (SHREC using exact gradients produces no degree errors.)
-(e) Number of Flange isosurface triangles with angle difference 
+(e) Number of Flange isosurface triangles with normal difference 
 to polygonal mesh above 30, 40 and 50 degrees. 
-(f) Number of TwoCubes isosurface triangles with angle difference.
+(f) Number of TwoCubes isosurface triangles with normal difference
+to polygonal mesh above 30, 40 and 50 degrees.
 }
-
-\label{fig:flangeAngle}
-\label{fig:shrecTwoCube}
+\label{fig:shrecResults}
 
 \end{figure*}
 
@@ -339,16 +350,16 @@ to polygonal mesh above 30, 40 and 50 degrees.
 \subsection{Isosurface Reconstruction on Synthetic Data}
 \label{section:synthetic_tests}
 
-We tested SHREC on 40 Flange datasets with 40 different orientations
+We tested SHREC on 39 Flange datasets with 39 different orientations
 and 34 TwoCubes datasets with 34 different orientations.
 Table~\ref{table:datasets} presents dataset sizes, isovalues,
 and average isosurface sizes.
 We tested SHREC both on gradients produced by exact formulas 
 and on gradients produced by ReliGrad.
-We measured the unoriented angle distance between the SHREC isosurfaces
+We measured the oriented angle distance between the SHREC isosurfaces
 and the polygonal meshes representing the level sets.
 We also counted the number of isosurface triangles whose normal differences
-were above $30^\circ$, $40^\circ$ and $50^\circ$.
+from the polyhedral mesh were above $30^\circ$, $40^\circ$ and $50^\circ$.
 Finally, we measured the number of degree errors 
 in the 1-skeleton of sharp isosurface edges.
 
@@ -358,90 +369,65 @@ The magnified region shows edges with dihedral angle
 less than $140^\circ$ in red blended with a subset of the ``non-sharp"
 edges.
 
-With exact gradients,
-all the Flange isosurfaces had unoriented angle distance
-under ??? from the polygonal meshes.
-They also had no degree errors in the 1-skeletons
-of sharp isosurface edges,
-i.e. all the vertices in the 1-skeletons had degree two.
-
-Figure~\ref{fig:flangeAngle} displays angle distance and degree error
-information for the 40 Flange isosurfaces
-when gradients were produced using Religrad.
-As shown in Figure~\subref*{fig:flangeAngle1},
-only one isosurface had triangles with angle distance greater than $50^\circ$
-and less than half had no triangles with angle distance greater than $40^\circ$.
-No isosurfaces had more than 5 triangles with angle distance
-greater than $40^\circ$
-and no isosurfaces had more than 15 triangles with angle distance greater
-than $30^\circ$.
-
-Figure~\subref*{fig:flangeAngle2} displays a histogram of angle distances
-for a single Flange isosurface (id 17) 
-whose gradients were produced using Religrad.
-(Note the logarithmic scale.)
-As can be seen,
-there are very few triangles with angle distance
-greater than $20^\circ$, $30^\circ$ or $40^\circ$.
-The isosurface mesh has approximately 133
-thousand triangles. 
-
-Figure~\protect\subref*{fig:flangeAngle3} shows the 1-skeleton degree errors
-for the 40 Flange isosurfaces when gradients were produced using Religrad.
-Thirty two isosurfaces (80$\%$) had no degree errors.
-No isosurface had more than eight degree errors.
-
 Figure~\ref{fig:shrecPerfect1} shows a TwoCubes isosurface
 and isosurface edges constructed by SHREC.
 SHREC reproduces the 0-dimensional features with single mesh vertices
 and the 1-dimensional features with a sequence of mesh edges
 with dihedral angle $90^\circ$.
 
-Figure~\ref{fig:shrecTwoCube} displays angle distance and degree error
+With exact gradients,
+all the Flange isosurfaces had oriented angle distance
+under 15 degrees from the polygonal meshes.
+They also had no degree errors in the 1-skeletons
+of sharp isosurface edges,
+i.e. all the vertices in the 1-skeletons had degree two.
+
+Figure~\ref{fig:shrecResults} displays oriented angle distance and degree error
+information for the 39 Flange isosurfaces
+when gradients were produced using Religrad.
+As shown in Figure~\subref*{fig:shrec:flange:N},
+only one isosurface had triangles with angle distance greater than $50^\circ$
+and more than half had no triangles with angle distance greater than $40^\circ$.
+No isosurfaces had more than 5 triangles with angle distance
+greater than $40^\circ$
+and no isosurfaces had more than 15 triangles with angle distance greater
+than $30^\circ$.
+
+Figure~\protect\subref*{fig:shrec:flange:D} shows the 1-skeleton degree errors
+for the 39 Flange isosurfaces when gradients were produced using Religrad.
+Thirteen isosurfaces had no degree errors.
+No isosurface had more than fourteen degree errors.
+
+Figure~\ref{fig:shrecResults} displays angle distance and degree error
 information for the 34 TwoCube isosurfaces produced by SHREC.
-Figure~\ref{fig:shrecTwoCube}(a) shows the unoriented angle distance
-using exact gradients.
+Figure~\subref*{fig:shrec:twocubes:A} shows the oriented angle distance
+using exact gradients and Religrad gradients.
 As with the exact gradients in the Flange datasets,
-the angle distance is very low (less than $2^\circ$)
-for all the isosurfaces.)
+the angle distance is very low (less than $5^\circ$)
+for all the TwoCubes isosurfaces produced using exact gradients.
+For most isosurfaces produced using Religrad gradients, 
+the angle distance is still low (under $15^\circ$),
+although six isosurfaces have angle distances above $30^\circ$.
+The high angle distances indicate errors in the SHREC reconstruction 
+of sharp features.
+
+Figure~\subref*{fig:shrec:twocubes:N} gives
+the number of TwoCubes Religrad isosurface triangles 
+whose normal differences to the polyhedral mesh 
+are above $30^\circ$, $40^\circ$ and $50^\circ$.
+No isosurface has more than 10 triangles with normal difference
+above $30^\circ$.
+
 With exact gradients, the 34 TwoCubes isosurfaces 
 had no 1-skeleton degree errors, 
 i.e. they all had exactly 20 vertices with degree three 
 in the 1-skeleton of their sharp edges.
-
-Figure~\ref{fig:shrecTwoCube}(b) shows the unoriented angle distances
-using gradients produced by Religrad.
-For most isosurfaces, the angle distance is still low (under $10^\circ$),
-although six isosurfaces have angle distances of between $30^\circ$
-and $50^\circ$.
-The high angle distances indicate errors in the SHREC reconstruction 
-of sharp features.
-
-For the isosurfaces constructed using Religrad gradients,
-Figure~\ref{fig:shrecTwoCube}(c) gives
-the number of isosurface triangles whose normal differences
-are above $30^\circ$, $40^\circ$ and $50^\circ$.
-Dataset 16, which had the largest angle distance over all 34 isosurfaces,
-has only 5 triangles with normal difference more than 30$^\circ$ 
-and a single triangle with normal distance over 40$^\circ$.  
-
-Figure~\ref{fig:shrecTwoCube}(d) shows
+Figure~\subref*{fig:shrec:twocubes:D} shows
 the degree errors in the 1-skeleton of sharp edges
 when gradients were produced using Religrad.
 29 out of the 34 TwoCubes isosurfaces had no degree errors.
 Of the 5 isosurfaces with degree errors,
 the maximum number of degree errors was four.
-As previously noted,
-there were no degree errors for any of the 34 TwoCubes isosurfaces
-when SHREC used exact gradients.
-
-\begin{figure}[t]
-	\includegraphics[width=\linewidth]{images/shrecPerfect.eps}
-	\caption{SHREC TwoCubes isosurface. 
-``Sharp" edges (dihedral angle less than $140^\circ$) are marked in red. 
-Smooth edges are shown in cyan. The magnified region shows the output mesh edges around a corner.}
-	\label{fig:shrecPerfect1}
-\end{figure}
 
 \begin{figure}[t]
 \subfloat[Cannon]{\includegraphics[width=0.5\linewidth]{images/cannon2.eps}\label{fig:cannon:a}}
@@ -542,9 +528,9 @@ was 4.
 \centering
 
 \begin{tabular}{cc}
-	\subfloat[Flange: Angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_maxAngle.eps}\label{fig:msharp:flange:A}} &
+	\subfloat[Flange: Oriented angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_maxAngle.eps}\label{fig:msharp:flange:A}} &
 	\subfloat[Flange: Degree errors]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_countDegree.eps}\label{fig:msharp:flange:D}} \\
-	\subfloat[TwoCubes: Angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_maxAngle.eps}\label{fig:msharp:tc:A}} &
+	\subfloat[TwoCubes: Oriented angle distance]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_maxAngle.eps}\label{fig:msharp:tc:A}} &
 	\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_countDegree.eps}\label{fig:msharp:tc:D}} \\
 	\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.45\linewidth]{images/ms_euro_flange_distribution.eps}\label{fig:msharp:flange:c}} &
 	\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.45\linewidth]{images/ms_euro_twoCube_distribution.eps}\label{fig:msharp:tc:c}} 
@@ -552,12 +538,12 @@ was 4.
 %	\subfloat[Notch in MergeSharp Flange isosurface]{\includegraphics[width=0.3\linewidth]{images/mergeSharpvsShrec2.eps}\label{fig:msharp:b}} &
 %	\subfloat[Dimpled MergeSharp isosurface (left) and smooth SHREC isosurface (right)]{\includegraphics[width=0.3\linewidth]{images/cone_mergesharp.eps}\label{fig:msharp:c}}
 \end{tabular}
-	\caption{Results of  MergeSharp on 40 Flange and 34 TwoCubes datasets
+	\caption{Results of  MergeSharp on 39 Flange and 34 TwoCubes datasets
 (exact gradients).
-	\protect\subref{fig:msharp:flange:A}~Angle distance to polygonal Flange meshes.
+	\protect\subref{fig:msharp:flange:A}~Oriented angle distance to polygonal Flange meshes.
 	\protect\subref{fig:msharp:flange:D}~Degree errors in 1-skeleton 
 of sharp edges of Flange datasets.
-	\protect\subref{fig:msharp:tc:A}~Angle distance to polygonal TwoCubes meshes.
+	\protect\subref{fig:msharp:tc:A}~Oriented angle distance to polygonal TwoCubes meshes.
 	\protect\subref{fig:msharp:tc:D}~Degree errors in 1-skeleton 
 of sharp edges of TwoCubes datasets.
 	\protect\subref{fig:msharp:tc:c}~Number of triangles 
@@ -650,7 +636,7 @@ and corresponding SHREC isosurface (right).
 
 Input to MergeSharp is a regular grid sampling of a scalar field
 and the gradients at the grid vertices.
-We ran MergeSharp on the same 40 Flange and 34 TwoCube synthetic datasets
+We ran MergeSharp on the same 39 Flange and 34 TwoCube synthetic datasets
 that we applied to SHREC in Section~\ref{section:synthetic_tests}.
 We used the exact gradients on MergeSharp, not the Religrad gradients.
 Figures~\subref*{fig:msharp:flange:A} and~\subref*{fig:msharp:tc:c}
@@ -676,7 +662,7 @@ The maximum number of degree errors is eight.
 Note that all the results in Figure~\ref{fig:msharp} are
 for MergeSharp isosurfaces produced from EXACT gradients.
 Thus, they should not be compared with the SHREC results
-in Figure~\ref{fig:flangeAngle} for Flange isosurfaces
+in Figure~\ref{fig:shrecResults} for Flange isosurfaces
 produced using Religrad gradients.
 The 40 SHREC Flange isosurfaces produced using exact gradients
 all have angle distance under ???
@@ -686,10 +672,10 @@ None of the SHREC Flange isosurfaces produced using exact gradients
 have degree errors
 compared with 8 MergeSharp isosurfaces with 4 to 8 degree errors.
 
-As shown in Figure~\ref{fig:shrecTwoCube}(a),
+As shown in Figure~\ref{fig:shrecResults}(a),
 the 40 SHREC TwoCube isosurfaces produced using exact gradients
 all have angle distance under $2^\circ$.
-(Note the y-scale in Figure~\ref{fig:shrecTwoCube}(a)
+(Note the y-scale in Figure~\ref{fig:shrecResults}(a)
 is from 0 to $10^\circ$.)
 18 of the corresponding MergeSharp TwoCube isosurfaces have
 angle distance above $30^\circ$.
@@ -705,18 +691,18 @@ The corresponding SHREC isosurface is smooth and does not have these dimples.
 
 \begin{figure*}[p]
 	\centering
-		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/max_surface_angle_Flange.eps}\label{fig:polymender:d}}
-				\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/countDegree_Flange.eps}\label{fig:polymender:c}}\\
-		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_1.eps}\label{fig:polymender:b}}\quad
-		\subfloat[]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_2.eps}\label{fig:polymender:a}}\\
-		\subfloat[]{\includegraphics[ width=0.49\linewidth]{images/flange-35-polymender.eps}\label{fig:polymender:e}}
+		\subfloat[Flange: Oriented angle distance]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/max_surface_angle_Flange.eps}\label{fig:polymender:d}}
+				\subfloat[Flange: Degree errors]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/countDegree_Flange.eps}\label{fig:polymender:c}}\\
+		\subfloat[TwoCubes: Oriented angle distance]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_1.eps}\label{fig:polymender:b}}\quad
+		\subfloat[TwoCubes: Degree errors]{\includegraphics[trim={5cm 0 5cm 0},clip, width=0.45\linewidth]{images/twoCube_summary_2.eps}\label{fig:polymender:a}}\\
+		\subfloat[Flange: Triangle normal differences]{\includegraphics[ width=0.49\linewidth]{images/flange-35-polymender.eps}\label{fig:polymender:e}}
 \quad
-			\subfloat[]{\includegraphics[ width=0.49\linewidth]{images/twocube-35-polymender.eps}\label{fig:polymender:f}}
+			\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[ width=0.49\linewidth]{images/twocube-35-polymender.eps}\label{fig:polymender:f}}
 \\
 \caption{Results of PolyMender on 40 Flange and 34 TwoCubes datasets.
 \protect\subref{fig:polymender:d}~Oriented angle distance to polygonal Flange meshes.
-\protect\subref{fig:polymender:b}~Oriented angle distance to polygonal TwoCubes meshes.
 \protect\subref{fig:polymender:c}~Degree errors in 1-skeleton of sharp edges of Flange datasets.
+\protect\subref{fig:polymender:b}~Oriented angle distance to polygonal TwoCubes meshes.
 \protect\subref{fig:polymender:a}~Degree errors in 1-skeleton of sharp edges of TwoCubes datasets.
 (Note: Y-scale is 0 to 200 compared with y-scale 0 to 450 in (b).)
 \protect\subref{fig:polymender:e}~Number of triangles with oriented angle difference to Flange mesh 
@@ -730,17 +716,15 @@ above $30$, $40$ and $50$ degrees.
 
 \begin{figure*}
 	\centering
-	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/max_angle_isoex_2.eps}\label{fig:isoEx_summ:b}}
-	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/isoex_surf_angle_dist.eps}\label{fig:isoEx_summ:c}}
-	\subfloat[]{\includegraphics[height=0.2\linewidth]{images/countDegree_isoex_2.eps}\label{fig:isoEx_summ:a}}\\
-	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/isoExFlange.eps}\label{fig:isoEx:a}}
-	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/isoExTwoCube.eps}\label{fig:isoEx:b}}\\
-	%\subfloat[]{\includegraphics[width=0.45\linewidth]{images/isoex_compare1.eps}\label{fig:isoEx:a}}\quad
-	%\subfloat[]{\includegraphics[width=0.45\linewidth]{images/isoEx_compare2.eps}\label{fig:isoEx:b}}
+	\subfloat[Oriented angle distance]{\includegraphics[height=0.2\linewidth]{images/max_angle_isoex_2.eps}\label{fig:isoEx_summ:b}}
+	\subfloat[Triangle normal differences]{\includegraphics[height=0.2\linewidth]{images/isoex_surf_angle_dist.eps}\label{fig:isoEx_summ:c}}
+	\subfloat[Degree errors]{\includegraphics[height=0.2\linewidth]{images/countDegree_isoex_2.eps}\label{fig:isoEx_summ:a}}\\
+	\subfloat[EMCpoly Flange isosurface]{\includegraphics[width=0.5\linewidth]{images/isoExFlange.eps}\label{fig:isoEx:a}}
+	\subfloat[EMCpoly TwoCubes isosurface]{\includegraphics[width=0.5\linewidth]{images/isoExTwoCube.eps}\label{fig:isoEx:b}}\\
 \caption{EMCpoly (Extended Marching Cubes) and SHREC comparison.
 Tests tw1-tw4 are four TwoCubes scalar fields.
 Tests fl1-fl4 are four Flange scalar fields.
-\protect\subref{fig:isoEx_summ:b}~Maximum angle distance for EMCpoly (blue)
+\protect\subref{fig:isoEx_summ:b}~Oriented angle distances for EMCpoly (blue)
 and SHEC (red).
 \protect\subref{fig:isoEx_summ:c}~Number of triangles in EMCpoly isosurfaces
 with oriented angle difference to polygonal mesh 
@@ -749,8 +733,11 @@ above $30$, $40$ and $50$ degrees.
 in 1-skeleton of EMCpoly isosurface (blue).
 (SHREC has no degree errors for these cases.)
 \protect\subref{fig:isoEx:a} EMCpoly Flange isosurface.
+The magnified region shows very thin mesh triangles aligned
+with a 1-dimensional feature.
 \protect\subref{fig:isoEx:b} EMCpoly TwoCubes isosurface.
-The magnified regions show the errors in the EMCpoly isosurface mesh.}	
+The magnified region shows errors folds and degenerate triangles
+in the EMCpolyisosurface mesh.}	
 \end{figure*}
 
 
@@ -822,7 +809,7 @@ from the corresponding polygonal mesh normals.
 whose normals were more than $50^\circ$ from the normals of the corresponding polygonal meshes.
 In comparison, only one SHREC Flange isosurface (Religrad gradients) had triangles
 whose normals were more than $50^\circ$ from the normals of the corresponding polygonal meshes
-(Figure~\ref{fig:flangeAngle}).
+(Figure~\ref{fig:shrecResults}).
 No SHREC Flange isosurface (Religrad gradients) had more than 15 triangles
 whose normals were more than $30^\circ$ from the normals of the corresponding polygonal meshes
 Almost all of the PolyMender Flange isosurfaces had degree errors
@@ -848,30 +835,40 @@ but no SHREC isosurface had more than four such errors.
 
 \begin{figure*}[t]
 	\centering
-		\subfloat[Angle distances]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_twoCube.eps}\label{fig:cocone:b}}	
-		\subfloat[Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
-		\subfloat[Degree errors]{\includegraphics[width=0.3\linewidth]{images/cocone_cd_twoCube.eps}\label{fig:cocone:a}}
+		\subfloat[Flange: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_flange.eps}\label{fig:cocone:flange:b}}	
+		\subfloat[Flange: Degree errors]{\includegraphics[width=0.3\linewidth]{images/cocone_cd_flange.eps}\label{fig:cocone:flange:a}}
+		\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_flange.eps}\label{fig:cocone::c}}		
+
+		\subfloat[TwoCubes: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_twoCube.eps}\label{fig:cocone:b}}	
+		\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.3\linewidth]{images/cocone_cd_twoCube.eps}\label{fig:cocone:a}}
+		\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
+
 		
-		
-		\subfloat[Angle distances]{\includegraphics[width=0.3\linewidth]{images/cocone_max_angle_flange.eps}\label{fig:cocone:flange:b}}	
-		\subfloat[Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_flange.eps}\label{fig:cocone::c}}		
-		\subfloat[Degree errors]{\includegraphics[width=0.3\linewidth]{images/cocone_cd_flange.eps}\label{fig:cocone:flange:a}}
-\caption{Comparison of SHREC and SingularCocone on 15 datasets.
+\caption{Comparison of SHREC and SingularCocone on 10 Flange and 15 TwoCubes datasets.
 Point clouds for SingularCocone (and FeatureRecon) were computed
 by supersampling the polgyonal meshes.
-(a)~Angle distance between Singular Cocone (red) isosurfaces
-and the corresponding polygonal meshes
-and between SHREC isosurfaces based on Religrad gradients (green)
-and the corresponding polygonal meshes.
-(b)~Number of SingularCocone triangles 
-with normal difference of 30$^\circ$, 40$^\circ$ and 50$^\circ$ 
-from the corresponding polygonal mesh normals.
-(c)~Degree errors errors in the 1-skeleton of the sharp edges
-for SingularCocone isosurfaces (red)
-and SHREC isosurfaces based on Religrad gradients (blue).
+(a)~Unoriented angle distances from Singular Cocone (blue) Flange isosurfaces
+and from SHREC Flange isosurfaces (exact gradients in red,
+Religrad gradients in green) to polygonal Flange meshes.
+(b)~Degree errors in the 1-skeleton of the sharp edges
+for SingularCocone Flange isosurfaces (blue)
+and SHREC isosurfaces (Religrad gradients, red).
 (SHREC isosurfaces based on exact gradients have no degree errors.)
+(c)~Number of SingularCocone triangles 
+with normal difference to Flange mesh
+above 30$^\circ$, 40$^\circ$ and 50$^\circ$.
+(d)~Unoriented angle distances from Singular Cocone (red) TwoCubes isosurfaces
+and from SHREC TwoCubes isosurfaces (Religrad gradients, green) 
+to polygonal TwoCubes meshes.
+(e)~Degree errors in the 1-skeleton of the sharp edges
+for SingularCocone TwoCubes isosurfaces (red)
+and SHREC isosurfaces based (Religrad gradients, blue).
+(f)~Number of SingularCocone triangles 
+with normal difference to TwoCubes mesh
+above 30$^\circ$, 40$^\circ$ and 50$^\circ$.
 }
-		\label{fig:cocone:compare}
+\label{fig:cocone:compare}
+
 \end{figure*}
 
 
@@ -998,7 +995,7 @@ To test the efficacy of point cloud reconstruction
 for isosurface reconstruction,
 we tested one algorithm, SingularCocone,
 on reconstructing the TwoCubes isosurfaces.
-Cube merging in Mergesharp and SHREC plays a similar role
+Cube merging in MergeSharp and SHREC plays a similar role
 to the ``protective balls'' in SingularCocone,
 so we thought that SingularCocone would perform
 better than other point cloud reconstruction algorithms.
@@ -1235,7 +1232,7 @@ and~\ref{fig:ict:engineB}.
 Note the non-uniform spacing in the Motorcycle Engine and CMM datasets.
 
 Figures~\ref{fig:ict:engineA} and~\ref{fig:ict:engineB} 
-show a small corner of the original object
+show a small corner of the motorcycle engine cylinders
 and the results of reconstruction of that corner.
 The magnified regions (with black border) in Figure~\ref{fig:ict:engineB}
 show that the sharp edges are well reconstructed. 
@@ -1256,25 +1253,67 @@ display the sharp features.
 Figure~\protect\subref*{fig:ict:CMM:b} shows a single slice of
 the CT scan, with scalar values mapped to the ``heat" color map.
 
-Through these reconstructions and others,
-we have confirmed that SHREC performs well on industrial CT datasets. 
+SHREC does a good job of reproducing the 0 and 1 dimensional features
+from each of these data sets
+and in producing meshes which accurately reflect those features.
+
 
 \section{Timings}
-\begin{table}[]
+\begin{table}[h]
 	\centering
-	\begin{tabular}{|l| c|c|}\hline
-		Software & Time(in sec.) & OutputTriangles \\ \hline
-		EMCPoly & 0.82 &  46k  \\
-		Singular Cocone & 344.58  &  125k\\
-		Polymender&  0.72&  85k\\
-		MergeSharp&  0.6&  35k \\
-		SHREC 3&  1.0&  34k \\
-		SHREC 5&  1.14&   34k \\
-		SHREC 9&  1.22&   34k\\
-		MarchingCube& 0.4  &  41k \\ \hline
+	\begin{tabular}{|l|c|c|}\hline
+             & Num & \\ 
+		Software & Iso Tri & Time \\ \hline
+		Marching Cubes & 41K & 0.4  sec \\ 
+		EMCPoly & 46K & 0.8 sec \\
+		Polymender & 85K & 0.7 sec \\
+		MergeSharp & 35K & 0.6 sec \\
+		SHREC grad3 & 34K & 1.0 sec \\
+		SHREC grad9 & 34K &  1.4 sec \\
+		Religrad & 34K & ?? sec \\
+		SingularCocone & 125K & 1.1 sec  \\
+		FeatureRecon & 125K & 343 sec  \\
+\hline
 	\end{tabular}
-		\caption{Timings}
-		\label{table:timings}
+\caption{Timings.}
+
+\label{table:timings}
 
 \end{table}
-Table~\ref{table:timings} shows the timings on a randomly selected twocube dataset.
+
+Table~\ref{table:timings} gives the running time
+of the various algorithms on a TwoCubes dataset.
+The running time was measured on a Windows PC 
+with a ??? Intel Pentium chip and ??? GB RAM.
+
+Inputs to Marching Cubes, EMCPoly, 
+MergeSharp and SHREC were grids of size $\gDim{150}$.  
+Polymender constructed an oct tree with depth 7,
+with a full resolution grid of size $\gDim{128}$.
+Inputs to SingularCocone and FeatureRecon had 60K sample points.
+
+The point cloud reconstruction software
+SingularCocone and FeatureRecon are very different
+from the isosurface feconstruction software,
+so one should be extremely careful in comparing its timings
+to the others.
+SingularCocone receives a set of points on 0 and 1-dimensional features
+as part of its input,
+while EMCpoly, PolyMender, MergeSharp and SHREC must spend
+time computing such points from gradients or surface normals.
+On the other hand,
+FeatureRecon receives a set of sample points 
+without any gradient or surface normal information,
+while EMCpoly, PolyMender, MergeSharp and SHREC receive
+gradient or surface normals as part of their input.
+Computing points on 0 and 1-dimensional features
+is much easier if gradient or surface normals are provided.
+
+EMCPoly, Polymender, MergeSharp and SHREC take comparable times.
+SHREC takes the longest and the time increases 
+if gradients are selected from larger subgrids around each cube.
+The extra time taken by SHREC is spent selecting gradients
+around each cube.
+The time for merging cubes in MergeSharp and SHREC is
+a small part of the total, since merging is only performed
+around selected grid cubes covering sharp features.
