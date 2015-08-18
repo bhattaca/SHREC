@@ -120,14 +120,14 @@ Let $B_p(\epsilon)$ be the ball around $p$ of radius $\epsilon$.
 For each point $p \in \Sigma^S_a$ 
 where $B_p(\epsilon) \cap \Sigma^S_Q \neq \emptyset$,
 define the angle distance between $p$ and $\Sigma_Q$
-in the neighborhood $\epsilon$ as:
+in the $\epsilon$-neighborhood as:
 \begin{align*}
 \tdAe(p,\Sigma_Q) & = \liminf\{ \angle(n_p, n_q) : 
 q \in \Sigma^S_Q \cap B_p(\epsilon) \}.
 \end{align*}
 
 Define the directed angle distance between $\Sigma_P$ and $\Sigma_Q$
-in neighborhood $\epsilon$ as:
+in $\epsilon$-neighborhood as:
 \begin{align*}
 \tdAe(\Sigma_P,\Sigma_Q) & = 
   \limsup_{p \in \Sigma^S_P \mbox{ and } 
@@ -136,7 +136,7 @@ in neighborhood $\epsilon$ as:
 \end{align*}
 
 Finally, define the angle distance between $\Sigma_P$ and $\Sigma_Q$
-in neighborhood $\epsilon$ as:
+in $\epsilon$-neighborhood as:
 \begin{align*}
 \dAe(\Sigma_P,\Sigma_Q) & = 
 \max(\tdAe(\Sigma_P,\Sigma_Q), \tdAe(\Sigma_Q,\Sigma_P)).
@@ -152,7 +152,7 @@ The ball around $p$ is now guaranteed to intersect $\Sigma_Q$.
 
 Define the angle distance 
 between $p \in \Sigma^S_p$ and $\Sigma_Q$ in the extended
-neighborhood $\epsilon$ as:
+$\epsilon$-neighborhood as:
 \begin{align*}
 \tdApe(p,\Sigma_Q) & = 
   \liminf\{ \angle(n_p, n_q) : 
@@ -163,13 +163,13 @@ Note that the addition of $d(p,\Sigma_Q)$ ensures that the ball
 around $p$ intersects $\Sigma_Q$.
 
 Define the directed angle distance between $\Sigma_P$ and $\Sigma_Q$
-in extended neighborhood $\epsilon$ as:
+in extended $\epsilon$-neighborhood as:
 \begin{align*}
 \tdApe(\Sigma_P,\Sigma_Q) & = \limsup_{p \in P_S} \tdApe(p,\Sigma_Q).
 \end{align*}
 
 Define the angle distance between $\Sigma_P$ and $\Sigma_Q$
-in extended neighborhood $\epsilon$ as:
+in extended $\epsilon$-neighborhood as:
 \begin{align*}
 \dApe(\Sigma_P,\Sigma_Q) & = 
 \max(\tdApe(\Sigma_P,\Sigma_Q), \tdApe(\Sigma_Q,\Sigma_P)).
