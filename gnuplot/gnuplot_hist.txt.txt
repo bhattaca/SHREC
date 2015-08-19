@@ -240,7 +240,7 @@ plot 'E:\Google\SHREC\tables\twoCube_RELIGRAD_shrec.dat'  using 2 title ">30 deg
 
 #####  
 set term png truecolor
-set output "flange-35-polymender.png"
+set output "flange_polymender_angle_dist.png"
 set xrange [0:]
 set yrange [:400]
 set boxwidth 0.9
