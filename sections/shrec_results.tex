@@ -485,7 +485,7 @@ SHREC & SHREC &
 EMC is a sample implementation of Extended Marching Cubes.
 EMCpoly is a modification of EMC which creates TwoCubes and Flange isosurfaces.
 PolyMender is an implementation of dual contouring for fixing polygonal meshes.
-SingularCocone is an implementation of a Voronoi based algorithm
+SingularCoconeis an implementation of a Voronoi based algorithm
 for surface reconstruction from point clouds.
 The algorithm handles 0 and 1 dimensional features
 including non-manifold features.
@@ -715,7 +715,7 @@ above $30$, $40$ and $50$ degrees.
 \label{fig:polymenderA}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure*}[t]
 	\centering
 	\subfloat[Oriented angle distance]{\includegraphics[height=0.2\linewidth]{images/max_angle_isoex_2.eps}\label{fig:isoEx_summ:b}}
 	\subfloat[Triangle normal differences]{\includegraphics[height=0.2\linewidth]{images/isoex_surf_angle_dist.eps}\label{fig:isoEx_summ:c}}
@@ -834,45 +834,6 @@ The same five SHREC isosurfaces had degree errors,
 but no SHREC isosurface had more than four such errors.
 
 
-\begin{figure*}[t]
-	\centering
-		\subfloat[Flange: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/flange_wc_max_angle.eps}\label{fig:cocone:flange:b}}	
-		\subfloat[Flange: Degree errors]{\includegraphics[width=0.3\linewidth]{images/flange_wc_cd.eps}\label{fig:cocone:flange:a}}
-		\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_flange.eps}\label{fig:cocone::c}}		
-
-		\subfloat[TwoCubes: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/twocube_wc_max_angle.eps}\label{fig:cocone:b}}	
-		\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.3\linewidth]{images/twocube_wc_cd.eps}\label{fig:cocone:a}}
-		\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
-
-		
-\caption{Comparison of SHREC and SingularCocone on 10 Flange and 15 TwoCubes datasets.
-Point clouds for SingularCocone (and FeatureRecon) were computed
-by supersampling the polygonal meshes.
-(a)~Unoriented angle distances from Singular Cocone (blue) Flange isosurfaces
-and from SHREC Flange isosurfaces (exact gradients in red,
-Religrad gradients in green) to polygonal Flange meshes.
-(b)~Degree errors in the 1-skeleton of the sharp edges
-for SingularCocone Flange isosurfaces (blue)
-and SHREC isosurfaces (Religrad gradients, red).
-(SHREC isosurfaces based on exact gradients have no degree errors.)
-(c)~Number of SingularCocone triangles 
-with normal difference to Flange mesh
-above 30$^\circ$, 40$^\circ$ and 50$^\circ$.
-(d)~Unoriented angle distances from Singular Cocone (red) TwoCubes isosurfaces
-and from SHREC TwoCubes isosurfaces (Religrad gradients, green) 
-to polygonal TwoCubes meshes.
-(e)~Degree errors in the 1-skeleton of the sharp edges
-for SingularCocone TwoCubes isosurfaces (red)
-and SHREC isosurfaces based (Religrad gradients, blue).
-(f)~Number of SingularCocone triangles 
-with normal difference to TwoCubes mesh
-above 30$^\circ$, 40$^\circ$ and 50$^\circ$.
-}
-\label{fig:cocone:compare}
-
-\end{figure*}
-
-
 \paragraph{Comparison with EMC (Extended Marching Cubes):}
 
 EMC is a sample implementation by Mario Botsch
@@ -893,6 +854,7 @@ we the corresponding values for the TwoCubes and Flange scalar fields.
 We added only functions to provide the relevant scalar field measurements,
 but did not change the EMC code which generates the isosurface.
 Our modification of EMC is called EMCpoly.
+
 
 We ran EMCpoly on four Flange scalar fields 
 with four randomly generated axes directions
@@ -962,12 +924,49 @@ the numerous thin triangles would be much more visible,
 creating numerous visual anomalies.
 
 
+\begin{figure*}[t]
+	\centering
+		\subfloat[Flange: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/flange_wc_max_angle.eps}\label{fig:cocone:flange:b}}	
+		\subfloat[Flange: Degree errors]{\includegraphics[width=0.3\linewidth]{images/flange_wc_cd.eps}\label{fig:cocone:flange:a}}
+		\subfloat[Flange: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_flange.eps}\label{fig:cocone::c}}		
+
+		\subfloat[TwoCubes: Unoriented angle distances]{\includegraphics[width=0.3\linewidth]{images/twocube_wc_max_angle.eps}\label{fig:cocone:b}}	
+		\subfloat[TwoCubes: Degree errors]{\includegraphics[width=0.3\linewidth]{images/twocube_wc_cd.eps}\label{fig:cocone:a}}
+		\subfloat[TwoCubes: Triangle normal differences]{\includegraphics[width=0.3\linewidth]{images/cocone_angle_distri_twoCube.eps}\label{fig:cocone:c}}		
+
+		
+\caption{Comparison of SHREC and SingularCocone on 10 Flange and 15 TwoCubes datasets.
+Point clouds for SingularCocone (and FeatureRecon) were computed
+by supersampling the polygonal meshes.
+(a)~Unoriented angle distances from Singular Cocone (blue) Flange isosurfaces
+and from SHREC Flange isosurfaces (exact gradients in red,
+Religrad gradients in green) to polygonal Flange meshes.
+(b)~Degree errors in the 1-skeleton of the sharp edges
+for SingularCocone Flange isosurfaces (blue)
+and SHREC isosurfaces (Religrad gradients, red).
+(SHREC isosurfaces based on exact gradients have no degree errors.)
+(c)~Number of SingularCocone triangles 
+with normal difference to Flange mesh
+above 30$^\circ$, 40$^\circ$ and 50$^\circ$.
+(d)~Unoriented angle distances from Singular Cocone (red) TwoCubes isosurfaces
+and from SHREC TwoCubes isosurfaces (Religrad gradients, green) 
+to polygonal TwoCubes meshes.
+(e)~Degree errors in the 1-skeleton of the sharp edges
+for SingularCocone TwoCubes isosurfaces (red)
+and SHREC isosurfaces based (Religrad gradients, blue).
+(f)~Number of SingularCocone triangles 
+with normal difference to TwoCubes mesh
+above 30$^\circ$, 40$^\circ$ and 50$^\circ$.
+}
+\label{fig:cocone:compare}
+
+\end{figure*}
+
 \begin{figure}[t] 
 	%dataset t110 reconstructed from perfect mesh 
 	\centering 
 	\subfloat[]{\includegraphics[width=0.5\linewidth]{images/compare_cocone_perfect_mc_a.eps}\label{fig:cocone_img:a}}
 		\subfloat[]{\includegraphics[width=0.5\linewidth]{images/compare_cocone_perfect_mc_b.eps}\label{fig:cocone_img:b}}
-
 \caption{SingularCocone TwoCubes isosurface. 
 \protect\subref{fig:cocone_img:a}~Input cloud is a supersampled polygonal mesh. 
 \protect\subref{fig:cocone_img:b}~Input cloud is a supersampled
@@ -1088,6 +1087,7 @@ before counting the number of isosurface triangles.
 \label{table:CTdatasets}
 
 \end{table*}
+
 
 
 \paragraph{Experimental details:} 

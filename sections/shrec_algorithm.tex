@@ -662,7 +662,7 @@ subgrids around each selected square.
 \label{fig:config2D_4_2}
 \end{figure}
 
-\begin{figure*}
+\begin{figure*}[t]
 \centering
 \begin{tabular}{cccc}
 \includegraphics[width=1.2in]{images/config3D_2_0_0.eps} \qquad &
@@ -763,7 +763,8 @@ For instance, a magenta square can be selected between the two colored squares
 in Figure~\ref{fig:config2D_4_2}(a) and the $3 \times 3$ subgrids
 will fit together tightly.
 
-\begin{figure*}
+
+\begin{figure*}[t]
 \centering
 
 \begin{tabular}{ccc}
@@ -791,15 +792,6 @@ Configuration (3,2,0) & Configuration (3,2,1)
 \label{fig:loose3D}
 \end{figure*}
 
-\begin{figure}[t]
-\centering
-
-\includegraphics[width=1.2in]{images/config3D_3_2_2_B.eps}
-
-\caption{Problematic interaction of red and blue cubes
-in configuration (3,2,2) is blocked by magenta cube.}
-\label{fig:blocked3D}
-\end{figure}
 
 Some examples of tightly packed 3D configurations of cubes are given
 in Figure~\ref{fig:packed3D}.
@@ -844,26 +836,6 @@ SHREC avoids selecting cube $\cb''$ if some already selected cube $\cb$
 forms a $(3,2,0)$ or $(3,2,1)$ or $(3,2,2)$ configuration with $\cb''$
 and no already selected cube separates $\cb$ from $\cb''$.
 
-\begin{figure}
-\begin{equation*}
-\xymatrix{
-\action{Select 0D feature cubes} \ar[d] \\
-\action{Select 1D features cubes in $7 \times 7 \times 7$ subgrids \\
-around selected 0D feature cubes} \ar[d] \\
-\action{Select 1D feature cubes whose indices are congruent \\
-to $(0,0,0) \bmod 6$.} \ar[d] \\
-\action{Select 1D feature cubes whose indices are congruent \\
-to permutations of $(k,0,0) \bmod 6$.} \ar[d] \\
-\action{Select 1D feature cubes whose indices are congruent \\
-to permutations of $(k_a,k_b,0) \bmod 6$.} \ar[d] \\
-\action{Select 1D feature cubes whose indices are congruent \\
-to permutations of $(k_a,k_b,k_c) \bmod 6$.}
-}
-\end{equation*}
-\caption{SHREC algorithm for selecting 0D and 1D feature cubes.}
-\label{alg:SHREC_select}
-\end{figure}
-
 Figure~\ref{alg:SHREC_select} contains an outline of the algorithm 
 for selecting 0D and 1D feature cubes.
 SHREC first selects 0D feature cubes.
@@ -883,6 +855,37 @@ since there are multiple 1-dimensional features ending
 at a 0-dimensional feature.
 Selecting a cube which is near two such 1-dimensional features.
 can obscure one of the edges.
+
+
+\begin{figure}[t]
+\centering
+
+\includegraphics[width=1.2in]{images/config3D_3_2_2_B.eps}
+
+\caption{Problematic interaction of red and blue cubes
+in configuration (3,2,2) is blocked by magenta cube.}
+\label{fig:blocked3D}
+\end{figure}
+
+\begin{figure}
+\begin{equation*}
+\xymatrix{
+\action{Select 0D feature cubes} \ar[d] \\
+\action{Select 1D features cubes in $7 \times 7 \times 7$ subgrids \\
+around selected 0D feature cubes} \ar[d] \\
+\action{Select 1D feature cubes whose indices are congruent \\
+to $(0,0,0) \bmod 6$.} \ar[d] \\
+\action{Select 1D feature cubes whose indices are congruent \\
+to permutations of $(k,0,0) \bmod 6$.} \ar[d] \\
+\action{Select 1D feature cubes whose indices are congruent \\
+to permutations of $(k_a,k_b,0) \bmod 6$.} \ar[d] \\
+\action{Select 1D feature cubes whose indices are congruent \\
+to permutations of $(k_a,k_b,k_c) \bmod 6$.}
+}
+\end{equation*}
+\caption{SHREC algorithm for selecting 0D and 1D feature cubes.}
+\label{alg:SHREC_select}
+\end{figure}
 
 Let $\cb$ be a selected 0D feature cube and let $\cb'$ be a 1D feature cube
 which is in a $(2,0,0)$, $(2,1,0)$ or $(2,1,1)$ configuration with $\cb$.
