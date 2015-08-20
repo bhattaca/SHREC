@@ -240,7 +240,7 @@ plot 'E:\Google\SHREC\tables\twoCube_RELIGRAD_shrec.dat'  using 2 title ">30 deg
 
 #####  
 set term png truecolor
-set output "flange_polymender_angle_dist.png"
+set output "flange-35-polymender.png"
 set xrange [0:]
 set yrange [:400]
 set boxwidth 0.9
@@ -323,20 +323,11 @@ set style fill solid 0.5 noborder
 set ylabel "Number of simplices"
 plot 'E:\Google\SHREC\mergesharp_euro\flange_angleDistribution.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
 
+SHREC religrad twocube
 set term png truecolor
-set output "flangeShrecAngleDistribution.png"
+set output "twoCube_shrec_distribution.png"
 set boxwidth 0.9
 set yrange[:20]
 set style fill solid 0.5 noborder 
 set ylabel "Number of simplices"
-plot 'E:\Google\SHREC\tables\flangeShrecAngleDist_religrad.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
-
-
-set term png truecolor
-set output "flangeCoconeAngleDistribution.png"
-set boxwidth 0.9
-set yrange[:2000]
-set style fill solid 0.5 noborder 
-set ylabel "Number of simplices"
-plot 'E:\Google\SHREC\tables\cocone_flange_angle_dist.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
-
+plot 'E:\Google\SHREC\tables\twoCubeShrecAngleDist.dat'  using 2 title ">30 deg" w boxes lc rgb"blue", '' using 3 title ">40 deg" w boxes lc rgb"green", '' using 4  title ">50 deg" w boxes lc rgb"red" 
