@@ -108,8 +108,6 @@ Ju et al.~\cite{jlsw-dchd-02,sw-dcss-02} present a dual contouring algorithm
 for constructing isosurfaces with sharp features.
 Vertices of dual contouring isosurfaces lie inside grid cubes
 while isosurface quadrilaterals are dual to grid edges.
-Dual contouring algorithms were first described
-by Gibson in~\cite{gh-ssqem-97,g-cesng-98}.
 In addition to scalar values at regular grid vertices,
 the algorithm by Ju et al. requires surface normals
 at the intersection of the grid edges and the surface.
@@ -149,7 +147,7 @@ Dual Marching Cubes reduces the number of "sliver" triangles
 by positioning the vertices of the dual grid to lie on the isosurface,
 whenever possible.
 
-With the exception of~\cite{kbsh-fssev-01} and~\cite{hwco-cmsaf-05},
+With the exception of~\cite{hwco-cmsaf-05} and~\cite{kbsh-fssev-01},
 none of the reconstruction papers listed above give any quantitative
 analysis of the reconstructed features.
 Kobbelt et al.~\cite{kbsh-fssev-01} give the ``approximation error''
@@ -261,7 +259,7 @@ and then reconstruct the surface mesh from the selected feature points
 and a subset of the smooth points.
 The algorithms differ in how they identify points on sharp features.
 Dey et al. use the graph Laplacian to identify points on sharp features
-while Salman et al use an analysis of the shape of Voronoi cells.
+while Salman et al. use an analysis of the shape of Voronoi cells.
 
 Both algorithms use the ``protecting ball'' technique from~\cite{cdr-drpsc-07}
 to construct the surface mesh from the weighted Delaunay triangulation

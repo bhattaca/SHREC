@@ -53,7 +53,7 @@ we can generate a scalar field whose level sets are cubes
 that are not axis-aligned.
 By taking the minimum of two (rotated) scalar fields, 
 $f^{L_1}_p$ and $f^{L_1}_{p'}$, 
-centered around two different points, $p$ and $p$', respectively,
+centered around two different points, $p$ and $p'$, respectively,
 we get a scalar field whose level sets are the boundaries
 of the unions of the two cubes.
 (See Figure~\ref{fig:synthetic_data}(a).)
@@ -158,13 +158,13 @@ Define
 \end{array}
 \right .
 \\
-\fTCN_{p,\zeta,\alpha}(q) & = 
+\fTCN_{p,\zeta,\alpha,p'}(q) & = 
 \max \left ( \fSCN_{p,\zeta,\alpha,p'}(q), \fPL_{p',\zeta} \right ).
 \end{align*}
 
 A level set of $\fSCN_{p,\zeta,\alpha,p'}(q)$ is a cone
 with its tip smoothed.
-A level set of $\fSCN_{p,\zeta,\alpha,p'}(q)$ is a truncated cone
+A level set of $\fTCN_{p,\zeta,\alpha,p'}(q)$ is a truncated cone
 with its tip smoothed.
 The level set has a single closed curve forming a 1-dimensional feature
 with dihedral angle $90^\circ - \alpha$.
@@ -286,9 +286,9 @@ For an isosurface $\Sigma$,
 let $\NneqII(\Sigma)$ be the number of vertices in the 1-skeleton
 with degree other than two.
 Isosurfaces from the Flange, Smooth Tip Cone and Cannon datasets
-should have had zero vertices with degrees other than two.
+should have zero vertices with degrees other than two.
 The number of degree errors for these isosurfaces is $\NneqII(\Sigma)$.
-Isosurfaces from the TwoCubes datasets should have had exactly
+Isosurfaces from the TwoCubes datasets should have exactly
 twenty vertices with degrees other than two.
 The number of degree errors for these isosurfaces is $|\NneqII(\Sigma)-20|$.
 
@@ -356,6 +356,8 @@ Table~\ref{table:datasets} presents dataset sizes, isovalues,
 and average isosurface sizes.
 We tested SHREC both on gradients produced by exact formulas 
 and on gradients produced by Religrad.
+We set the singular value threshold $\epsilon$ to $0.1$,
+and used $\gDim{7}$ subgrids for gradient selection.
 We measured the oriented angle distance between the SHREC isosurfaces
 and the polygonal meshes representing the level sets.
 We also counted the number of isosurface triangles whose normal differences
@@ -385,9 +387,10 @@ i.e. all the vertices in the 1-skeletons had degree two.
 Figure~\ref{fig:shrecResults} displays oriented angle distance and degree error
 information for the 39 Flange isosurfaces
 when gradients were produced using Religrad.
-As shown in Figure~\subref*{fig:shrec:flange:N},
-only one isosurface had triangles with angle distance greater than $50^\circ$
-and more than half had no triangles with angle distance greater than $40^\circ$.
+As shown in Figures~\subref*{fig:shrec:flange:A}
+and~\subref*{fig:shrec:flange:N},
+only one isosurface had oriented angle distance greater than $50^\circ$
+and more than half had oriented angle distance less than $40^\circ$.
 No isosurfaces had more than 5 triangles with angle distance
 greater than $40^\circ$
 and no isosurfaces had more than 15 triangles with angle distance greater
@@ -496,9 +499,9 @@ To measure the dihedral angles other than $90^\circ$,
 we ran SHREC on 15 Cannon datasets with 15 different orientations
 and 14 Smooth Tip Cone datasets with 14 different orientations.
 The 1-dimensional features in the Cannon level sets
-had dihedral angles of $60^\circ$.
-The 1-dimensional features in the Smooth Tip Cone level sets
 had dihedral angles of $120^\circ$.
+The 1-dimensional features in the Smooth Tip Cone level sets
+had dihedral angles of $60^\circ$.
 As expected, SHREC produced more errors than on the Flange or TwoCubes
 datasets, although it still did quite well.
 
@@ -513,7 +516,7 @@ for Cannon and Smooth Tip Cone isosurfaces.
 SHREC using exact gradients produced no degree errors 
 on the 15 Cannon datasets.
 SHREC using Religrad produced degree errors on only four Cannon datasets.
-For each dataset, there were exactly two degree errors.
+No SHREC Cannon Religrad isosurface had more than two degree errors.
 SHREC using exact gradients produced degree errors in only two 
 of the Smooth Tip Cone datasets,
 one with two errors and one with four.
@@ -547,10 +550,10 @@ of sharp edges of Flange datasets.
 	\protect\subref{fig:msharp:tc:D}~Degree errors in 1-skeleton 
 of sharp edges of TwoCubes datasets.
 	\protect\subref{fig:msharp:tc:c}~Number of triangles 
-with angle difference to polygonal Flange mesh above 30, 40 and 50 degrees.
-(No Flange isosurface triangles have angle difference above $50^\circ$.)
+with normal difference to polygonal Flange mesh above 30, 40 and 50 degrees.
+(No Flange isosurface triangles have normal difference above $50^\circ$.)
 	\protect\subref{fig:msharp:flange:c}~Number of triangles 
-with angle difference to polygonal TwoCubes mesh above 30, 40 and 50 degrees.
+with normal difference to polygonal TwoCubes mesh above 30, 40 and 50 degrees.
 }
 \label{fig:msharp}
 \end{figure*}	
@@ -622,7 +625,7 @@ between PolyMender isosurface and polygonal mesh (red)
 and between SHREC isosurface and polygonal mesh (green).
 \protect\subref{fig:polymender:cone:b} PolyMender Cone isosurface.
 \protect\subref{fig:polymender:cone:a} Corresponding SHREC Cone isosurface.
-\protect\subref{fig:polymender:cone:c} Magnified view of Polymender isosurface (left)
+\protect\subref{fig:polymender:cone:c} Magnified view of PolyMender isosurface (left)
 and corresponding SHREC isosurface (right).
 } 
 \label{fig:polymenderB}
@@ -639,8 +642,8 @@ and the gradients at the grid vertices.
 We ran MergeSharp on the same 39 Flange and 34 TwoCubes synthetic datasets
 that we applied to SHREC in Section~\ref{section:synthetic_tests}.
 We used the exact gradients on MergeSharp, not the Religrad gradients.
-Figures~\subref*{fig:msharp:flange:A} and~\subref*{fig:msharp:tc:c}
-shows the oriented angle distance between the MergeSharp isosurfaces 
+Figures~\subref*{fig:msharp:flange:A} and~\subref*{fig:msharp:tc:A}
+show the oriented angle distances between the MergeSharp isosurfaces 
 and the polygonal mesh isosurfaces.
 Five of the MergeSharp TwoCubes isosurfaces have angle distance 
 near $180^\circ$ indicating ``flipped'' triangles produced by folds
@@ -665,18 +668,16 @@ Thus, they should not be compared with the SHREC results
 in Figure~\ref{fig:shrecResults} for Flange isosurfaces
 produced using Religrad gradients.
 The 39 SHREC Flange isosurfaces produced using exact gradients
-all have angle distance under ???
+all have angle distance under $15^\circ$
 compared with angle distances above $30^\circ$
 for 24 of the corresponding MergeSharp isosurfaces.
 None of the SHREC Flange isosurfaces produced using exact gradients
 have degree errors
 compared with 8 MergeSharp isosurfaces with 4 to 8 degree errors.
 
-As shown in Figure~\ref{fig:shrecResults}(a),
+As shown in Figure~\subref*{fig:shrec:twocubes:A},
 the 39 SHREC TwoCubes isosurfaces produced using exact gradients
 all have angle distance under $2^\circ$.
-(Note the y-scale in Figure~\ref{fig:shrecResults}(a)
-is from 0 to $10^\circ$.)
 18 of the corresponding MergeSharp TwoCubes isosurfaces have
 angle distance above $30^\circ$.
 None of the SHREC TwoCubes isosurfaces produced using exact gradients
@@ -705,9 +706,9 @@ The corresponding SHREC isosurface is smooth and does not have these dimples.
 \protect\subref{fig:polymender:b}~Oriented angle distance to polygonal TwoCubes meshes.
 \protect\subref{fig:polymender:a}~Degree errors in 1-skeleton of sharp edges of TwoCubes datasets.
 (Note: Y-scale is 0 to 200 compared with y-scale 0 to 450 in (b).)
-\protect\subref{fig:polymender:e}~Number of triangles with oriented angle difference to Flange mesh 
+\protect\subref{fig:polymender:e}~Number of triangles with normal difference to Flange mesh 
 above $30$, $40$ and $50$ degrees.
-\protect\subref{fig:polymender:f}~Number of triangles with oriented angle difference to TwoCubes mesh
+\protect\subref{fig:polymender:f}~Number of triangles with normal difference to TwoCubes mesh
 above $30$, $40$ and $50$ degrees.
 (Note: Y-scale is 0 to 200 compared with y-scale 0 to 400 in (e).)
 }
@@ -746,9 +747,9 @@ in the EMCpoly isosurface mesh.}
 PolyMender is an implementation of mesh repairing algorithm from Ju~\cite{j-rrpm-04}.
 Input to PolyMender is a set of triangles representing a surface,
 but not necessarily properly connected in a polygonal mesh.
-PolyMender uses the triangles to build a regular scalar grid
+PolyMender uses the input triangles to build a regular scalar grid
 representing the signed distance to the surface.
-It also uses the triangles to determine surface normals
+It also uses the input triangles to determine surface normals
 on the surface.
 It extracts an isosurface mesh using the dual contouring algorithm 
 described in~\cite{jlsw-dchd-02,sw-dcss-02}.
@@ -768,14 +769,14 @@ The highest resolution is determined by the depth of the octree.
 For all tests, we ran PolyMender with octree depth set of 7.
 At the highest resolution,
 this octree sampled data from a regular grid with dimensions $\gDim{2^7}$ or $\gDim{128}$.
-We set the scale set to 0.9 and used defaults for all other parameters.
+We set the scale to 0.9 and used defaults for all other parameters.
 
 Because PolyMender computes its scalar field and surface normals
 from an input polygonal mesh,
 we did not think it fair to compare PolyMender to SHREC with exact gradients.
 Instead, we compared PolyMender to SHREC using Religrad gradients.
 Since PolyMender surface normals come from triangles on the polygonal meshes
-used for the angle distance measurements,
+used for the angle distance measurements
 while Religrad gradients are computed from the scalar data,
 we think this comparison is actually biased in favor of PolyMender.
 
@@ -1141,8 +1142,9 @@ from the supersampled polygonal mesh.
 Figure~\ref{fig:cocone:compare} shows a comparison
 of SingularCocone and SHREC on 15 different datasets. 
 The inputs to SingularCocone for these tests were generated 
-from polygonal meshes. 
-The results from Marching Cubes input are worse and not shown.
+from the polygonal meshes. 
+The results using sample points created from Marching Cubes are much worse 
+and not shown.
 Because SingularCocone does not assume the output is a manifold,
 the triangles in the SingularCocone mesh have arbitrary orientations.
 Thus, we use the unoriented angle distance
@@ -1182,7 +1184,7 @@ shows the number of SingularCocone triangles
 with normal difference greater than $30$, $40$ or $50$ degrees
 to the corresponding polygonal mesh normals.
 On all the test cases there are large numbers of triangles
-with angle differences more than 40$^\circ$ and 50$^\circ$.
+with normal differences more than 40$^\circ$ and 50$^\circ$.
 
 Figure~\protect\subref*{fig:cocone:a} shows the degree errors
 for SingularCocone isosurfaces
@@ -1266,7 +1268,7 @@ and in producing meshes which accurately reflect those features.
 		Software & Iso Tri & Time \\ \hline
 		Marching Cubes & 41K & 0.4  sec \\ 
 		EMCpoly & 46K & 0.8 sec \\
-		Polymender & 85K & 0.7 sec \\
+		PolyMender & 85K & 0.7 sec \\
 		MergeSharp & 35K & 0.6 sec \\
 		SHREC grad3 & 34K & 1.0 sec \\
 		SHREC grad9 & 34K &  1.4 sec \\
@@ -1275,7 +1277,10 @@ and in producing meshes which accurately reflect those features.
 		FeatureRecon & 125K & 344 sec  \\
 \hline
 	\end{tabular}
-\caption{Timings.}
+\caption{Timings. 
+SHREC grad3 and SHREC grad9 is SHREC using gradients 
+from $\gDim{3}$ and $\gDim{9}$ subgrids, respectively,
+around selected vertices.}
 
 \label{table:timings}
 
@@ -1288,7 +1293,7 @@ with an Intel Core i7-4770 processor (3.4 GHz) and 16 GB RAM.
 
 Inputs to Marching Cubes, EMCpoly, 
 MergeSharp and SHREC were grids of size $\gDim{150}$.  
-Polymender constructed an oct tree with depth 7,
+PolyMender constructed an oct tree with depth 7,
 with a full resolution grid of size $\gDim{128}$.
 Inputs to SingularCocone and FeatureRecon had 60K sample points.
 
@@ -1309,7 +1314,7 @@ gradient or surface normals as part of their input.
 Computing points on 0 and 1-dimensional features
 is much easier if gradient or surface normals are provided.
 
-EMCpoly, Polymender, MergeSharp and SHREC take comparable times.
+EMCpoly, PolyMender, MergeSharp and SHREC take comparable times.
 SHREC takes the longest and the time increases 
 if gradients are selected from larger subgrids around each cube.
 The extra time taken by SHREC is spent selecting gradients
@@ -1322,7 +1327,7 @@ If a gradient grid file is not available,
 then it must be constructed from the scalar grid.
 The Religrad time (30 second) to construct the gradient grid
 should be added to the SHREC time.
-Note that EMCpoly, Polymender and MergeSharp would also require
+Note that EMCpoly, PolyMender and MergeSharp would also require
 Religrad or some similar program to construct a gradient grid
 or set of surface normals,
 so the programs still take comparable times.
@@ -1334,6 +1339,7 @@ not a scalar grid.
 \section{Software}
 
 Software used in this paper can be downloaded from:\\
+\hspace*{2em}
 \href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable}.
 
 In particular, the web site contains source code

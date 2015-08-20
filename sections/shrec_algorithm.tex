@@ -262,8 +262,9 @@ for each active cube $\cb$.
 The algorithm computes the vertex locations 
 from gradients at grid vertices.
 The MergeSharp algorithm is a variation 
-of the algorithms in~\cite{jlsw-dchd-02,kbsh-fssev-01,sw-dcss-02,zhk-dctps-04}
+of the algorithm in~\cite{jlsw-dchd-02}
 for computing vertex locations from surface normals.
+Similar algorithms are in~\cite{kbsh-fssev-01,sw-dcss-02,zhk-dctps-04}.
 
 SHREC computes one isosurface vertex location $\cb.\isovLoc$
 for each active grid cube $\cb$.
@@ -889,7 +890,7 @@ Let $\cb''$ be any cube sharing an edge or facet with $\cb'$
 which is contained in the $5 \times 5 \times 5$ subgrid
 but is not covered by $\cb$.
 If $\cb''$ is active and a 1D feature cube,
-then SHREC attempts to avoid selecting cube $\cb'$.
+then SHREC does not select cube $\cb'$.
 
 Once 1D feature cubes near 0D feature cubes are selected,
 SHREC could iterate by selecting uncovered 1D feature cubes 
@@ -959,7 +960,7 @@ to $(\pm 2,0,0)$ or $(0, \pm 2, 0)$ $(0, 0, \pm 2)$.
 Finally, SHREC selects 1D feature cubes with indices congruent modulo six
 to $(3,0,0)$ or $(0, 3, 0)$ $(0, 0, 3)$.
 SHREC does not select a 1D feature cube $\cb$ 
-if some already selected cube $\cb'$.
+if some already selected cube $\cb'$
 forms configuration $(3,2,0)$, $(3,2,1)$ or $(3,2,2)$ with $\cb$
 and no already selected cube separates $\cb$ from $\cb''$.
 
@@ -1024,7 +1025,7 @@ SHREC merges with $\cb$ the active cubes which share a vertex with $\cb$.
 Of course, once an active cube is merged with some selected cube,
 it is never merged with any other cube.
 
-SHREC next merges neighbors of selected 0D feature cubes.
+SHREC next merges neighbors of selected 1D feature cubes.
 The procedure is similar to the one for 0D feature cubes.
 SHREC first merges active cubes which share a facet with a selected 1D feature cube,
 then merges active cubes which share an edge with a selected 1D feature cube,
@@ -1075,10 +1076,8 @@ then $\cb$ should lie ``between'' $\cb'$ and $\cb''$.
 with very small angles.
 \item Merging $\tcb$ with $\cb$ does not ``flip'' a triangle,
 creating a ``fold'' in the isosurface.
-\item If $\tcb$ has two or more isosurface vertices,
-and an adjacent cube $\tcb'$ has one isosurface vertex
-and shares an ambiguous facet with $\tcb$,
-then $\tcb'$ should merge with $\cb$.
+\item If cubes $\tcb$ and $\tcb'$ share an ambiguous facet,
+then $\tcb$ should merge with $\cb$ if and only if $\tcb'$ merges with $\cb$.
 \end{enumerate}
 We describe these conditions in more detail below.
 
@@ -1140,7 +1139,7 @@ then it has at least one ambiguous facet.
 scalar value above the isovalue while the other two vertices
 have scalar value below the isovalue.)
 Let $\tcb'$ be a cube sharing an ambiguous facet with $\tcb$.
-If cube $\tcb$ has only one isosurface vertex and 
+If cube $\tcb$ has two isosurface vertices and 
 $\tcb'$ is not merged with $\cb$, then $\tcb$ is not merged with $\cb$.
 
 \subsection{Distortion Tests}
@@ -1246,7 +1245,8 @@ Second, if two selected $\cb$ and $\cb'$ are
 in a $(2,2,0)$ or $(2,2,1)$ or $(2,2,2)$ configuration, 
 then a 1-dimensional feature with endpoints in $\cb$ and $\cb'$ can intersect
 the boundary of the $\RIII_\cb \cup \RIII_{\cb'}$.
-Vertices in uncovered can be arbitrarily close to such a 1-dimensional feature.
+Vertices in uncovered cubes can be arbitrarily close 
+to such a 1-dimensional feature.
 Third, while the selection step avoids most $(3,2,*)$ configurations,
 it does not avoid all of them.
 If $\cb$ and $\cb'$ are in a $(3,2,*)$ configurations,
@@ -1281,11 +1281,12 @@ prevents a covered cube from merging with a selected cube.
 SHREC considers triples of unmerged cubes
 which share a common edge $\eb$.
 At least one cube in the triple must be in $\RIII_\cb$.
-The triple merging procedure is similar to the pair merging procedure
-described in Section~\ref{section:pair_merging} and is omitted.
+The triple merging procedure is the same as the pair merging procedure
+described in Section~\ref{section:pair_merging}.
+Its description is omitted.
 
 Next, SHREC tries to merge cubes which lie 
-at the intersection $\partial \RIII_\cb \cap \RIII_{\cb'}$
+at the intersection $\partial \RIII_\cb \cap \partial \RIII_{\cb'}$
 of two $\gDim{3}$ subgrids around two selected cubes $\cb$ and $\cb'$.
 More specifically, SHREC attempts to merge a cube $\tcb$ 
 with a selected cube $\cb$ if some facet of $\tcb$ lies 
@@ -1296,7 +1297,7 @@ SHREC applies all the tests in Section~\ref{section:merging_tests}
 to determine whether to merge $\tcb$ with $\cb'$.
 
 Finally, SHREC tries to merge pairs of cubes $(\tcb, \tcb')$ which lie
-at the intersection $\partial \RIII_\cb \cap \RIII_{\cb'}$.
+at the intersection $\partial \RIII_\cb \cap \partial \RIII_{\cb'}$.
 Both $\tcb$ and $\tcb'$ must have facets which lie on $\RIII_\cb$
 and $\RIII_{\cb'}$.
 SHREC applies the pair merging procedure described 
@@ -1474,7 +1475,7 @@ dual to each active grid edge.
 The four vertices of the isosurface quadrilateral $q$
 lie in the four grid cubes containing the active edge $\eb$.
 Using the lookup table, we determine the four isosurface vertices
-in the four grid cube which form the vertices of $q$
+in the four grid cubes which form the vertices of $q$
 and store $q$ by its four vertices.
 
 When two cubes, $\cb$ and $\cb'$, 
@@ -1493,7 +1494,6 @@ the facet shared by $\cb$ and $\cb'$.
 Thus, using the complementary configurations for $\cb$ and $\cb'$
 does not create any ``cracks'' in the connection of $\cb$ and $\cb'$
 to other cubes.
-If the isovalue does not equal the scalar value of any grid vertex,
 
 After constructing a full resolution isosurface mesh,
 SHREC collapses mesh quadrilaterals
@@ -1532,7 +1532,7 @@ Using linear interpolation,
 compute the intersection point of the isosurface and each edge $\eb \in E_w$.
 Locate $w$ at the centroid of the intersection points.
 
-Manifold Dual Marching Cubes generates as isosurface 
+Manifold Dual Marching Cubes generates an isosurface 
 which is always a manifold.
 However, the merging of isosurface vertices can create non-manifold edges.
 In the experiments described in Section~\ref{section:results},
@@ -1583,9 +1583,10 @@ and the second determining the size of the $\gDim{k}$ subgrid
 from which gradients are selected around each cube
 (Section~\ref{section:gradients}).
 The first parameter is a value $\epsilon$ between 0 and 1.
-As noted in Section~\ref{section:loc},
+As described in Section~\ref{section:loc},
 a singular value $\sigma_i$ of matrix $A$ 
-is large if $\sigma_i/\sigma_1$ is greater than or equal to $\epsilon$.
+is called ``large'' if $\sigma_i/\sigma_1$ 
+is greater than or equal to $\epsilon$.
 The number of large singular values determines whether a vertex
 is on a sharp feature or a smooth subgrid of the isosurface.
 To the best of our knowledge, all algorithms which reconstruct surfaces 
@@ -1627,4 +1628,4 @@ upon the input data and should work well for any scalar fields.
 Note that SHREC maps the input grid 
 and the computed isosurface locations $\cb.\isovLoc$
 to the regular grid composed of unit cubes
-before applying any of the above tests.
+before applying the angle or normal tests.
