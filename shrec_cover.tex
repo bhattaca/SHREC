@@ -1,0 +1,58 @@
+\documentclass{article}
+
+\begin{document}
+
+Title: SHREC: SHarp REConstruction of Isosurfaces
+
+Authors and affiliations:
+
+Objectives: This paper presents an algorithm, SHREC, for reconstruction 
+of isosurfaces with sharp 0-dimensional and 1-dimensional features.
+It also gives a methodology for analyzing the quality of the reconstruction.
+
+Approach: Algorithm SHREC constructs an isosurface using dual contouring.
+It selects a well-separated set of isosurface vertices on the sharp features
+and merges vertices in their neighborhoods to generate good representations
+of the 0 and 1-dimensional features by mesh vertices and mesh edges.
+We measure the quality of the sharp feature reconstruction
+by comparing surface normals in the reconstruction to nearby surface normals 
+in a corresponding ``ideal'' mesh.
+
+Major novel contributions:
+\begin{itemize}
+\item An algorithm for constructing isosurfaces with sharp 0-dimensional 
+and 1-dimensional features which is measurably better than previous algorithms.
+\item A methodology for measuring the quality of reconstruction of
+surfaces with sharp 0-dimensional and 1-dimensional features
+based on surface normals.
+\end{itemize}
+
+Other journal or conference papers:
+
+MergeSharp - MergeSharp is a previous algorithm which also reconstructed
+isosurfaces using dual contouring and cube merging.  The algorithm SHREC
+significantly improves on MergeSharp, by better generation
+of isosurface vertices, better selection of vertices on sharp features,
+and better choices in merging.  SHREC can also be applied to scanned data
+(e.g., industrial CT data).
+MergeSharp has difficulties reconstructing sharp features
+without near perfect gradient information.
+
+
+Closest prior articles:
+
+Varadhan, Krishnan, Kim, Manocha
+
+or
+
+Zhang, Hong and Kaufman.
+
+Four experts:
+
+Kobbelt, Ju, Schaefer, Warren, Scheidegger, Silva.
+
+Associate editors:
+
+Kobbelt, Tao Ju
+
+\end{document}
