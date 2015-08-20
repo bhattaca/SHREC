@@ -357,7 +357,7 @@ and average isosurface sizes.
 We tested SHREC both on gradients produced by exact formulas 
 and on gradients produced by Religrad.
 We set the singular value threshold $\epsilon$ to $0.1$,
-and used $\gDim{7}$ subgrids for gradient selection.
+and used $\gDim{9}$ subgrids for gradient selection.
 We measured the oriented angle distance between the SHREC isosurfaces
 and the polygonal meshes representing the level sets.
 We also counted the number of isosurface triangles whose normal differences
@@ -470,13 +470,13 @@ EMCpoly & Extended Marching Cubes &
 PolyMender & Dual Contouring &
 \href{http://www.cse.wustl.edu/~taoju/code/polymender.htm}{www.cse.wustl.edu/~taoju/code/polymender.htm} & \cite{j-rrpm-04,jlsw-dchd-02,sw-dcss-02} \\
 \hline
-SingularCocone & &
+SingularCocone & Singular Cocone &
 \href{http://web.cse.ohio-state.edu/~tamaldey/cocone.html}{web.cse.ohio-state.edu/~tamaldey/cocone.html} & \cite{cdr-drpsc-07,Dey2012,Dey2013} \\
 \hline
-MergeSharp & &
+MergeSharp & MergeSharp & 
 \href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} & \cite{bw-cisec-13,bw-erm-13}\\
 \hline
-SHREC & &
+SHREC & SHREC &
 \href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable} & \\
 \hline
 \end{tabular}
@@ -1214,6 +1214,8 @@ in each isosurface.
 
 We applied the SHREC algorithm on industrial X-ray computed tomography (CT)
 scans of three objects.
+We set the singular value threshold $\epsilon$ to $0.1$,
+and used $\gDim{9}$ subgrids for gradient selection.
 The Motorcycle Engine dataset is an industrial CT scan 
 of a motorcycle engine cylinder.
 (See photo in Figure~\ref{fig:ict:engineA}(a).)
@@ -1336,9 +1338,9 @@ but input to FeatureRecon is  set of surface sample points,
 not a scalar grid.
 
 
-\section{Software}
+\section{Software and Datasets}
 
-Software used in this paper can be downloaded from:\\
+Software and datasets used in this paper can be downloaded from:\\
 \hspace*{2em}
 \href{http://web.cse.ohio-state.edu/research/graphics/isotable}{web.cse.ohio-state.edu/research/graphics/isotable}.
 
@@ -1353,3 +1355,9 @@ compute angle distances (angle\_dist),
 find sharp edges (findsharp) 
 and count the vertex degree in the graph formed by the sharp edges
 (countdegree).
+Finally, the web site contains the Cannon and Cone scalar and gradient datasets
+and some of the Flange and TwoCubes scalar and gradient datasets.
+(Because of restricted space,
+we were not able to include all 39 Flange datasets and 34 TwoCube datasets
+in the web site.)
+
